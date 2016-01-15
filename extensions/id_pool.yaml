@@ -1,0 +1,95 @@
+- define:
+    name: allocate_range
+    args:
+      name: string
+      size: int
+      transaction: object
+    body:
+    - vars:
+        no_id: null
+    - db_list:
+        tx: $transaction
+        schema_id: id_pool
+        filter:
+          name: $name
+          assigned: false
+      register: pools
+    - when: len(pools) == 0
+      return: $null
+    - vars:
+        allocated: null
+    - blocks:
+        - when: "item.end + 1 - item.start > size"
+          blocks:
+          - vars:
+              allocated:
+              - $item.start
+              - "${item.start + size - 1}"
+          - db_create:
+                tx: $transaction
+                schema_id: id_pool
+                data:
+                    id: "{{ name }}_{{ item.start }}"
+                    start: $item.start
+                    end: "${ item.start + size - 1 }"
+                    name: $name
+                    assigned: true
+          - db_update:
+                tx: $transaction
+                schema_id: id_pool
+                data:
+                    id: $item.id
+                    start: "${ item.start + size }"
+                    end: "${ item.end  }"
+                    name: $name
+                    assigned: false
+          - return: $allocated
+        - when: "item.end + 1 - item.start == size"
+          blocks:
+          - vars:
+              allocated:
+              - $item.start
+              - "${item.start + size - 1}"
+          - db_delete:
+                tx: $transaction
+                schema_id: id_pool
+                id: $item.id
+          - db_create:
+                tx: $transaction
+                schema_id: id_pool
+                data:
+                    id: "{{ name }}_{{ item.start }}"
+                    start: $item.start
+                    end: "${item.start + size - 1}"
+                    name: $name
+                    assigned: true
+          - return: $allocated
+      with_items: $pools
+    - return: $allocated
+- define:
+    name: allocate_id
+    args:
+      name: string
+      transaction: object
+    body:
+    - allocate_range:
+        name: $name
+        transaction: $transaction
+        size: 1
+      register: allocated
+    - when: allocated == null
+      return: -1
+    - return: $allocated[0]
+- define:
+    name: deallocate_id
+    args:
+      transaction: object
+      name: string
+      id: string
+    body:
+    - db_update:
+        tx: $transaction
+        schema_id: id_pool
+        data:
+          id: "{{ name }}_{{ id }}"
+          assigned: false

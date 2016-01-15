@@ -1,0 +1,7 @@
+digraph federation {
+  DC1  [ label = "DC 1" ];
+  DC2  [ label = "DC 2" ];
+  DC3  [ label = "DC 3" ];
+  DC1 -> DC2 [ label = "eBGP" dir = both];
+  DC1 -> DC3 [ label = "eBGP" dir = both];
+}

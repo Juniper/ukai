@@ -1,0 +1,130 @@
+test_suite:
+  tests:
+  - name: Full path test
+    test:
+    - include: ../util.yaml
+    - command: "rm {{ __dir__ }}/../../test.db"
+      rescue: []
+    - get_config: key="keystone" default_value=null
+      register: keystone_config
+    - gohan_server: config_file=../gohan.yaml test=${true}
+      register: gohan_server
+    - vars:
+        server: $gohan_server.server
+        queue: $gohan_server.queue
+    - include: ./base_resource.yaml
+    - include: ./backend.yaml
+    - get_openstack_client:
+        auth_url: "{{ locations.0.keystone_endpoint }}"
+        user_name: "{{ keystone_config.user_name }}"
+        password: "{{ keystone_config.password }}"
+        version: v2.0
+        tenant_name:  "{{ keystone_config.tenant_name }}"
+        domain_name: ""
+      register: client
+    - name: create locations
+      blocks:
+      - openstack_ensure:
+          client: $client
+          url: "{{ gohan_url }}/v1.0/locations/{{ item.id }}"
+          post_url: "{{ gohan_url }}/v1.0/locations"
+          data: $item
+      - openstack_get:
+          client: $client
+          url: "{{ gohan_url }}/v1.0/locations/{{ item.id }}"
+        register: result
+      - assert: expect="{{ item.id }}" actual="{{ result.location.id }}"
+      with_items: $locations
+    - name: create resources
+      blocks:
+      - vars:
+          path: $item.path
+          data: $item.data
+      - openstack_post:
+          client: $client
+          url: $path
+          data: $data
+      - wait_queue: queue=$queue
+      with_items: $test_data
+    - name: create extra locations
+      blocks:
+      - openstack_ensure:
+          client: $client
+          url: "{{ gohan_url }}/v1.0/locations/{{ item.id }}"
+          post_url: "{{ gohan_url }}/v1.0/locations"
+          data: $item
+      - openstack_get:
+          client: $client
+          url: "{{ gohan_url }}/v1.0/locations/{{ item.id }}"
+        register: result
+      - assert: expect="{{ item.id }}" actual="{{ result.location.id }}"
+      with_items: $extra_locations
+    - wait_queue: queue=$queue
+    - name: check local network status
+      openstack_get:
+        client: $client
+        url: "{{ gohan_url }}/v1.0/tenant/local_networks"
+      register: local_networks
+    - assert: expect=6 actual="${len(local_networks.local_networks)}"
+    - assert: expect="ACTIVE" actual="{{ item.status }}"
+      with_items: $local_networks.local_networks
+    - name: check local security group status
+      openstack_get:
+        client: $client
+        url: "{{ gohan_url }}/v1.0/tenant/local_security_groups"
+      register: local_security_groups
+    - assert: expect=3 actual="${len(local_security_groups.local_security_groups)}"
+    - assert: expect="ACTIVE" actual="{{ item.status }}"
+      with_items: $local_security_groups.local_security_groups
+    - name: check local image status
+      openstack_get:
+        client: $client
+        url: "{{ gohan_url }}/v1.0/tenant/local_images"
+      register: local_images
+    - assert: expect=3 actual="${len(local_images.local_images)}"
+    - assert: expect="ACTIVE" actual="{{ item.status }}"
+      with_items: $local_images.local_images
+    - name: check local flavor status
+      openstack_get:
+        client: $client
+        url: "{{ gohan_url }}/v1.0/tenant/local_flavors"
+      register: local_flavors
+    - assert: expect=3 actual="${len(local_flavors.local_flavors)}"
+    - assert: expect="ACTIVE" actual="{{ item.status }}"
+      with_items: $local_flavors.local_flavors
+    - name: check local server status
+      openstack_get:
+        client: $client
+        url: "{{ gohan_url }}/v1.0/local_servers"
+      register: local_servers
+    - assert: expect=3 actual="${len(local_servers.local_servers)}"
+    - assert: expect="ACTIVE" actual="{{ item.status }}"
+      with_items: $local_servers.local_servers
+    - name: check local heat status
+      openstack_get:
+        client: $client
+        url: "{{ gohan_url }}/v1.0/tenant/local_heat_instances"
+      register: local_heat_instances
+    - assert: expect=3 actual="${len(local_heat_instances.local_heat_instances)}"
+    - assert: expect="ACTIVE" actual="{{ item.status }}"
+      with_items: $local_heat_instances.local_heat_instances
+    - openstack_delete:
+        client: $client
+        url: "{{ gohan_url }}/v1.0/locations/{{ paris_id }}"
+    - wait_queue: queue=$queue
+    - name: delete resources
+      blocks:
+      - openstack_delete:
+          client: $client
+          url: $item
+      - wait_queue: queue=$queue
+      with_items: $delete_path
+    - stop_test_server: server=$server
+    - name: check south bound api call
+      when: 'GetConfig("unit_test", true)'
+      blocks:
+      #- save_content: path="{{  __dir__ }}/positive_case.json" data="$mockbackend.history"
+      - fetch_content: path="{{  __dir__ }}/positive_case.json"
+        register: expected_history
+      - assert: expect="$len(expected_history)" actual="$len(mockbackend.history)"
+      - assert: expect="$expected_history" actual="$mockbackend.history"

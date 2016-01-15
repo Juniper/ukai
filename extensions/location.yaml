@@ -1,0 +1,210 @@
+- include: image.yaml
+- include: flavor.yaml
+- include: security_group.yaml
+- include: service_template.yaml
+- include: service_instance.yaml
+- include: network_policy.yaml
+- include: heat.yaml
+- include: server.yaml
+- include: network.yaml
+- define:
+    name: location_resource
+    args:
+      location: object
+      transaction: object
+      event_type: string
+      db: db
+      queue: object
+    body:
+      - when: event_type == "post_create_in_transaction"
+        blocks:
+        - db_list:
+            tx: $transaction
+            schema_id: network
+            filter: {}
+          register: networks
+        - create_local_network_in_db:
+            network: $item
+            location: $location
+            transaction: $transaction
+          with_items: $networks
+        - db_list:
+            tx: $transaction
+            schema_id: security_group
+            filter: {}
+          register: security_groups
+        - db_create:
+            tx: $transaction
+            schema_id: local_security_group
+            data:
+              id: $UUID()
+              security_group_id: "{{ item.id }}"
+              location_id: "{{ location.id }}"
+              task_status: "IN_PROGRESS"
+          with_items: $security_groups
+        - db_list:
+            tx: $transaction
+            schema_id: image
+            filter: {}
+          register: images
+        - db_create:
+            tx: $transaction
+            schema_id: local_image
+            data:
+              id: $UUID()
+              image_id: $item.id
+              location_id: $location.id
+              task_status: "IN_PROGRESS"
+          with_items: $images
+        - db_list:
+            tx: $transaction
+            schema_id: flavor
+            filter: {}
+          register: flavors
+        - db_create:
+            tx: $transaction
+            schema_id: local_flavor
+            data:
+              id: $UUID()
+              image_id: $item.id
+              location_id: $location.id
+              task_status: "IN_PROGRESS"
+          with_items: $flavors
+        - db_list:
+            tx: $transaction
+            schema_id: service_template
+            filter: {}
+          register: service_templates
+        - db_create:
+            tx: $transaction
+            schema_id: local_service_template
+            data:
+              id: $UUID()
+              service_template_id: $item.id
+              location_id: $location.id
+              task_status: "IN_PROGRESS"
+          with_items: $service_templates
+        - db_list:
+            tx: $transaction
+            schema_id: network_policy
+            filter: {}
+          register: network_policies
+        - db_create:
+            tx: $transaction
+            schema_id: local_network_policy
+            data:
+              id: $UUID()
+              network_policy_id: $item.id
+              location_id: $location.id
+              task_status: "IN_PROGRESS"
+          with_items: $network_policies
+        - db_list:
+            tx: $transaction
+            schema_id: server
+            filter: {}
+          register: servers
+        - db_create:
+            tx: $transaction
+            schema_id: local_server
+            data:
+              id: $UUID()
+              server_id: $item.id
+              location_id: $location.id
+              task_status: "IN_PROGRESS"
+          with_items: $servers
+        - db_list:
+            tx: $transaction
+            schema_id: service_instance
+            filter: {}
+          register: service_instances
+        - blocks:
+          - db_create:
+              tx: $transaction
+              schema_id: local_service_instance
+              data:
+                id: $UUID()
+                service_instance_id: $item.id
+                location_id: $location.id
+                task_status: "IN_PROGRESS"
+          with_items: $service_instances
+        - db_list:
+            tx: $transaction
+            schema_id: heat_instance
+            filter: {}
+          register: heat_instances
+        - blocks:
+          - db_create:
+              tx: $transaction
+              schema_id: local_heat_instance
+              data:
+                id: $UUID()
+                heat_instance_id: $item.id
+                location_id: $location.id
+                task_status: "IN_PROGRESS"
+          with_items: $heat_instances
+      - when: event_type == "post_create" || event_type == "post_update"
+        job:
+        - vars:
+            filter:
+              location_id: $location.id
+              task_status: "IN_PROGRESS"
+        - create_local_networks:
+            db: $db
+            filter: $filter
+        - create_local_security_groups:
+            db: $db
+            filter: $filter
+        - create_local_images:
+            db: $db
+            filter: $filter
+        - create_local_flavors:
+            db: $db
+            filter: $filter
+        - create_local_service_templates:
+            db: $db
+            filter: $filter
+        - create_local_service_instances:
+            db: $db
+            filter: $filter
+        - create_local_network_policies:
+            db: $db
+            filter: $filter
+        - create_local_heat_instances:
+            db: $db
+            filter: $filter
+        - create_local_servers:
+            db: $db
+            filter: $filter
+        queue: $queue
+      - when: event_type == "pre_delete"
+        blocks:
+        - vars:
+            filter:
+              location_id: $location.id
+        - delete_local_heat_instances:
+            db: $db
+            filter: $filter
+        - delete_local_network_policies:
+            db: $db
+            filter: $filter
+        - delete_local_service_instances:
+            db: $db
+            filter: $filter
+        - delete_local_service_templates:
+            db: $db
+            filter: $filter
+        - delete_local_servers:
+            db: $db
+            filter: $filter
+        - delete_local_images:
+            db: $db
+            filter: $filter
+        - delete_local_flavors:
+            db: $db
+            filter: $filter
+        - delete_local_security_groups:
+            db: $db
+            filter: $filter
+        - delete_local_networks:
+            db: $db
+            filter: $filter

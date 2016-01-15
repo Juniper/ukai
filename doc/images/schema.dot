@@ -1,0 +1,132 @@
+digraph schemas {
+
+  location [ label = "{ location | id\lname\ltenant_id\ldescription\lkeystone_endpoint\lcontrail_endpoint\lwebui\lcontrail_webui\lregion\laddress\l }", shape = "record"];
+  
+
+  heat_template [ label = "{ heat_template | id\lname\ltenant_id\ldescription\ltemplate\l }", shape = "record"];
+  
+
+  heat_instance [ label = "{ heat_instance | id\lname\ltenant_id\ldescription\lheat_template_id\lparameters\l }", shape = "record"];
+  
+  heat_instance -> heat_template [ label = "heat_template_id"];
+  
+
+  local_heat_instance [ label = "{ local_heat_instance | location_id\lstatus\loutput\lid\lname\ltenant_id\ldescription\lheat_instance_id\ltask_status\l }", shape = "record"];
+  
+  local_heat_instance -> location [ label = "location_id"];
+  
+  local_heat_instance -> heat_instance [ label = "heat_instance_id"];
+  
+
+  image [ label = "{ image | id\lname\ltenant_id\ldescription\lurl\ldisk_format\l }", shape = "record"];
+  
+
+  flavor [ label = "{ flavor | id\lname\ltenant_id\ldescription\lram\lvcpus\ldisk\l }", shape = "record"];
+  
+
+  service_template [ label = "{ service_template | id\lname\ltenant_id\ldescription\limage_id\lservice_mode\lflavor_id\l }", shape = "record"];
+  
+  service_template -> image [ label = "image_id"];
+  
+  service_template -> flavor [ label = "flavor_id"];
+  
+
+  service_instance [ label = "{ service_instance | id\lname\ltenant_id\ldescription\lservice_instance_properties\lservice_template_id\l }", shape = "record"];
+  
+  service_instance -> service_template [ label = "service_template_id"];
+  
+
+  local_service_instance [ label = "{ local_service_instance | location_id\lstatus\loutput\lid\lname\ltenant_id\ldescription\lservice_instance_id\ltask_status\l }", shape = "record"];
+  
+  local_service_instance -> location [ label = "location_id"];
+  
+  local_service_instance -> service_instance [ label = "service_instance_id"];
+  
+
+  local_service_template [ label = "{ local_service_template | location_id\lstatus\loutput\lid\lname\ltenant_id\ldescription\lservice_template_id\ltask_status\l }", shape = "record"];
+  
+  local_service_template -> location [ label = "location_id"];
+  
+  local_service_template -> service_template [ label = "service_template_id"];
+  
+
+  security_group [ label = "{ security_group | id\lname\ltenant_id\ldescription\lcontrail_id\l }", shape = "record"];
+  
+
+  security_group_rule [ label = "{ security_group_rule | id\lname\ltenant_id\ldescription\ldirection\lethertype\lprotocol\lport_range_min\lport_range_max\lremote_group_id\lremote_ip_prefix\lsecurity_group_id\l }", shape = "record"];
+  
+  security_group_rule -> security_group [ label = "security_group_id"];
+  
+
+  local_security_group [ label = "{ local_security_group | location_id\lstatus\loutput\lid\lname\ltenant_id\ldescription\lsecurity_group_id\ltask_status\l }", shape = "record"];
+  
+  local_security_group -> location [ label = "location_id"];
+  
+  local_security_group -> security_group [ label = "security_group_id"];
+  
+
+  network [ label = "{ network | id\lname\ltenant_id\ldescription\lcontrail_id\lcidr\llocal_prefix_len\l }", shape = "record"];
+  
+
+  network_policy [ label = "{ network_policy | id\lname\ltenant_id\ldescription\lsource_network_id\ldest_network_id\lentries\l }", shape = "record"];
+  
+  network_policy -> network [ label = "source_network_id"];
+  
+  network_policy -> network [ label = "dest_network_id"];
+  
+
+  local_network_policy [ label = "{ local_network_policy | location_id\lstatus\loutput\lid\lname\ltenant_id\ldescription\lnetwork_policy_id\ltask_status\l }", shape = "record"];
+  
+  local_network_policy -> location [ label = "location_id"];
+  
+  local_network_policy -> network_policy [ label = "network_policy_id"];
+  
+
+  server [ label = "{ server | id\lname\ltenant_id\ldescription\limage_id\lnetwork_id\lsecurity_group_id\lflavor_id\l }", shape = "record"];
+  
+  server -> image [ label = "image_id"];
+  
+  server -> network [ label = "network_id"];
+  
+  server -> security_group [ label = "security_group_id"];
+  
+  server -> flavor [ label = "flavor_id"];
+  
+
+  local_server [ label = "{ local_server | location_id\lstatus\loutput\lid\lname\ltenant_id\ldescription\linstance_id\lconsole_url\lserver_id\ltask_status\l }", shape = "record"];
+  
+  local_server -> location [ label = "location_id"];
+  
+  local_server -> server [ label = "server_id"];
+  
+
+  local_flavor [ label = "{ local_flavor | location_id\lstatus\loutput\lid\lname\ltenant_id\ldescription\lflavor_id\ltask_status\l }", shape = "record"];
+  
+  local_flavor -> location [ label = "location_id"];
+  
+  local_flavor -> flavor [ label = "flavor_id"];
+  
+
+  local_image [ label = "{ local_image | location_id\lstatus\loutput\lid\lname\ltenant_id\ldescription\limage_id\ltask_status\l }", shape = "record"];
+  
+  local_image -> location [ label = "location_id"];
+  
+  local_image -> image [ label = "image_id"];
+  
+
+  local_network [ label = "{ local_network | location_id\lstatus\loutput\lid\lname\ltenant_id\ldescription\lcidr\lnetwork_id\ltask_status\l }", shape = "record"];
+  
+  local_network -> location [ label = "location_id"];
+  
+  local_network -> network [ label = "network_id"];
+  
+
+  id_pool [ label = "{ id_pool | id\lname\lstart\lend\lassigned\l }", shape = "record"];
+  
+
+  route_target_association [ label = "{ route_target_association | id\lnetwork_id\lroute_target\l }", shape = "record"];
+  
+  route_target_association -> network [ label = "network_id"];
+  
+
+}

@@ -1,0 +1,13 @@
+digraph architecture {
+  haproxy [ label = "HA Proxy" ];
+  ukai1    [ label = "Global Controller" ];
+  ukai2    [ label = "Global Controller" ];
+  ukai3    [ label = "Global Controller" ];
+  rdbms    [ label = "RDBMS" ];
+  haproxy -> ukai1;
+  haproxy -> ukai2;
+  haproxy -> ukai3;
+  ukai1 -> rdbms;
+  ukai2 -> rdbms;
+  ukai3 -> rdbms;
+}

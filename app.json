@@ -1,0 +1,17 @@
+{
+  "name": "ukai",
+  "description": "Ukai is a cloud & network controller for multiple controllers",
+  "keywords": [
+    "go",
+    "api server",
+    "cloud",
+    "json schema"
+  ],
+  "image": "heroku/go:1.6",
+  "mount_dir": "src/ukai",
+  "website": "tbd",
+  "repository": "http://github.com/nati/ukai",
+  "env": {
+    "BUILDPACK_URL": "https://github.com/heroku/heroku-buildpack-gohan.git"
+  }
+}

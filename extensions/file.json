@@ -1,0 +1,324 @@
+[
+    {
+        "include": "./tenant.yaml"
+    }, 
+    {
+        "define": {
+            "body": [
+                {
+                    "blocks": [
+                        {
+                            "tenant_name": {
+                                "keystone_endpoint": "{{ location.keystone_endpoint }}", 
+                                "client": "$client", 
+                                "transaction": "$transaction", 
+                                "tenant_id": "{{ network_policy.tenant_id }}"
+                            }, 
+                            "register": "tenant_name"
+                        }
+                    ], 
+                    "rescue": [
+                        {
+                            "vars": {
+                                "tenant_name": "{{ network_policy.tenant_id }}"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "register": "source_network", 
+                    "db_get": {
+                        "schema_id": "network", 
+                        "id": "{{ network_policy.source_network_id }}", 
+                        "tx": "$transaction"
+                    }
+                }, 
+                {
+                    "register": "dest_network", 
+                    "db_get": {
+                        "schema_id": "network", 
+                        "id": "{{ network_policy.dest_network_id }}", 
+                        "tx": "$transaction"
+                    }
+                }, 
+                {
+                    "openstack_post": {
+                        "url": "{{ location.contrail_endpoint }}/network-policys", 
+                        "client": "$client", 
+                        "data": {
+                            "network-policy": {
+                                "parent_type": "project", 
+                                "fq_name": [
+                                    "default-domain", 
+                                    "{{ tenant_name }}", 
+                                    "{{ network_policy.id }}"
+                                ], 
+                                "uuid": "{{ network_policy.id }}", 
+                                "network_policy_entries": {
+                                    "policy_rule": "$network_policy.entries"
+                                }
+                            }
+                        }
+                    }
+                }, 
+                {
+                    "openstack_put": {
+                        "url": "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.source_network_id }}", 
+                        "client": "$client", 
+                        "data": {
+                            "virtual-network": {
+                                "network_policy_refs": [
+                                    {
+                                        "to": [
+                                            "default-domain", 
+                                            "{{ tenant_name }}", 
+                                            "{{ network_policy.id }}"
+                                        ], 
+                                        "attr": {
+                                            "timer": null, 
+                                            "sequence": {
+                                                "major": 0, 
+                                                "minor": 0
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }, 
+                {
+                    "openstack_put": {
+                        "url": "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.dest_network_id }}", 
+                        "client": "$client", 
+                        "data": {
+                            "virtual-network": {
+                                "network_policy_refs": [
+                                    {
+                                        "to": [
+                                            "default-domain", 
+                                            "{{ tenant_name }}", 
+                                            "{{ network_policy.id }}"
+                                        ], 
+                                        "attr": {
+                                            "timer": null, 
+                                            "sequence": {
+                                                "major": 0, 
+                                                "minor": 0
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            ], 
+            "args": {
+                "network_policy": "object", 
+                "client": "object", 
+                "location": "object", 
+                "transaction": "transaction"
+            }, 
+            "name": "create_network_policy"
+        }
+    }, 
+    {
+        "define": {
+            "body": [
+                {
+                    "openstack_put": {
+                        "url": "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.source_network_id }}", 
+                        "client": "$client", 
+                        "data": {
+                            "virtual-network": {
+                                "network_policy_refs": []
+                            }
+                        }
+                    }
+                }, 
+                {
+                    "openstack_put": {
+                        "url": "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.dest_network_id }}", 
+                        "client": "$client", 
+                        "data": {
+                            "virtual-network": {
+                                "network_policy_refs": []
+                            }
+                        }
+                    }
+                }, 
+                {
+                    "openstack_delete": {
+                        "url": "{{ location.contrail_endpoint }}/network-policy/{{ network_policy.id }}", 
+                        "client": "$client"
+                    }
+                }
+            ], 
+            "args": {
+                "network_policy": "object", 
+                "client": "object", 
+                "location": "object"
+            }, 
+            "name": "delete_network_policy"
+        }
+    }, 
+    {
+        "define": {
+            "body": [
+                {
+                    "when": "event_type == \"post_create_in_transaction\"", 
+                    "blocks": [
+                        {
+                            "db_list": {
+                                "schema_id": "location", 
+                                "tx": "$transaction"
+                            }, 
+                            "register": "locations"
+                        }, 
+                        {
+                            "blocks": [
+                                {
+                                    "register": "local_id", 
+                                    "uuid": null
+                                }, 
+                                {
+                                    "db_create": {
+                                        "schema_id": "local_network_policy", 
+                                        "data": {
+                                            "network_policy_id": "{{ network_policy.id }}", 
+                                            "status": "CREATE_IN_PROGRESS", 
+                                            "location_id": "{{ item.id }}", 
+                                            "id": "{{ local_id }}"
+                                        }, 
+                                        "tx": "$transaction"
+                                    }
+                                }
+                            ], 
+                            "with_items": "$locations"
+                        }
+                    ]
+                }, 
+                {
+                    "when": "event_type == \"post_create\"", 
+                    "blocks": [
+                        {
+                            "transaction": [
+                                {
+                                    "db_list": {
+                                        "filter": {
+                                            "network_policy_id": "{{ network_policy.id }}"
+                                        }, 
+                                        "schema_id": "local_network_policy", 
+                                        "tx": "$transaction"
+                                    }, 
+                                    "register": "local_network_policies"
+                                }
+                            ]
+                        }, 
+                        {
+                            "blocks": [
+                                {
+                                    "debug": "var=$item"
+                                }, 
+                                {
+                                    "get_config": "key=\"keystone\"", 
+                                    "register": "keystone_config"
+                                }, 
+                                {
+                                    "get_openstack_client": {
+                                        "auth_url": "{{ item.location.keystone_endpoint }}", 
+                                        "password": "{{ keystone_config.password }}", 
+                                        "user_name": "{{ keystone_config.user_name }}", 
+                                        "version": "v2.0", 
+                                        "tenant_name": "{{ keystone_config.tenant_name }}"
+                                    }, 
+                                    "register": "client"
+                                }, 
+                                {
+                                    "debug": "msg=\"create simple policy\""
+                                }, 
+                                {
+                                    "transaction": [
+                                        {
+                                            "create_network_policy": {
+                                                "network_policy": "$network_policy", 
+                                                "region": "{{ item.location.region }}", 
+                                                "transaction": "$transaction", 
+                                                "location": "$item.location", 
+                                                "client": "$client"
+                                            }
+                                        }, 
+                                        {
+                                            "db_update": {
+                                                "schema_id": "local_network_policy", 
+                                                "data": {
+                                                    "network_policy_id": "{{ item.network_policy_id }}", 
+                                                    "status": "ACTIVE", 
+                                                    "id": "{{ item.id }}"
+                                                }, 
+                                                "tx": "$transaction"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ], 
+                            "with_items": "$local_network_policies"
+                        }
+                    ]
+                }, 
+                {
+                    "when": "event_type == \"pre_delete\"", 
+                    "blocks": [
+                        {
+                            "transaction": [
+                                {
+                                    "db_list": {
+                                        "schema_id": "local_network_policy", 
+                                        "tx": "$transaction"
+                                    }, 
+                                    "register": "local_network_policies"
+                                }
+                            ]
+                        }, 
+                        {
+                            "blocks": [
+                                {
+                                    "get_config": "key=\"keystone\"", 
+                                    "register": "keystone_config"
+                                }, 
+                                {
+                                    "get_openstack_client": {
+                                        "auth_url": "{{ item.location.keystone_endpoint }}", 
+                                        "password": "{{ keystone_config.password }}", 
+                                        "user_name": "{{ keystone_config.user_name }}", 
+                                        "version": "v2.0", 
+                                        "tenant_name": "{{ keystone_config.tenant_name }}"
+                                    }, 
+                                    "register": "client"
+                                }, 
+                                {
+                                    "rescue": [], 
+                                    "delete_network_policy": {
+                                        "network_policy": "$network_policy", 
+                                        "region": "{{ item.location.region }}", 
+                                        "client": "$client", 
+                                        "location": "$item.location"
+                                    }
+                                }
+                            ], 
+                            "with_items": "$local_network_policies"
+                        }
+                    ]
+                }
+            ], 
+            "args": {
+                "network_policy": "object", 
+                "transaction": "object", 
+                "db": "object", 
+                "event_type": "string"
+            }, 
+            "name": "network_policy_resource"
+        }
+    }
+]

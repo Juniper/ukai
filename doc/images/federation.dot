@@ -1,0 +1,9 @@
+digraph federation {
+  ukai    [ label = "Global Controller" ];
+  DC1  [ label = "DC 1" ];
+  DC2  [ label = "DC 2" ];
+  DC3  [ label = "DC 3" ];
+  ukai -> DC1 [ label = "REST API" ];
+  ukai -> DC2 [ label = "REST API" ];
+  ukai -> DC3 [ label = "REST API" ];
+}

@@ -1,0 +1,27 @@
+locations:
+- ip: 10.84.34.97
+  region: RegionOne
+- ip: 10.84.34.107
+  region: RegionTwo
+
+image_url:  https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+
+keystone:
+    use_keystone: true
+    fake: false
+    auth_url: "http://10.84.34.97:35357/v2.0"
+    user_name: "admin"
+    tenant_name: "admin"
+    password: "secret123"
+
+logging:
+    stderr:
+        enabled: true
+        level: DEBUG
+        modules:
+        - name: gohanscript
+          level: DEBUG
+    file:
+        enabled: true
+        level: INFO
+        filename: ./gohan.log

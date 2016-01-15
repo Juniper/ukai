@@ -1,0 +1,45 @@
+test_suite:
+  tests:
+  - name: Test contrail fqdn
+    test:
+    - command: rm ./test.db
+      rescue: []
+    - include: ../util.yaml
+    - gohan_load_schema: src="{{ __dir__ }}/../../../schema/schema.yaml"
+    - connect_db: db_type=sqlite3 connection=./test.db  max_open_conn=100
+      register: db
+    - init_db:
+        db_type: sqlite3
+        connection: ./test.db
+        drop_on_create: true
+        cascade: false
+    - test_setup: db=$db
+    - transaction:
+      - include: ../../contrail.yaml
+      - get_config: key="keystone" default_value=null
+        register: keystone_config
+      - transaction:
+        - db_get:
+            tx: $transaction
+            schema_id: location
+            id: tokyo
+            tenant_id: ""
+          register: location
+      - get_openstack_client:
+          auth_url: "{{ location.keystone_endpoint }}"
+          user_name: "{{ keystone_config.user_name }}"
+          password: "{{ keystone_config.password }}"
+          version: v2.0
+          tenant_name:  "{{ keystone_config.tenant_name }}"
+          domain_name: ""
+        register: client
+      - contrail_fqdn:
+          client: $client
+          contrail_endpoint: $location.contrail_endpoint
+          uuid: "e18e35984221433eaf1be32b95db0137"
+        register: fqdn
+      - join:
+          value: $fqdn
+          sep: ":"
+        register: fqdn_string
+      - assert: expect="default-domain:admin" actual=$fqdn_string

@@ -1,0 +1,5 @@
+cli: ukai
+buildpack: https://github.com/cloudwan/heroku-buildpack-gohan.git
+after:
+- mv bin/gohan bin/ukai
+after_install: ./packager/debian/postinst

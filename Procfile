@@ -1,0 +1,1 @@
+web: ukai server --config-file /app/gohan.yaml

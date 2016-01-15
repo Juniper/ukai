@@ -1,0 +1,670 @@
+images:
+- description: tinycore
+  disk_format: qcow2
+  id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+  name: tinycore
+  tenant_id: e18e35984221433eaf1be32b95db0137
+  url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+
+
+local_networks:
+- cidr: 200.0.0.0/24
+  description: null
+  id: 24938200-0a5e-4d2b-95b0-e9f9f7ec709b
+  location:
+    contrail_endpoint: http://10.84.34.107:8082
+    contrail_webui: http://10.84.34.107:8080
+    description: RegionTwo
+    id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+    keystone_endpoint: http://10.84.34.107:35357
+    name: RegionTwo
+    region: RegionTwo
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    webui: http://10.84.34.107/horizon
+  location_id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+  name: null
+  network_id: ba64d597-91bb-495a-a785-670856156df9
+  status: ACTIVE
+  tenant_id: e18e35984221433eaf1be32b95db0137
+- cidr: 20.0.0.0/24
+  description: null
+  id: 832119b6-80e5-4e6c-a43a-e6e5ab4689de
+  location:
+    contrail_endpoint: http://10.84.34.107:8082
+    contrail_webui: http://10.84.34.107:8080
+    description: RegionTwo
+    id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+    keystone_endpoint: http://10.84.34.107:35357
+    name: RegionTwo
+    region: RegionTwo
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    webui: http://10.84.34.107/horizon
+  location_id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+  name: null
+  network_id: 65ea1125-b31d-4b59-a6e6-ca63b22961a2
+  status: ACTIVE
+  tenant_id: e18e35984221433eaf1be32b95db0137
+- cidr: 10.0.0.0/24
+  description: null
+  id: 327d4cee-0bd0-44e9-9873-9b9f3c78b599
+  location:
+    contrail_endpoint: http://10.84.34.97:8082
+    contrail_webui: http://10.84.34.97:8080
+    description: null
+    id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+    keystone_endpoint: http://10.84.34.97:35357/v2.0
+    name: RegionOne
+    region: RegionOne
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    webui: http://10.84.34.97/horizon
+  location_id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+  name: null
+  network_id: 65ea1125-b31d-4b59-a6e6-ca63b22961a2
+  status: ACTIVE
+  tenant_id: e18e35984221433eaf1be32b95db0137
+- cidr: 100.0.0.0/24
+  description: null
+  id: d79c1f59-2515-41ef-8d1e-ce665d593b99
+  location:
+    contrail_endpoint: http://10.84.34.97:8082
+    contrail_webui: http://10.84.34.97:8080
+    description: null
+    id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+    keystone_endpoint: http://10.84.34.97:35357/v2.0
+    name: RegionOne
+    region: RegionOne
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    webui: http://10.84.34.97/horizon
+  location_id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+  name: null
+  network_id: ba64d597-91bb-495a-a785-670856156df9
+  status: ACTIVE
+  tenant_id: e18e35984221433eaf1be32b95db0137
+local_security_groups:
+- description: null
+  id: 45bc673d-9d80-4a9c-a6aa-604767e43737
+  location:
+    contrail_endpoint: http://10.84.34.107:8082
+    contrail_webui: http://10.84.34.107:8080
+    description: RegionTwo
+    id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+    keystone_endpoint: http://10.84.34.107:35357
+    name: RegionTwo
+    region: RegionTwo
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    webui: http://10.84.34.107/horizon
+  location_id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+  name: null
+  security_group:
+    contrail_id: 1000
+    description: null
+    id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+    name: global
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  security_group_id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+  status: ACTIVE
+  tenant_id: null
+- description: null
+  id: 1294c588-a64f-4083-8b2b-8475fa17b8fd
+  location:
+    contrail_endpoint: http://10.84.34.97:8082
+    contrail_webui: http://10.84.34.97:8080
+    description: null
+    id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+    keystone_endpoint: http://10.84.34.97:35357/v2.0
+    name: RegionOne
+    region: RegionOne
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    webui: http://10.84.34.97/horizon
+  location_id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+  name: null
+  security_group:
+    contrail_id: 1000
+    description: null
+    id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+    name: global
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  security_group_id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+  status: ACTIVE
+  tenant_id: null
+local_servers:
+- console_url: null
+  description: null
+  id: 9ac0b889-4cae-4369-890e-255244936022
+  instance_id: 92c6fc72-6d4b-4f7c-a9d1-5d636708d549
+  location:
+    contrail_endpoint: http://10.84.34.107:8082
+    contrail_webui: http://10.84.34.107:8080
+    description: RegionTwo
+    id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+    keystone_endpoint: http://10.84.34.107:35357
+    name: RegionTwo
+    region: RegionTwo
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    webui: http://10.84.34.107/horizon
+  location_id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+  name: null
+  server:
+    description: null
+    id: 4bce0293-1a11-480d-96b2-28023528a76a
+    image:
+      description: tinycore
+      disk_format: qcow2
+      id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+      name: tinycore
+      tenant_id: e18e35984221433eaf1be32b95db0137
+      url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+    image_id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+    name: blue
+    network:
+      contrail_id: 8000000
+      description: null
+      id: 65ea1125-b31d-4b59-a6e6-ca63b22961a2
+      name: blue
+      tenant_id: e18e35984221433eaf1be32b95db0137
+    network_id: 65ea1125-b31d-4b59-a6e6-ca63b22961a2
+    security_group:
+      contrail_id: 1000
+      description: null
+      id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+      name: global
+      tenant_id: e18e35984221433eaf1be32b95db0137
+    security_group_id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  server_id: 4bce0293-1a11-480d-96b2-28023528a76a
+  status: ACTIVE
+  tenant_id: null
+- console_url: null
+  description: null
+  id: 43dbc023-36cd-439c-992d-c6af8f78bb3e
+  instance_id: 5339ba93-d2c8-4ec6-a1d5-b1bf4c653e32
+  location:
+    contrail_endpoint: http://10.84.34.97:8082
+    contrail_webui: http://10.84.34.97:8080
+    description: null
+    id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+    keystone_endpoint: http://10.84.34.97:35357/v2.0
+    name: RegionOne
+    region: RegionOne
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    webui: http://10.84.34.97/horizon
+  location_id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+  name: null
+  server:
+    description: null
+    id: 4bce0293-1a11-480d-96b2-28023528a76a
+    image:
+      description: tinycore
+      disk_format: qcow2
+      id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+      name: tinycore
+      tenant_id: e18e35984221433eaf1be32b95db0137
+      url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+    image_id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+    name: blue
+    network:
+      contrail_id: 8000000
+      description: null
+      id: 65ea1125-b31d-4b59-a6e6-ca63b22961a2
+      name: blue
+      tenant_id: e18e35984221433eaf1be32b95db0137
+    network_id: 65ea1125-b31d-4b59-a6e6-ca63b22961a2
+    security_group:
+      contrail_id: 1000
+      description: null
+      id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+      name: global
+      tenant_id: e18e35984221433eaf1be32b95db0137
+    security_group_id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  server_id: 4bce0293-1a11-480d-96b2-28023528a76a
+  status: ACTIVE
+  tenant_id: null
+- console_url: null
+  description: null
+  id: 361f2026-c905-414b-bf95-a2f3940957d3
+  instance_id: 8221933a-7c4c-4f10-bdc3-fed20c2fa890
+  location:
+    contrail_endpoint: http://10.84.34.107:8082
+    contrail_webui: http://10.84.34.107:8080
+    description: RegionTwo
+    id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+    keystone_endpoint: http://10.84.34.107:35357
+    name: RegionTwo
+    region: RegionTwo
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    webui: http://10.84.34.107/horizon
+  location_id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+  name: null
+  server:
+    description: null
+    id: 8b58c542-d6d4-40dc-b47a-e5591f584f7e
+    image:
+      description: tinycore
+      disk_format: qcow2
+      id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+      name: tinycore
+      tenant_id: e18e35984221433eaf1be32b95db0137
+      url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+    image_id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+    name: red
+    network:
+      contrail_id: 8000001
+      description: null
+      id: ba64d597-91bb-495a-a785-670856156df9
+      name: red
+      tenant_id: e18e35984221433eaf1be32b95db0137
+    network_id: ba64d597-91bb-495a-a785-670856156df9
+    security_group:
+      contrail_id: 1000
+      description: null
+      id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+      name: global
+      tenant_id: e18e35984221433eaf1be32b95db0137
+    security_group_id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  server_id: 8b58c542-d6d4-40dc-b47a-e5591f584f7e
+  status: ACTIVE
+  tenant_id: null
+- console_url: null
+  description: null
+  id: 3f1450ab-0723-4066-9d5d-e16f343fa8a5
+  instance_id: cce808e5-000a-4beb-bd4a-4c20f12ff08b
+  location:
+    contrail_endpoint: http://10.84.34.97:8082
+    contrail_webui: http://10.84.34.97:8080
+    description: null
+    id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+    keystone_endpoint: http://10.84.34.97:35357/v2.0
+    name: RegionOne
+    region: RegionOne
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    webui: http://10.84.34.97/horizon
+  location_id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+  name: null
+  server:
+    description: null
+    id: 8b58c542-d6d4-40dc-b47a-e5591f584f7e
+    image:
+      description: tinycore
+      disk_format: qcow2
+      id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+      name: tinycore
+      tenant_id: e18e35984221433eaf1be32b95db0137
+      url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+    image_id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+    name: red
+    network:
+      contrail_id: 8000001
+      description: null
+      id: ba64d597-91bb-495a-a785-670856156df9
+      name: red
+      tenant_id: e18e35984221433eaf1be32b95db0137
+    network_id: ba64d597-91bb-495a-a785-670856156df9
+    security_group:
+      contrail_id: 1000
+      description: null
+      id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+      name: global
+      tenant_id: e18e35984221433eaf1be32b95db0137
+    security_group_id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  server_id: 8b58c542-d6d4-40dc-b47a-e5591f584f7e
+  status: ACTIVE
+  tenant_id: null
+local_service_instances:
+- description: null
+  id: dd4bcb9f-4eae-4a08-a5ba-28e8702f2a93
+  location:
+    contrail_endpoint: http://10.84.34.107:8082
+    contrail_webui: http://10.84.34.107:8080
+    description: RegionTwo
+    id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+    keystone_endpoint: http://10.84.34.107:35357
+    name: RegionTwo
+    region: RegionTwo
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    webui: http://10.84.34.107/horizon
+  location_id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+  name: null
+  service_instance:
+    description: null
+    id: ab19513f-ffe8-4fa3-89b9-d0deb810777c
+    name: tinycore
+    service_instance_properties:
+      scale_out:
+        max_instances: 1
+    service_template:
+      description: null
+      flavor: m1.tiny
+      id: eb137f9e-a2ed-4d6a-8518-bf14e1c7d49c
+      image:
+        description: tinycore
+        disk_format: qcow2
+        id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+        name: tinycore
+        tenant_id: e18e35984221433eaf1be32b95db0137
+        url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+      image_id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+      name: tinycore
+      service_mode: transparent
+      tenant_id: e18e35984221433eaf1be32b95db0137
+    service_template_id: eb137f9e-a2ed-4d6a-8518-bf14e1c7d49c
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  service_instance_id: ab19513f-ffe8-4fa3-89b9-d0deb810777c
+  status: ACTIVE
+  tenant_id: null
+- description: null
+  id: 2de65222-6ccd-4b67-914f-3778ae149631
+  location:
+    contrail_endpoint: http://10.84.34.97:8082
+    contrail_webui: http://10.84.34.97:8080
+    description: null
+    id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+    keystone_endpoint: http://10.84.34.97:35357/v2.0
+    name: RegionOne
+    region: RegionOne
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    webui: http://10.84.34.97/horizon
+  location_id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+  name: null
+  service_instance:
+    description: null
+    id: ab19513f-ffe8-4fa3-89b9-d0deb810777c
+    name: tinycore
+    service_instance_properties:
+      scale_out:
+        max_instances: 1
+    service_template:
+      description: null
+      flavor: m1.tiny
+      id: eb137f9e-a2ed-4d6a-8518-bf14e1c7d49c
+      image:
+        description: tinycore
+        disk_format: qcow2
+        id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+        name: tinycore
+        tenant_id: e18e35984221433eaf1be32b95db0137
+        url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+      image_id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+      name: tinycore
+      service_mode: transparent
+      tenant_id: e18e35984221433eaf1be32b95db0137
+    service_template_id: eb137f9e-a2ed-4d6a-8518-bf14e1c7d49c
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  service_instance_id: ab19513f-ffe8-4fa3-89b9-d0deb810777c
+  status: ACTIVE
+  tenant_id: null
+local_service_templates:
+- description: null
+  id: 36c6b51a-6384-4174-ba7e-bb60e924198f
+  location:
+    contrail_endpoint: http://10.84.34.107:8082
+    contrail_webui: http://10.84.34.107:8080
+    description: RegionTwo
+    id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+    keystone_endpoint: http://10.84.34.107:35357
+    name: RegionTwo
+    region: RegionTwo
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    webui: http://10.84.34.107/horizon
+  location_id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+  name: null
+  service_template:
+    description: null
+    flavor: m1.tiny
+    id: eb137f9e-a2ed-4d6a-8518-bf14e1c7d49c
+    image:
+      description: tinycore
+      disk_format: qcow2
+      id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+      name: tinycore
+      tenant_id: e18e35984221433eaf1be32b95db0137
+      url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+    image_id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+    name: tinycore
+    service_mode: transparent
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  service_template_id: eb137f9e-a2ed-4d6a-8518-bf14e1c7d49c
+  status: ACTIVE
+  tenant_id: null
+- description: null
+  id: 7990ed33-8389-44ee-9e41-19376b570d9b
+  location:
+    contrail_endpoint: http://10.84.34.97:8082
+    contrail_webui: http://10.84.34.97:8080
+    description: null
+    id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+    keystone_endpoint: http://10.84.34.97:35357/v2.0
+    name: RegionOne
+    region: RegionOne
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    webui: http://10.84.34.97/horizon
+  location_id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+  name: null
+  service_template:
+    description: null
+    flavor: m1.tiny
+    id: eb137f9e-a2ed-4d6a-8518-bf14e1c7d49c
+    image:
+      description: tinycore
+      disk_format: qcow2
+      id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+      name: tinycore
+      tenant_id: e18e35984221433eaf1be32b95db0137
+      url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+    image_id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+    name: tinycore
+    service_mode: transparent
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  service_template_id: eb137f9e-a2ed-4d6a-8518-bf14e1c7d49c
+  status: ACTIVE
+  tenant_id: null
+locations:
+- contrail_endpoint: http://10.84.34.107:8082
+  contrail_webui: http://10.84.34.107:8080
+  description: RegionTwo
+  id: 9da5ed86-bbfd-4097-be25-46cc53844b97
+  keystone_endpoint: http://10.84.34.107:35357
+  name: RegionTwo
+  region: RegionTwo
+  tenant_id: e18e35984221433eaf1be32b95db0137
+  webui: http://10.84.34.107/horizon
+- contrail_endpoint: http://10.84.34.97:8082
+  contrail_webui: http://10.84.34.97:8080
+  description: null
+  id: db9351ab-1574-4b40-95a0-4391d0bfe6b3
+  keystone_endpoint: http://10.84.34.97:35357/v2.0
+  name: RegionOne
+  region: RegionOne
+  tenant_id: e18e35984221433eaf1be32b95db0137
+  webui: http://10.84.34.97/horizon
+network_policys:
+- description: any
+  dest_network:
+    contrail_id: 8000000
+    description: null
+    id: 65ea1125-b31d-4b59-a6e6-ca63b22961a2
+    name: blue
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  dest_network_id: 65ea1125-b31d-4b59-a6e6-ca63b22961a2
+  entries:
+  - action_list:
+      simple_action: pass
+    direction: <>
+    dst_addresses:
+    - virtual_network: any
+    protocol: any
+    rule_sequence:
+      major: -1
+      minor: -5
+    src_addresses:
+    - virtual_network: any
+  id: 1fede8fc-dbcd-4214-bfa3-7bf5fbd46b10
+  name: any
+  source_network:
+    contrail_id: 8000001
+    description: null
+    id: ba64d597-91bb-495a-a785-670856156df9
+    name: red
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  source_network_id: ba64d597-91bb-495a-a785-670856156df9
+  tenant_id: e18e35984221433eaf1be32b95db0137
+networks:
+- contrail_id: 8000000
+  description: null
+  id: 65ea1125-b31d-4b59-a6e6-ca63b22961a2
+  name: blue
+  tenant_id: e18e35984221433eaf1be32b95db0137
+- contrail_id: 8000001
+  description: null
+  id: ba64d597-91bb-495a-a785-670856156df9
+  name: red
+  tenant_id: e18e35984221433eaf1be32b95db0137
+route_target_associations:
+- id: 0a048ebb-9c5d-4832-a0fe-b829cdd68fe9
+  network_id: ba64d597-91bb-495a-a785-670856156df9
+  route_target: 1001
+- id: 44074f50-64f7-4f7c-bafd-cfeff7c6c404
+  network_id: 65ea1125-b31d-4b59-a6e6-ca63b22961a2
+  route_target: 1000
+security_group_rules:
+- description: null
+  direction: egress
+  ethertype: IPv6
+  id: 0bb4a5b7-e6ae-4263-8836-8cd7ef3fee5c
+  name: null
+  port_range_max: 65535
+  port_range_min: 0
+  protocol: any
+  remote_group_id: null
+  remote_ip_prefix: null
+  security_group_id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+  tenant_id: null
+- description: null
+  direction: egress
+  ethertype: IPv4
+  id: 78fd909b-ff61-4752-bcbd-b1c91a7b7b28
+  name: null
+  port_range_max: 65535
+  port_range_min: 0
+  protocol: any
+  remote_group_id: null
+  remote_ip_prefix: null
+  security_group_id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+  tenant_id: null
+- description: null
+  direction: ingress
+  ethertype: IPv4
+  id: ef51ab30-8fd7-446d-be99-3cb11d889b9e
+  name: null
+  port_range_max: 65535
+  port_range_min: 0
+  protocol: any
+  remote_group_id: global
+  remote_ip_prefix: null
+  security_group_id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+  tenant_id: null
+security_groups:
+- contrail_id: 1000
+  description: null
+  id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+  name: global
+  tenant_id: e18e35984221433eaf1be32b95db0137
+servers:
+- description: null
+  id: 4bce0293-1a11-480d-96b2-28023528a76a
+  image:
+    description: tinycore
+    disk_format: qcow2
+    id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+    name: tinycore
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+  image_id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+  name: blue
+  network:
+    contrail_id: 8000000
+    description: null
+    id: 65ea1125-b31d-4b59-a6e6-ca63b22961a2
+    name: blue
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  network_id: 65ea1125-b31d-4b59-a6e6-ca63b22961a2
+  security_group:
+    contrail_id: 1000
+    description: null
+    id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+    name: global
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  security_group_id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+  tenant_id: e18e35984221433eaf1be32b95db0137
+- description: null
+  id: 8b58c542-d6d4-40dc-b47a-e5591f584f7e
+  image:
+    description: tinycore
+    disk_format: qcow2
+    id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+    name: tinycore
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+  image_id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+  name: red
+  network:
+    contrail_id: 8000001
+    description: null
+    id: ba64d597-91bb-495a-a785-670856156df9
+    name: red
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  network_id: ba64d597-91bb-495a-a785-670856156df9
+  security_group:
+    contrail_id: 1000
+    description: null
+    id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+    name: global
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  security_group_id: d10c18d9-5691-45b3-a7a7-a3a20e7e121a
+  tenant_id: e18e35984221433eaf1be32b95db0137
+service_instances:
+- description: null
+  id: ab19513f-ffe8-4fa3-89b9-d0deb810777c
+  name: tinycore
+  service_instance_properties:
+    scale_out:
+      max_instances: 1
+  service_template:
+    description: null
+    flavor: m1.tiny
+    id: eb137f9e-a2ed-4d6a-8518-bf14e1c7d49c
+    image:
+      description: tinycore
+      disk_format: qcow2
+      id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+      name: tinycore
+      tenant_id: e18e35984221433eaf1be32b95db0137
+      url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+    image_id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+    name: tinycore
+    service_mode: transparent
+    tenant_id: e18e35984221433eaf1be32b95db0137
+  service_template_id: eb137f9e-a2ed-4d6a-8518-bf14e1c7d49c
+  tenant_id: e18e35984221433eaf1be32b95db0137
+service_templates:
+- description: null
+  flavor: m1.tiny
+  id: eb137f9e-a2ed-4d6a-8518-bf14e1c7d49c
+  image:
+    description: tinycore
+    disk_format: qcow2
+    id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+    name: tinycore
+    tenant_id: e18e35984221433eaf1be32b95db0137
+    url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+  image_id: 8a37f6f0-7940-4746-ba29-44fddbf1ee89
+  name: tinycore
+  service_mode: transparent
+  tenant_id: e18e35984221433eaf1be32b95db0137
+tenants:
+- description: null
+  id: e18e35984221433eaf1be32b95db0137
+  name: admin
+  tenant_id: null

@@ -1,0 +1,161 @@
+- define:
+    name: create_local_heat_instance
+    args:
+      local_heat_instance: object
+    body:
+    - vars:
+        heat_instance: $local_heat_instance.heat_instance
+        heat_template: $local_heat_instance.heat_instance.heat_template
+        location: $local_heat_instance.location
+        region: $local_heat_instance.location.region
+    - get_config: key=keystone default_value=null
+      register: keystone_config
+    - get_openstack_client:
+        auth_url: $location.keystone_endpoint
+        user_name: $keystone_config.user_name
+        password: $keystone_config.password
+        version: v2.0
+        tenant_name: $keystone_config.tenant_name
+        domain_name: ""
+      register: client
+    - openstack_endpoint: client=$client endpoint_type=orchestration region=$region name="" availability=""
+      register: url
+    - openstack_post:
+        client: $client
+        url: "{{ url }}stacks"
+        data:
+          parameters: $heat_instance.parameters
+          stack_name: "{{ heat_instance.name }}"
+          description: "{{ heat_instance.description }}"
+          template: "{{ heat_template.template }}"
+      register: output
+    - return: $output
+- define:
+    name: delete_local_heat_instance
+    args:
+      local_heat_instance: object
+    body:
+    - vars:
+        location: $local_heat_instance.location
+    - get_config: key=keystone default_value=null
+      register: keystone_config
+    - get_openstack_client:
+        auth_url: $location.keystone_endpoint
+        user_name: $keystone_config.user_name
+        password: $keystone_config.password
+        version: v2.0
+        tenant_name: $keystone_config.tenant_name
+        domain_name: ""
+      register: client
+    - openstack_delete:
+        client: $client
+        url: "{{ local_heat_instance.output.stack.links.0.href }}"
+- define:
+    name: create_local_heat_instances
+    args:
+      db: object
+      filter: object
+    body:
+    - transaction:
+      - db_list:
+          tx: $transaction
+          schema_id: local_heat_instance
+          filter: $filter
+        register: local_heat_instances
+    - blocks:
+      - vars:
+          status: ACTIVE
+          task_status: COMPLETE
+      - create_local_heat_instance:
+          local_heat_instance: $item
+        register: output
+        rescue:
+        - vars:
+            status: ERROR
+            task_status: "IN_PROGRESS"
+            output: $error
+      - transaction:
+        - db_update:
+            tx: $transaction
+            schema_id: local_heat_instance
+            data:
+              id: $item.id
+              heat_instance_id: $item.heat_instance_id
+              status: $status
+              task_status: $task_status
+              output: $output
+      with_items: $local_heat_instances
+      worker: '$GetConfig("loop_worker", 10)'
+- define:
+    name: delete_local_heat_instances
+    args:
+      db: object
+      filter: object
+    body:
+    - transaction:
+      - db_list:
+          tx: $transaction
+          schema_id: local_heat_instance
+          filter: $filter
+        register: local_heat_instances
+    - blocks:
+      - delete_local_heat_instance:
+          local_heat_instance: $item
+      - transaction:
+        - db_delete:
+            tx: $transaction
+            schema_id: local_heat_instance
+            id: $item.id
+      with_items: $local_heat_instances
+      worker: '$GetConfig("loop_worker", 10)'
+- define:
+    name: heat_instance_resource
+    args:
+      heat_instance: object
+      event_type: string
+      db: object
+      transaction: object
+      queue: object
+    body:
+    - when: event_type == "post_create_in_transaction"
+      blocks:
+      - db_get:
+          schema_id: heat_template
+          tx: $transaction
+          id: $heat_instance.heat_template_id
+          tenant_id: $heat_instance.tenant_id
+        rescue:
+        - error:
+            name: CustomException
+            code: 404
+            message: "heat template not found"
+      - db_list:
+          tx: $transaction
+          schema_id: location
+          filter: {}
+        register: locations
+      - blocks:
+        - db_create:
+            tx: $transaction
+            schema_id: local_heat_instance
+            data:
+              id: $UUID()
+              heat_instance_id: $heat_instance.id
+              location_id: $item.id
+              task_status: "IN_PROGRESS"
+        with_items: $locations
+    - when: event_type == "post_create" || event_type == "post_update"
+      job:
+      - create_local_heat_instances:
+          db: $db
+          filter:
+            heat_instance_id: $heat_instance.id
+            task_status: "IN_PROGRESS"
+        register: local_heat_instances
+      queue: $queue
+    - when: event_type == "pre_delete"
+      blocks:
+      - delete_local_heat_instances:
+          db: $db
+          filter:
+            heat_instance_id: $heat_instance.id

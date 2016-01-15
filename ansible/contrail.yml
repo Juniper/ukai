@@ -1,0 +1,41 @@
+- hosts: all
+  sudo: yes
+  remote_user: root
+  vars:
+      user: root
+#      contrail_package: contrail-install-packages_2.23-119~kilo_all.deb
+      contrail_package: contrail-install-packages_3.0.0.0-2729~liberty_all.deb
+  tasks:
+      - authorized_key: user="{{user}}" key=https://github.com/nati.keys
+      - lineinfile: dest=/etc/hosts regexp='{{ ansible_hostname }}' line="127.0.0.1 {{ ansible_hostname }}" state=present
+      - name: copy contrail package
+        synchronize: src=files dest=/root/
+      - command: sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+      - command: sed -i 's/^AcceptEnv LANG LC_*/#AcceptEnv LANG LC_*/' /etc/ssh/sshd_config
+      - command: echo "root:secret"|chpasswd
+      - service: name=ssh state=restarted
+      - stat: path=/root/.ssh/id_rsa
+        register: f
+      - name: setup root ssh key
+        command: ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ''
+        when: not f.stat.exists
+      - apt: name=cloud-init state=absent
+      - name: copy ssh key
+        command: cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+      - name: install contrail dep package
+        command: "dpkg -i files/{{ contrail_package }}"
+      - name: setup contrail package
+        command: "/opt/contrail/contrail_packages/setup.sh"
+      - package : name=ntp state=present
+      - copy: src=files/ntp.conf dest=/etc/ntp.conf
+      - service: name=ntp state=restarted
+      - template: src=templates/testbed_single.py.j2 dest=/opt/contrail/utils/fabfile/testbeds/testbed.py
+      - command: fab install_contrail:reboot='False'
+        args:
+          chdir: /opt/contrail/utils
+      - command: fab setup_all:reboot='False'
+        args:
+          chdir: /opt/contrail/utils
+      - command: pip install wsgicors
+      - copy: src=files/keystone-paste.ini dest=/etc/keystone/keystone-paste.ini
+      - service: name=keystone state=restarted
