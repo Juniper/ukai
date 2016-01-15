@@ -1,0 +1,138 @@
+- define:
+    name: create_server
+    args:
+      client: object
+      server: object
+      security_group_name: string
+      region: string
+    body:
+    - openstack_endpoint: client=$client endpoint_type=compute region="{{region}}"
+      register: url
+    - openstack_post:
+        client: $client
+        url: "{{ url }}/servers"
+        data:
+          server:
+            name: "{{ server.name }}"
+            imageRef: "{{ server.image_id }}"
+            flavorRef: "1"
+            networks:
+            - uuid: "{{ server.network_id }}"
+            security_groups:
+            - name: "{{ security_group_name }}"
+      register: output
+    - debug: var=$output
+    - blocks:
+      - openstack_get:
+          client: $client
+          url: "{{ url }}/servers/{{ output.server.id }}"
+        register: output
+      - fail: msg="vm isn't still active"
+        when: output.server.status != "ACTIVE"
+      retries: 60
+      delay: 3
+    - return: output.server
+- define:
+    name: delete_server
+    args:
+      client: object
+      server_id: string
+      region: string
+    body:
+    - openstack_endpoint: client=$client endpoint_type=compute region="{{region}}"
+      register: url
+    - openstack_delete:
+        client: $client
+        url: "{{ url }}/servers/{{ server_id }}"
+- define:
+    name: server_resource
+    args:
+      server: object
+      event_type: string
+      db: object
+      transaction: object
+    body:
+    - when: event_type == "post_create_in_transaction"
+      blocks:
+      - db_list:
+          tx: $transaction
+          schema_id: location
+        register: locations
+      - blocks:
+        - uuid:
+          register: local_id
+        - db_create:
+            tx: $transaction
+            schema_id: local_server
+            data:
+              id: "{{ local_id }}"
+              server_id: "{{ server.id }}"
+              location_id: "{{ item.id }}"
+              status: "CREATE_IN_PROGRESS"
+        with_items: $locations
+    - when: event_type == "post_create"
+      blocks:
+      - background:
+        - transaction:
+          - db_list:
+              tx: $transaction
+              schema_id: local_server
+              filter:
+                server_id: "{{ server.id }}"
+            register: local_servers
+          - db_get:
+              tx: $transaction
+              schema_id: security_group
+              id: "{{ server.security_group_id }}"
+            register: security_group
+        - blocks:
+          - get_config: key="keystone"
+            register: keystone_config
+          - get_openstack_client:
+              auth_url: "{{ item.location.keystone_endpoint }}"
+              user_name: "{{ keystone_config.user_name }}"
+              password: "{{ keystone_config.password }}"
+              version: v2.0
+              tenant_name:  "{{ keystone_config.tenant_name }}"
+            register: client
+          - create_server:
+              client: $client
+              region: "{{ item.location.region }}"
+              server: $server
+              security_group_name: "{{ security_group.name }}"
+            register: server_created
+          - transaction:
+            - db_update:
+                tx: $transaction
+                schema_id: local_server
+                data:
+                  id: "{{ item.id }}"
+                  server_id: "{{ server.id }}"
+                  instance_id: "{{ server_created.id }}"
+                  status: "ACTIVE"
+          with_items: $local_servers
+          worker: 10
+    - when: event_type == "pre_delete"
+      transaction:
+      - db_list:
+          tx: $transaction
+          schema_id: local_server
+          filter:
+            server_id: "{{ server.id }}"
+        register: local_servers
+      - blocks:
+        - get_config: key="keystone"
+          register: keystone_config
+        - get_openstack_client:
+            auth_url: "{{ item.location.keystone_endpoint }}"
+            user_name: "{{ keystone_config.user_name }}"
+            password: "{{ keystone_config.password }}"
+            version: v2.0
+            tenant_name:  "{{ keystone_config.tenant_name }}"
+          register: client
+        - delete_server:
+            region: "{{ item.location.region }}"
+            server_id: "{{ item.instance_id }}"
+            client: $client
+        with_items: $local_servers
+        worker: 10

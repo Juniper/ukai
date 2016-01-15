@@ -1,0 +1,14 @@
+{
+    "authUrl": "http://10.84.34.96:5000/v2.0",
+    "gohan": {
+        "schema": "/gohan/v0.1/schemas",
+        "url": "http://__HOST__:9091"
+    },
+    "routes": [
+        {
+            "path": "#/",
+            "viewClass": "sampleview",
+            "name": "sample"
+        }
+    ]
+}

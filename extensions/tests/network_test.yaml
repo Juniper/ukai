@@ -1,0 +1,48 @@
+test_suite:
+  before_each:
+  - read_config: path="{{ __dir__ }}/../../gohan.yaml"
+  - command: rm ./test.db
+    rescue: []
+  tests:
+  - name: Test network resource
+    test:
+    - include: ../network.yaml
+    - vars:
+        network1:
+          id: network1
+          name: name1
+          tenant_id: admin
+    - gohan_load_schema: src="{{ __dir__ }}/../../schema/schema.yaml"
+    - connect_db: db_type=sqlite3 connection=./test.db
+      register: db
+    - init_db: db_type=sqlite3 connection=./test.db
+    - transaction:
+      - db_create:
+          tx: $transaction
+          schema_id: id_pool
+          data:
+            id: id1
+            start: 1000
+            end: 1002
+            name: route_target
+            assigned: false
+      - db_create:
+          tx: $transaction
+          schema_id: network
+          data: $network1
+      - associate_route_target:
+          transaction: $transaction
+          network: $network1
+      - db_list:
+          schema_id: route_target_association
+          tx: $transaction
+        register: result
+      - assert: expect=1 actual="{{ result | length }}"
+      - deassociate_route_target:
+          transaction: $transaction
+          network: $network1
+      - db_list:
+          schema_id: route_target_association
+          tx: $transaction
+        register: result
+      - assert: expect=0 actual="{{ result | length }}"

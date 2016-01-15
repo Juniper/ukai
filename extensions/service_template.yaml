@@ -1,0 +1,141 @@
+- define:
+    name: create_service_template
+    args:
+      client: object
+      service_template: object
+      contrail_endpoint: string
+      image_name: string
+    body:
+    - debug: var=$service_template
+    - openstack_post:
+        client: $client
+        url: "{{ contrail_endpoint }}/service-templates"
+        data:
+          service-template:
+            fq_name:
+              - "default-domain"
+              - "{{ service_template.name }}"
+            parent_type: "domain"
+            uuid: "{{ service_template.id }}"
+            service_template_properties:
+              availability_zone_enable: false
+              interface_type:
+                -
+                  static_route_enable: false
+                  shared_ip: false
+                  service_interface_type: "management"
+                -
+                  static_route_enable: false
+                  shared_ip: false
+                  service_interface_type: "left"
+                -
+                  static_route_enable: false
+                  shared_ip: false
+                  service_interface_type: "right"
+              image_name: "{{ image_name }}"
+              service_mode: "{{ service_template.service_mode }}"
+              service_type: "firewall"
+              flavor: "m1.tiny"
+              service_scaling: false
+              ordered_interfaces: true
+            display_name: "{{ service_template.name }}"
+- define:
+    name: delete_service_template
+    args:
+      client: object
+      service_template: object
+      contrail_endpoint: string
+    body:
+    - openstack_delete:
+        client: $client
+        url: "{{ contrail_endpoint }}/service-template/{{ service_template.id }}"
+- define:
+    name: service_template_resource
+    args:
+      service_template: object
+      event_type: string
+      db: object
+      transaction: object
+    body:
+    - when: event_type == "post_create_in_transaction"
+      blocks:
+      - db_list:
+          tx: $transaction
+          schema_id: location
+        register: locations
+      - blocks:
+        - uuid:
+          register: local_id
+        - db_create:
+            tx: $transaction
+            schema_id: local_service_template
+            data:
+              id: "{{ local_id }}"
+              service_template_id: "{{ service_template.id }}"
+              location_id: "{{ item.id }}"
+              status: "CREATE_IN_PROGRESS"
+        with_items: $locations
+    - when: event_type == "post_create"
+      blocks:
+      - transaction:
+        - db_list:
+            tx: $transaction
+            schema_id: local_service_template
+            filter:
+              service_template_id: "{{ service_template.id }}"
+          register: local_service_templates
+        - db_get:
+            tx: $transaction
+            schema_id: image
+            id: "{{ service_template.image_id }}"
+          register: image
+      - blocks:
+        - get_config: key=keystone
+          register: keystone_config
+        - debug: var=$keystone_config
+        - get_openstack_client:
+            auth_url: "{{ item.location.keystone_endpoint }}"
+            user_name: "{{ keystone_config.user_name }}"
+            password: "{{ keystone_config.password }}"
+            version: v2.0
+            tenant_name: "{{ keystone_config.tenant_name }}"
+          register: client
+        - create_service_template:
+            contrail_endpoint: "{{ item.location.contrail_endpoint }}"
+            service_template: $service_template
+            image_name: "{{ image.name }}"
+            client: $client
+        - transaction:
+          - db_update:
+              tx: $transaction
+              schema_id: local_service_template
+              data:
+                id: "{{ item.id }}"
+                service_template_id: "{{ item.service_template_id }}"
+                status: "ACTIVE"
+        with_items: $local_service_templates
+        worker: 10
+    - when: event_type == "pre_delete"
+      transaction:
+      - db_list:
+          tx: $transaction
+          schema_id: local_service_template
+          filter:
+            service_template_id: $service_template.id
+        register: local_service_templates
+      - debug: var=$local_service_templates
+      - blocks:
+        - get_config: key="keystone"
+          register: keystone_config
+        - get_openstack_client:
+            auth_url: "{{ item.location.keystone_endpoint }}"
+            user_name: "{{ keystone_config.user_name }}"
+            password: "{{ keystone_config.password }}"
+            version: v2.0
+            tenant_name:  "{{ keystone_config.tenant_name }}"
+          register: client
+        - delete_service_template:
+            contrail_endpoint: "{{ item.location.contrail_endpoint }}"
+            service_template: $service_template
+            client: $client
+        with_items: $local_service_templates

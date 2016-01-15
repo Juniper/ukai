@@ -1,0 +1,80 @@
+test_suite:
+  before_each:
+  - read_config: path="{{ __dir__ }}/../../gohan.yaml"
+  - command: rm ./test.db
+    rescue: []
+  tests:
+  - name: Location resource test
+    test:
+    - include: ../location.yaml
+    - include: ../util.yaml
+    - gohan_load_schema: src="{{ __dir__ }}/../../schema/schema.yaml"
+    - connect_db: db_type=sqlite3 connection=./test.db
+      register: db
+    - init_db: db_type=sqlite3 connection=./test.db
+    - get_config: key="keystone"
+      register: keystone_config
+    - uuid:
+      register: image_id
+    - uuid:
+      register: service_template_id
+    - vars:
+        image:
+          id: "{{ image_id }}"
+          url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+          name: upload_test
+          disk_format: qcow2
+        service_template:
+          id: "{{ service_template_id }}"
+          name: test_service_template
+          image_id: "{{ image_id }}"
+          service_mode: transparent
+          flavor: m1.tiny
+        security_group:
+          id: 081b50d0-c6e0-11e5-a837-0800200c9a66
+          name: security_group1
+          tenant_id: admin
+          contrail_id: 1001
+        location:
+          id: tokyo
+          name: tokyo
+          tenant_id: admin
+          keystone_endpoint: http://10.84.34.96:35357/v2.0
+          contrail_endpoint: http://10.84.34.96:8082
+          region: RegionOne
+    - transaction:
+        - db_create:
+            tx: $transaction
+            schema_id: image
+            data: $image
+        - db_create:
+            tx: $transaction
+            schema_id: service_template
+            data: $service_template
+        - db_create:
+            tx: $transaction
+            schema_id: security_group
+            data: $security_group
+        - security_group_resource:
+            transaction: $transaction
+            security_group: $security_group
+            event_type: post_create_in_transaction
+    - transaction:
+      - db_create:
+          tx: $transaction
+          schema_id: location
+          data: $location
+      - location_resource:
+          location: $location
+          db: $db
+          transaction: $transaction
+          event_type: post_create_in_transaction
+    - location_resource:
+        location: $location
+        db: $db
+        event_type: post_create
+    - sleep: 3000
+    - location_resource:
+        location: $location
+        db: $db
+        event_type: pre_delete

@@ -1,0 +1,180 @@
+- include: ./tenant.yaml
+- define:
+    name: create_network_policy
+    args:
+      client: object
+      network_policy: object
+      location: object
+      transaction: transaction
+    body:
+    - blocks:
+      - tenant_name:
+          client: $client
+          transaction: $transaction
+          keystone_endpoint:  "{{ location.keystone_endpoint }}"
+          tenant_id: "{{ network_policy.tenant_id }}"
+        register: tenant_name
+      rescue:
+      - vars:
+          tenant_name: "{{ network_policy.tenant_id }}"
+    - db_get:
+        tx: $transaction
+        schema_id: network
+        id: "{{ network_policy.source_network_id }}"
+      register: source_network
+    - db_get:
+        tx: $transaction
+        schema_id: network
+        id: "{{ network_policy.dest_network_id }}"
+      register: dest_network
+    - openstack_post:
+        client: $client
+        url: "{{ location.contrail_endpoint }}/network-policys"
+        data:
+          network-policy:
+            parent_type: project
+            uuid: "{{ network_policy.id }}"
+            fq_name:
+            - default-domain
+            - "{{ tenant_name }}"
+            - "{{ network_policy.id }}"
+            network_policy_entries:
+              policy_rule: $network_policy.entries
+    - openstack_put:
+        client: $client
+        url: "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.source_network_id }}"
+        data:
+          virtual-network:
+            network_policy_refs:
+            - attr:
+                timer: null
+                sequence:
+                  major: 0
+                  minor: 0
+              to:
+              - default-domain
+              - "{{ tenant_name }}"
+              - "{{ network_policy.id }}"
+    - openstack_put:
+        client: $client
+        url: "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.dest_network_id }}"
+        data:
+          virtual-network:
+            network_policy_refs:
+            - attr:
+                timer: null
+                sequence:
+                  major: 0
+                  minor: 0
+              to:
+              - default-domain
+              - "{{ tenant_name }}"
+              - "{{ network_policy.id }}"
+- define:
+    name: delete_network_policy
+    args:
+      client: object
+      network_policy: object
+      location: object
+    body:
+    - openstack_put:
+        client: $client
+        url: "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.source_network_id }}"
+        data:
+          virtual-network:
+            network_policy_refs: []
+    - openstack_put:
+        client: $client
+        url: "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.dest_network_id }}"
+        data:
+          virtual-network:
+            network_policy_refs: []
+    - openstack_delete:
+        client: $client
+        url: "{{ location.contrail_endpoint }}/network-policy/{{ network_policy.id }}"
+- define:
+    name: network_policy_resource
+    args:
+      network_policy: object
+      event_type: string
+      db: object
+      transaction: object
+    body:
+    - when: event_type == "post_create_in_transaction"
+      blocks:
+      - db_list:
+          tx: $transaction
+          schema_id: location
+        register: locations
+      - blocks:
+        - uuid:
+          register: local_id
+        - db_create:
+            tx: $transaction
+            schema_id: local_network_policy
+            data:
+              id: "{{ local_id }}"
+              network_policy_id: "{{ network_policy.id }}"
+              location_id: "{{ item.id }}"
+              status: "CREATE_IN_PROGRESS"
+        with_items: $locations
+    - when: event_type == "post_create"
+      blocks:
+      - transaction:
+        - db_list:
+            tx: $transaction
+            schema_id: local_network_policy
+            filter:
+              network_policy_id: "{{ network_policy.id }}"
+          register: local_network_policies
+      - blocks:
+        - debug: var=$item
+        - get_config: key="keystone"
+          register: keystone_config
+        - get_openstack_client:
+            auth_url: "{{ item.location.keystone_endpoint }}"
+            user_name: "{{ keystone_config.user_name }}"
+            password: "{{ keystone_config.password }}"
+            version: v2.0
+            tenant_name:  "{{ keystone_config.tenant_name }}"
+          register: client
+        - debug: msg="create simple policy"
+        - transaction:
+          - create_network_policy:
+              region: "{{ item.location.region }}"
+              network_policy: $network_policy
+              location: $item.location
+              transaction: $transaction
+              client: $client
+          - db_update:
+              tx: $transaction
+              schema_id: local_network_policy
+              data:
+                id: "{{ item.id }}"
+                network_policy_id: "{{ item.network_policy_id }}"
+                status: "ACTIVE"
+        with_items: $local_network_policies
+    - when: event_type == "pre_delete"
+      blocks:
+      - transaction:
+        - db_list:
+            tx: $transaction
+            schema_id: local_network_policy
+          register: local_network_policies
+      - blocks:
+        - get_config: key="keystone"
+          register: keystone_config
+        - get_openstack_client:
+            auth_url: "{{ item.location.keystone_endpoint }}"
+            user_name: "{{ keystone_config.user_name }}"
+            password: "{{ keystone_config.password }}"
+            version: v2.0
+            tenant_name:  "{{ keystone_config.tenant_name }}"
+          register: client
+        - delete_network_policy:
+            region: "{{ item.location.region }}"
+            network_policy: $network_policy
+            client: $client
+            location: $item.location
+          rescue: []
+        with_items: $local_network_policies

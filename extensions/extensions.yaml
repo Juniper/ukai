@@ -1,0 +1,139 @@
+extensions:
+- id: network
+  path: "/v1.0/networks"
+  code_type: donburi
+  code: |
+    tasks:
+    - include: ./network.yaml
+    - route_target_resource:
+        transaction: $transaction
+        network: $resource
+        event_type: $event_type
+- id: local_network
+  path: "/v1.0/local_networks"
+  code_type: donburi
+  code: |
+    tasks:
+    - include: ./local_network.yaml
+    - local_network_resource:
+        transaction: $transaction
+        local_network: $resource
+        event_type: $event_type
+        db: $db
+- id: image
+  path: "/v1.0/images"
+  code_type: donburi
+  code: |
+    tasks:
+    - include: ./image.yaml
+    - image_resource:
+        image: $resource
+        event_type: $event_type
+        db: $db
+        transaction: $transaction
+- id: service_template
+  path: "/v1.0/service_templates"
+  code_type: donburi
+  code: |
+    tasks:
+    - include: ./service_template.yaml
+    - service_template_resource:
+        service_template: $resource
+        event_type: $event_type
+        db: $db
+        transaction: $transaction
+- id: server
+  path: "/v1.0/servers"
+  code_type: donburi
+  code: |
+    tasks:
+    - include: ./server.yaml
+    - server_resource:
+        server: $resource
+        event_type: $event_type
+        db: $db
+        transaction: $transaction
+- id: service_instance
+  path: "/v1.0/service_instances"
+  code_type: donburi
+  code: |
+    tasks:
+    - include: ./service_instance.yaml
+    - service_instance_resource:
+        service_instance: $resource
+        event_type: $event_type
+        db: $db
+        transaction: $transaction
+- id: local_server
+  path: "/v1.0/local_servers"
+  code_type: donburi
+  code: |
+    tasks:
+    - when: event_type == "post_list"
+      blocks:
+      - get_config: key="keystone"
+        register: keystone_config
+      - get_openstack_client:
+          auth_url: "{{ item.location.keystone_endpoint }}"
+          user_name: "{{ keystone_config.user_name }}"
+          password: "{{ keystone_config.password }}"
+          version: v2.0
+          tenant_name:  "{{ keystone_config.tenant_name }}"
+        register: client
+      - openstack_endpoint: client=$client endpoint_type=compute region="{{region}}"
+        register: url
+      - openstack_post:
+          client: $client
+          url: "{{ url }}servers/{{ item.instance_id }}/action"
+          data:
+            os-getVNCConsole:
+              type: novnc
+        register: console_info
+      - vars:
+          item.console_url: $console_info.console.url
+      with_items: $response.local_servers
+      worker: 10
+- id: network_policy
+  path: "/v1.0/network_policies"
+  code_type: donburi
+  code: |
+    tasks:
+    - include: ./network_policy.yaml
+    - network_policy_resource:
+        network_policy: $resource
+        event_type: $event_type
+        db: $db
+        transaction: $transaction
+- id: security_group
+  path: "/v1.0/security_groups"
+  code_type: donburi
+  code: |
+    tasks:
+    - include: ./security_group.yaml
+    - security_group_resource:
+        security_group: $resource
+        event_type: $event_type
+        db: $db
+        transaction: $transaction
+- id: security_group_rules
+  path: "/v1.0/security_group_rules"
+  code_type: donburi
+  code: |
+    tasks:
+    - include: ./security_group.yaml
+    - security_group_rule_resource:
+        security_group_rule: $resource
+        event_type: $event_type
+        db: $db
+        transaction: $transaction
+- id: location
+  path: "/v1.0/locations"
+  code_type: donburi
+  code: |
+    tasks:
+    - include: ./location.yaml
+    - location:
+        location: $resource
+        event_type: $event_type
+        db: $db
+        transaction: $transaction

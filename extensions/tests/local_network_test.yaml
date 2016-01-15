@@ -1,0 +1,51 @@
+test_suite:
+  before_each:
+  - read_config: path="{{ __dir__ }}/../../gohan.yaml"
+  - command: rm ./test.db
+    rescue: []
+  tests:
+  - name: Test Local Network
+    test:
+    - include: ../local_network.yaml
+    - include: ../network.yaml
+    - include: ../util.yaml
+    - vars:
+        resources:
+        - route_target_pool:
+            id: pool1
+            start: 1000
+            end: 1002
+            assigned: false
+        - network:
+            id: 6bfafb2a-bc4b-4655-a5a6-8b760df60e16
+            name: blue
+            tenant_id: admin
+        - network:
+            id: 6369c8f8-8d9c-4e5e-b632-a724a6b2ffe1
+            name: red
+            tenant_id: admin
+    - gohan_load_schema: src="{{ __dir__ }}/../../schema/schema.yaml"
+    - connect_db: db_type=sqlite3 connection=./test.db
+      register: db
+    - init_db: db_type=sqlite3 connection=./test.db
+    - setup_resources:
+        db: $db
+    - transaction:
+      - associate_route_target:
+          transaction: $transaction
+          network: $resources[1].network
+      - associate_route_target:
+          transaction: $transaction
+          network: $resources[2].network
+      - db_list:
+          tx: $transaction
+          schema_id: local_network
+        register: local_networks
+      - create_local_network:
+          local_network: $item
+          transaction: $transaction
+        with_items: $local_networks
+      - delete_local_network:
+          local_network: $item
+          transaction: $transaction
+        with_items: $local_networks

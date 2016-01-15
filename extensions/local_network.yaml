@@ -1,0 +1,139 @@
+- include: ./tenant.yaml
+- define:
+    name: create_local_network
+    args:
+      local_network: object
+      transaction: object
+    body:
+    - db_list:
+        tx: $transaction
+        schema_id: route_target_association
+        filter:
+          network_id: "{{ local_network.network_id }}"
+      register: route_targets
+    - db_get:
+        tx: $transaction
+        schema_id: network
+        id: $local_network.network_id
+      register: network
+    - db_list:
+        tx: $transaction
+        schema_id: location
+        filter:
+          id: "{{ local_network.location_id }}"
+      register: locations
+    - blocks:
+      - get_config: key="keystone"
+        register: keystone_config
+      - get_openstack_client:
+          auth_url: "{{ item.keystone_endpoint }}"
+          user_name: "{{ keystone_config.user_name }}"
+          password: "{{ keystone_config.password }}"
+          version: v2.0
+          tenant_name:  "{{ keystone_config.tenant_name }}"
+        register: client
+      - split:
+          value: $local_network.cidr
+          sep: "/"
+        register: cidrs
+      - blocks:
+        - tenant_name:
+            client: $client
+            transaction: $transaction
+            keystone_endpoint:  $item.keystone_endpoint
+            tenant_id: $local_network.tenant_id
+          register: tenant_name
+        rescue:
+        - vars:
+            tenant_name: $local_network.tenant_id
+      - openstack_post:
+          client: $client
+          url: "{{ item.contrail_endpoint }}/virtual-networks"
+          data:
+            virtual-network:
+              uuid: "{{ local_network.network_id }}"
+              parent_type: "project"
+              display_name: "{{ network.name }}"
+              fq_name:
+              - default-domain
+              - "{{ tenant_name }}"
+              - "{{ network.name }}"
+              network_ipam_refs:
+              - attr:
+                  ipam_subnets:
+                  - subnet:
+                      ip_prefix: "{{ cidrs.0 }}"
+                      ip_prefix_len: "{{ cidrs.1 }}"
+                to:
+                  - "default-domain"
+                  - "default-project"
+                  - "default-network-ipam"
+              route_target_list:
+                route_target:
+                - "target:1000:{{ route_targets.0.route_target }}"
+      - db_update:
+          tx: $transaction
+          schema_id: local_network
+          data:
+            id: "{{ local_network.id }}"
+            network_id: "{{ local_network.network_id }}"
+            status: "ACTIVE"
+      #TODO: create local policy & attach it
+      rescue:
+      - debug: msg="failed create local_network {{ error }}"
+      - db_update:
+          tx: $transaction
+          schema_id: local_network
+          data:
+            id: "{{ local_network.id }}"
+            network_id: "{{ local_network.network_id }}"
+            status: "ERROR"
+      with_items: $locations
+- define:
+    name: delete_local_network
+    args:
+      local_network: object
+      transaction: object
+    body:
+    - db_list:
+        tx: $transaction
+        schema_id: location
+        filter:
+          id: "{{local_network.location_id}}"
+      register: locations
+    - blocks:
+      - get_config: key="keystone"
+        register: keystone_config
+      - debug: var=$keystone_config
+      - get_openstack_client:
+          auth_url: "{{ item.keystone_endpoint }}"
+          user_name: "{{ keystone_config.user_name }}"
+          password: "{{ keystone_config.password }}"
+          version: v2.0
+          tenant_name:  "{{ keystone_config.tenant_name }}"
+        register: client
+      - openstack_delete:
+          client: $client
+          url: "{{ item.contrail_endpoint }}/virtual-network/{{ local_network.network_id }}"
+      with_items: $locations
+      worker: 10
+- define:
+    name: local_network_resource
+    args:
+      local_network: object
+      transaction: object
+      event_type: string
+      db: object
+    body:
+        #TODO create local policy in transaction../location.yaml
+        - when: event_type == "post_create"
+          transaction:
+          - debug: msg="in_transaction"
+          - create_local_network:
+              transaction: $transaction
+              local_network: $local_network
+        - when: event_type == "pre_delete"
+          transaction:
+          - delete_local_network:
+              transaction: $transaction
+              local_network: $local_network

@@ -1,0 +1,72 @@
+- define:
+    name: allocate_id
+    args:
+      name: string
+      transaction: object
+    body:
+    - vars:
+        no_id: -1
+    - db_list:
+        tx: $transaction
+        schema_id: id_pool
+        filter:
+          name: "{{ name }}"
+          assigned: false
+      register: pools
+    - return: no_id
+      when: "pools | length == 0"
+    - vars:
+        id: $pools.0.start
+    - debug: var=pools
+    - when: pools.0.start < pools.0.end
+      blocks:
+      - db_delete:
+          tx: $transaction
+          schema_id: id_pool
+          id: $pools.0.id
+      - db_create:
+          tx: $transaction
+          schema_id: id_pool
+          data:
+              id: "{{ name }}_{{ id }}"
+              start: "{{ id }}"
+              end: "{{ id }}"
+              name: "{{ name }}"
+              assigned: true
+      - db_create:
+          tx: $transaction
+          schema_id: id_pool
+          data:
+              id: "{{ pools.0.id }}"
+              start: "{{ pools.0.start + 1 }}"
+              end: "{{ pools.0.end  }}"
+              name: "{{ name }}"
+              assigned: false
+      else:
+      - db_delete:
+          tx: $transaction
+          schema_id: id_pool
+          id: $pools.0.id
+      - db_create:
+          tx: $transaction
+          schema_id: id_pool
+          data:
+              id: "{{ name }}_{{ id }}"
+              start: "{{ id }}"
+              end: "{{ id }}"
+              name: "{{ name }}"
+              assigned: true
+    - return: id
+- define:
+    name: deallocate_id
+    args:
+      transaction: object
+      name: string
+      id: string
+    body:
+    - db_update:
+        tx: $transaction
+        schema_id: id_pool
+        data:
+          id: "{{ name }}_{{ id }}"
+          assigned: false

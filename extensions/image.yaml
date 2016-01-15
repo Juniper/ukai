@@ -1,0 +1,125 @@
+- define:
+    name: create_image
+    args:
+      client: object
+      image: object
+      region: string
+    body:
+    - openstack_token:
+        client: $client
+      register: token
+    - openstack_endpoint: client=$client endpoint_type=image region=$region
+      register: url
+    - http_post:
+        url: "{{ url }}/images"
+        headers:
+          X-Auth-Token: "{{ token }}"
+          x-glance-api-copy-from: "{{ image.url }}"
+          Content-Type: "application/octet-stream"
+          x-image-meta-id: "{{ image.id }}"
+          x-image-meta-disk_format: "{{ image.disk_format }}"
+          x-image-meta-name: "{{ image.name }}"
+    - openstack_get:
+        client: $client
+        url: "{{ url }}/images/{{ image.id }}"
+      retries: 60
+      delay: 3
+- define:
+    name: delete_image
+    args:
+      client: object
+      image: object
+      region: string
+    body:
+    - openstack_token:
+        client: $client
+      register: token
+    - openstack_endpoint: client=$client endpoint_type=image region=$region
+      register: url
+    - openstack_delete:
+        client: $client
+        url: "{{ url }}/images/{{ image.id }}"
+- define:
+    name: image_resource
+    args:
+      image: object
+      event_type: string
+      db: object
+      transaction: object
+    body:
+    - when: event_type == "post_create_in_transaction"
+      blocks:
+      - db_list:
+          tx: $transaction
+          schema_id: location
+        register: locations
+      - blocks:
+        - uuid:
+          register: local_id
+        - db_create:
+            tx: $transaction
+            schema_id: local_image
+            data:
+              id: "{{ local_id }}"
+              image_id: "{{ image.id }}"
+              location_id: "{{ item.id }}"
+              status: "CREATE_IN_PROGRESS"
+        with_items: $locations
+    - when: event_type == "post_create"
+      background:
+      - transaction:
+        - db_list:
+            tx: $transaction
+            schema_id: local_image
+            filter:
+              image_id: "{{ image.id }}"
+          register: local_images
+      - blocks:
+        - get_config: key=keystone
+          register: keystone_config
+        - debug: var=$keystone_config
+        - get_openstack_client:
+            auth_url: "{{ item.location.keystone_endpoint }}"
+            user_name: "{{ keystone_config.user_name }}"
+            password: "{{ keystone_config.password }}"
+            version: v2.0
+            tenant_name: "{{ keystone_config.tenant_name }}"
+          register: client
+        - create_image:
+            region: "{{ item.location.region }}"
+            image: $image
+            client: $client
+        - transaction:
+          - db_update:
+              tx: $transaction
+              schema_id: local_image
+              data:
+                id: "{{ item.id }}"
+                image_id: "{{ item.image_id }}"
+                status: "ACTIVE"
+        with_items: $local_images
+        worker: 10
+    - when: event_type == "pre_delete"
+      transaction:
+      - db_list:
+          tx: $transaction
+          schema_id: local_image
+          filter:
+            image_id: $image.id
+        register: local_images
+      - blocks:
+        - get_config: key="keystone"
+          register: keystone_config
+        - get_openstack_client:
+            auth_url: "{{ item.location.keystone_endpoint }}"
+            user_name: "{{ keystone_config.user_name }}"
+            password: "{{ keystone_config.password }}"
+            version: v2.0
+            tenant_name:  "{{ keystone_config.tenant_name }}"
+          register: client
+        - delete_image:
+            region: "{{ item.location.region }}"
+            image: $image
+            client: $client
+          rescue: []
+        with_items: $local_images

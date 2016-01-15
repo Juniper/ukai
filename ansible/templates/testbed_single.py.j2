@@ -1,0 +1,33 @@
+from fabric.api import env
+
+host1 = 'root@{{ansible_eth0.ipv4.address}}'
+ext_routers = []
+router_asn = 64512
+host_build = 'root@{{ansible_eth0.ipv4.address}}'
+
+env.roledefs = {
+    'all': [host1],
+    'cfgm': [host1],
+    'openstack': [host1],
+    'control': [host1],
+    'compute': [host1],
+    'collector': [host1],
+    'webui': [host1],
+    'database': [host1],
+    'build': [host_build],
+    'storage-master': [host1],
+    'storage-compute': [host1],
+}
+
+env.openstack_admin_password = 'secret123'
+env.hostnames = {
+    'all': ['localhost']
+}
+
+env.passwords = {
+    host1: 'secret',
+  #  backup_node: 'secret',
+    host_build: 'secret',
+}
+
+minimum_diskGB = 1

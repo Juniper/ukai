@@ -1,0 +1,87 @@
+test_suite:
+  before_each:
+  - read_config: path="{{ __dir__ }}/../../gohan.yaml"
+  - command: rm ./test.db
+    rescue: []
+  tests:
+  - name: Test policy resource
+    test:
+    - include: ../local_network.yaml
+    - include: ../network_policy.yaml
+    - include: ../network.yaml
+    - include: ../util.yaml
+    - gohan_load_schema: src="{{ __dir__ }}/../../schema/schema.yaml"
+    - connect_db: db_type=sqlite3 connection=./test.db
+      register: db
+    - init_db: db_type=sqlite3 connection=./test.db
+    - setup_resources:
+        db: $db
+    - transaction:
+      - db_list:
+          tx: $transaction
+          schema_id: network
+        register: networks
+      - associate_route_target:
+          transaction: $transaction
+          network: $item
+        with_items: $networks
+    - transaction:
+        - db_list:
+            tx: $transaction
+            schema_id: local_network
+          register: local_networks
+    - transaction:
+      - create_local_network:
+          local_network: $item
+          transaction: $transaction
+      with_items: $local_networks
+    - uuid:
+      register: network_policy_id
+    - vars:
+        network_policy:
+          id: "{{ network_policy_id }}"
+          source_network_id: 6bfafb2a-bc4b-4655-a5a6-8b760df60e16
+          dest_network_id: 6369c8f8-8d9c-4e5e-b632-a724a6b2ffe1
+          entries:
+          - action_list:
+              simple_action: pass
+            direction: "<>"
+            protocol: any
+            application: []
+            rule_sequence:
+              major: -1
+              minor: -1
+            src_addresses:
+            - virtual_network: "default-domain:{{tenant_name}}:{{ source_network.name }}"
+            dst_addresses:
+            - virtual_network: "default-domain:{{tenant_name}}:{{ dest_network.name }}"
+            src_ports:
+            - start_port: -1
+              end_port: -1
+            dst_ports:
+            - start_port: -1
+              end_port: -1
+          tenant_id: admin
+    - debugger:
+    - transaction:
+      - db_create:
+          tx: $transaction
+          schema_id: network_policy
+          data: $network_policy
+      - network_policy_resource:
+          network_policy: $network_policy
+          transaction: $transaction
+          event_type: post_create_in_transaction
+    - network_policy_resource:
+        network_policy: $network_policy
+        db: $db
+        event_type: post_create
+    - network_policy_resource:
+        network_policy: $network_policy
+        db: $db
+        event_type: pre_delete
+    - transaction:
+      - delete_local_network:
+          local_network: $item
+          transaction: $transaction
+        with_items: $local_networks

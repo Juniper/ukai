@@ -1,0 +1,68 @@
+test_suite:
+  before_each:
+  - read_config: path="{{ __dir__ }}/../../gohan.yaml"
+  - command: rm ./test.db
+    rescue: []
+  tests:
+  - name: Test Security Group resources
+    test:
+    - include: ../util.yaml
+    - include: ../security_group.yaml
+    - vars:
+        security_group1:
+          id: 081b50d0-c6e0-11e5-a837-0800200c9a66
+          name: security_group1
+          tenant_id: admin
+        security_group_rule1:
+          id: 1b7475d0-d5cc-11e5-a837-0800200c9a66
+          security_group_id: 081b50d0-c6e0-11e5-a837-0800200c9a66
+          ether_type: IPv4
+          direction: egress
+          protocol: tcp
+          port_range_min: 80
+          port_range_max: 80
+          remote_prefix: "20.0.0.0/24"
+    - gohan_load_schema: src="{{ __dir__ }}/../../schema/schema.yaml"
+    - connect_db: db_type=sqlite3 connection=./test.db
+      register: db
+    - init_db: db_type=sqlite3 connection=./test.db
+    - setup_resources:
+        db: $db
+    - transaction:
+      - security_group_resource:
+          transaction: $transaction
+          security_group: $security_group1
+          event_type: post_create_in_transaction
+      - db_get:
+          tx: $transaction
+          schema_id: security_group
+          id: "{{ security_group1.id }}"
+        register: security_group2
+      - assert: expect=1000 actual="{{ security_group2.contrail_id }}"
+    - security_group_resource:
+        transaction: $transaction
+        security_group: $security_group2
+        event_type: post_create
+        db: $db
+    - sleep: 3000
+    - transaction:
+      - db_create:
+          tx: $transaction
+          schema_id: security_group_rule
+          data: $security_group_rule1
+    - security_group_rule_resource:
+        transaction: $transaction
+        security_group_rule: $security_group_rule1
+        event_type: post_create
+        db: $db
+    - sleep: 3000
+    - security_group_resource:
+        transaction: $transaction
+        security_group: $security_group2
+        event_type: pre_delete
+        db: $db
+    - transaction:
+      - security_group_resource:
+          transaction: $transaction
+          security_group: $security_group2
+          event_type: pre_delete_in_transaction

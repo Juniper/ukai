@@ -1,0 +1,417 @@
+- include: ./id_pool.yaml
+- include: ./tenant.yaml
+- define:
+    name: security_group_rules_data
+    args:
+      security_group: object
+      transaction: object
+      tenant_name: string
+    body:
+    - vars:
+        data:
+          rules: []
+    - db_list:
+        tx: $transaction
+        schema_id: security_group_rule
+        filter:
+          security_group_id: $security_group.id
+      register: security_group_rules
+    - blocks:
+      - when: item.remote_prefix != null
+        blocks:
+        - split:
+            value: "{{ item.remote_prefix }}"
+            sep: "/"
+          register: remote_prefixes
+        - vars:
+            prefix: $remote_prefixes[0]
+            prefix_len: $remote_prefixes[1]
+        else:
+        - blocks:
+          - vars:
+              prefix: "0.0.0.0"
+              prefix_len: 0
+          when: item.ethertype == "IPv4"
+          else:
+          - vars:
+              prefix: "::"
+              prefix_len: 0
+      - blocks:
+        - vars:
+            protocol: "any"
+        when: item.protocol == ""
+        else:
+        - vars:
+            protocol: "{{ item.protocol }}"
+      - blocks:
+        - vars:
+            remote_group_id: "default-domain:{{ tenant_name }}:{{ item.remote_group_id }}"
+        when: item.remote_group_id != null
+        else:
+        - vars:
+            remote_group_id: null
+      - when: item.direction == "egress"
+        vars:
+          value:
+            direction: ">"
+            protocol: $protocol
+            dst_addresses:
+              -
+                security_group: $remote_group_id
+                network_policy: null
+                subnet:
+                  ip_prefix: $prefix
+                  ip_prefix_len: $prefix_len
+                virtual_network: null
+            ethertype: $item.ethertype
+            dst_ports:
+            - end_port: $item.port_range_max
+              start_port: $item.port_range_min
+            src_addresses:
+            -
+              subnet: null
+              network_policy: null
+              security_group: local
+              virtual_network: null
+            src_ports:
+            -
+              end_port: 65535
+              start_port: 0
+        else:
+        - vars:
+            value:
+              direction: ">"
+              protocol: $protocol
+              src_addresses:
+               -
+                security_group: $remote_group_id
+                network_policy: null
+                subnet:
+                  ip_prefix: $prefix
+                  ip_prefix_len: $prefix_len
+                virtual_network: null
+              ethertype: $item.ethertype
+              dst_ports:
+              - end_port: $item.port_range_max
+                start_port: $item.port_range_min
+              dst_addresses:
+              -
+                subnet: null
+                network_policy: null
+                security_group: local
+                virtual_network: null
+              src_ports:
+              -
+                end_port: 65535
+                start_port: 0
+      - debug: var=$value
+      - append:
+          list: $rules
+          value: $value
+        register: rules
+      with_items: $security_group_rules
+    - return: rules
+- define:
+    name: create_security_group
+    args:
+      client: object
+      security_group: object
+      contrail_endpoint: string
+      tenant_name: string
+      db: object
+    body:
+    - transaction:
+      - security_group_rules_data:
+          security_group: $security_group
+          tenant_name: $tenant_name
+          transaction: $transaction
+        register: rules
+    - debug: $rules
+    - openstack_post:
+        client: $client
+        url: "{{ contrail_endpoint }}/security-groups"
+        data:
+          security-group:
+            uuid: "{{ security_group.id }}"
+            configured_security_group_id: "{{ security_group.contrail_id }}"
+            name: "{{ security_group.name }}"
+            parent_type: project
+            fq_name:
+            - default-domain
+            - "{{ tenant_name }}"
+            - "{{ security_group.name }}"
+            security_group_entries:
+              policy_rule: $rules
+- define:
+    name: update_security_group
+    args:
+      id: string
+      security_group: object
+      contrail_endpoint: string
+      tenant_name: string
+      client: $client
+      db: object
+    body:
+    - transaction:
+      - security_group_rules_data:
+          security_group: $security_group
+          tenant_name: $tenant_name
+          transaction: $transaction
+      register: rules
+    - openstack_put:
+        client: $client
+        url: "{{ contrail_endpoint }}/security-group/{{ security_group.id }}"
+        data:
+          security-group:
+            security_group_entries:
+              policy_rule: $rules
+- define:
+    name: delete_security_group
+    args:
+      client: object
+      security_group: object
+      contrail_endpoint: string
+    body:
+    - openstack_delete:
+        client: $client
+        url: "{{ contrail_endpoint }}/security-group/{{ security_group.id }}"
+- define:
+    name: security_group_resource
+    args:
+      security_group: object
+      transaction: object
+      event_type: string
+      db: db
+    body:
+      - when: event_type == "post_create_in_transaction"
+        blocks:
+        - allocate_id:
+            transaction: $transaction
+            name: security_group
+          register: contrail_id
+        - db_update:
+            tx: $transaction
+            schema_id: security_group
+            data:
+              id: "{{ security_group.id }}"
+              name: "{{ security_group.name }}"
+              contrail_id: "{{ contrail_id }}"
+        - db_list:
+            tx: $transaction
+            schema_id: location
+          register: locations
+        - uuid:
+          register: security_group_id1
+        - db_create:
+            tx: $transaction
+            schema_id: security_group_rule
+            data:
+              id: "{{ security_group_id1 }}"
+              security_group_id: "{{ security_group.id }}"
+              ethertype: IPv4
+              direction: egress
+              protocol: ""
+              port_range_min: 0
+              port_range_max: 65535
+              remote_prefix: 0.0.0.0/0
+        - uuid:
+          register: security_group_id2
+        - db_create:
+            tx: $transaction
+            schema_id: security_group_rule
+            data:
+              id: "{{ security_group_id2 }}"
+              security_group_id: "{{ security_group.id }}"
+              ethertype: IPv4
+              direction: ingress
+              protocol: ""
+              port_range_min: 0
+              port_range_max: 65535
+              remote_group_id: "{{ security_group.name }}"
+        - uuid:
+          register: security_group_id3
+        - db_create:
+            tx: $transaction
+            schema_id: security_group_rule
+            data:
+              id: "{{ security_group_id3 }}"
+              security_group_id: "{{ security_group.id }}"
+              ethertype: IPv6
+              direction: egress
+              protocol: ""
+              port_range_min: 0
+              port_range_max: 65535
+              remote_prefix: ::/0
+        - blocks:
+          - uuid:
+            register: local_id
+          - db_create:
+              tx: $transaction
+              schema_id: local_security_group
+              data:
+                id: "{{ local_id }}"
+                security_group_id: "{{ security_group.id }}"
+                location_id: "{{ item.id }}"
+                status: "CREATE_IN_PROGRESS"
+          with_items: $locations
+      - when: event_type == "post_create"
+        background:
+        - get_config: key="keystone"
+          register: keystone_config
+        - transaction:
+          - db_get:
+              tx: $transaction
+              schema_id: security_group
+              id: "{{ security_group.id }}"
+            register: security_group
+          - db_list:
+              tx: $transaction
+              schema_id: local_security_group
+              filter:
+                security_group_id: "{{ security_group.id }}"
+            register: local_security_groups
+          - blocks:
+            - get_openstack_client:
+                auth_url: "{{ keystone_config.auth_url }}"
+                user_name: "{{ keystone_config.user_name }}"
+                password: "{{ keystone_config.password }}"
+                version: v2.0
+                tenant_name:  "{{ keystone_config.tenant_name }}"
+              register: client
+            - tenant_name:
+                client: $client
+                transaction: $transaction
+                keystone_endpoint:  "{{ keystone_config.auth_url }}"
+                tenant_id: "{{ security_group.tenant_id }}"
+              register: tenant_name
+            rescue:
+            - vars:
+                tenant_name: "{{ security_group.tenant_id }}"
+        - blocks:
+          - debug: var=$item
+          - debug:
+          - get_openstack_client:
+              auth_url: "{{ item.location.keystone_endpoint }}"
+              user_name: "{{ keystone_config.user_name }}"
+              password: "{{ keystone_config.password }}"
+              version: v2.0
+              tenant_name:  "{{ keystone_config.tenant_name }}"
+            register: client
+          - create_security_group:
+              contrail_endpoint: "{{ item.location.contrail_endpoint }}"
+              security_group: $security_group
+              client: $client
+              tenant_name: "{{ tenant_name }}"
+              db: $db
+          - transaction:
+            - db_update:
+                tx: $transaction
+                schema_id: local_security_group
+                data:
+                  id: "{{ item.id }}"
+                  security_group_id: "{{ item.security_group_id }}"
+                  status: "ACTIVE"
+          with_items: $local_security_groups
+          worker: 10
+      - when: event_type == "pre_delete_in_transaction"
+        deallocate_id:
+          transaction: $transaction
+          name: $security_group
+          id: "{{ security_group.contrail_id }}"
+      - when: event_type == "pre_delete"
+        transaction:
+        - db_list:
+            tx: $transaction
+            schema_id: local_security_group
+            filter:
+              security_group_id: "{{ security_group.id }}"
+          register: local_security_groups
+        - blocks:
+          - debug: var=$item
+          - get_config: key="keystone"
+            register: keystone_config
+          - get_openstack_client:
+              auth_url: "{{ item.location.keystone_endpoint }}"
+              user_name: "{{ keystone_config.user_name }}"
+              password: "{{ keystone_config.password }}"
+              version: v2.0
+              tenant_name:  "{{ keystone_config.tenant_name }}"
+            register: client
+          - delete_security_group:
+              contrail_endpoint: "{{ item.location.contrail_endpoint }}"
+              security_group: $security_group
+              client: $client
+          with_items: $local_security_groups
+- define:
+    name: security_group_rule_resource
+    args:
+      security_group_rule: object
+      transaction: object
+      event_type: string
+      db: db
+    body:
+      - when: event_type == "post_create" || event_type == "post_update" || event_type == "post_delete"
+        blocks:
+        - get_config: key="keystone"
+          register: keystone_config
+        - transaction:
+          - db_get:
+              tx: $transaction
+              schema_id: security_group
+              id: "{{ security_group_rule.security_group_id }}"
+            register: security_group
+          - db_list:
+              tx: $transaction
+              schema_id: local_security_group
+              filter:
+                security_group_id: "{{ security_group_rule.security_group_id }}"
+            register: local_security_groups
+          - db_update:
+              tx: $transaction
+              schema_id: local_security_group
+              data:
+                id: "{{ item.id }}"
+                security_group_id: "{{ item.security_group_id }}"
+                status: "UPDATE_IN_PROGRESS"
+            with_items: $local_security_groups
+          - blocks:
+            - get_openstack_client:
+                auth_url: "{{ keystone_config.auth_url }}"
+                user_name: "{{ keystone_config.user_name }}"
+                password: "{{ keystone_config.password }}"
+                version: v2.0
+                tenant_name:  "{{ keystone_config.tenant_name }}"
+              register: client
+            - tenant_name:
+                client: $client
+                transaction: $transaction
+                keystone_endpoint:  "{{ keystone_config.auth_url }}"
+                tenant_id: "{{ security_group.tenant_id }}"
+              register: tenant_name
+            rescue:
+            - vars:
+                tenant_name: "{{ security_group.tenant_id }}"
+        - blocks:
+          - get_openstack_client:
+              auth_url: "{{ item.location.keystone_endpoint }}"
+              user_name: "{{ keystone_config.user_name }}"
+              password: "{{ keystone_config.password }}"
+              version: v2.0
+              tenant_name:  "{{ keystone_config.tenant_name }}"
+            register: client
+          - update_security_group:
+              contrail_endpoint: "{{ item.location.contrail_endpoint }}"
+              security_group: $security_group
+              client: $client
+              tenant_name: "{{ tenant_name }}"
+              db: $db
+          - transaction:
+            - db_update:
+                tx: $transaction
+                schema_id: local_security_group
+                data:
+                  id: "{{ item.id }}"
+                  security_group_id: "{{ item.security_group_id }}"
+                  status: "ACTIVE"
+          with_items: $local_security_groups
+          worker: 10

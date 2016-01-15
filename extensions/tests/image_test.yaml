@@ -1,0 +1,69 @@
+test_suite:
+  before_each:
+  - read_config: path="{{ __dir__ }}/../../gohan.yaml"
+  - command: rm ./test.db
+    rescue: []
+  tests:
+  - name: Test image resource
+    test:
+    - include: ../image.yaml
+    - include: ../util.yaml
+    - gohan_load_schema: src="{{ __dir__ }}/../../schema/schema.yaml"
+    - connect_db: db_type=sqlite3 connection=./test.db
+      register: db
+    - init_db: db_type=sqlite3 connection=./test.db
+    - setup_resources:
+        db: $db
+    - get_config: key="keystone"
+      register: keystone_config
+    - uuid:
+      register: image_id
+    - vars:
+        image:
+          id: "{{ image_id }}"
+          url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+          name: upload_test
+          disk_format: qcow2
+    - transaction:
+        - db_create:
+            tx: $transaction
+            schema_id: image
+            data: $image
+        - image_resource:
+            client: $client
+            image: $image
+            transaction: $transaction
+            event_type: post_create_in_transaction
+    - image_resource:
+        image: $image
+        db: $db
+        event_type: post_create
+    - transaction:
+      - db_list:
+          tx: $transaction
+          schema_id: location
+        register: locations
+    - blocks:
+      - get_config: key="keystone"
+        register: keystone_config
+      - get_openstack_client:
+          auth_url: "{{ item.keystone_endpoint }}"
+          user_name: "{{ keystone_config.user_name }}"
+          password: "{{ keystone_config.password }}"
+          version: v2.0
+          tenant_name:  "{{ keystone_config.tenant_name }}"
+        register: client
+      - openstack_endpoint: client=$client endpoint_type=image region="{{ item.location.region }}"
+        register: url
+      - openstack_get:
+          client: $client
+          url: "{{ url }}/images/{{ image.id }}"
+        retries: 60
+        delay: 3
+      with_items: $locations
+      worker: 10
+    - image_resource:
+        client: $client
+        image: $image
+        db: $db
+        event_type: pre_delete

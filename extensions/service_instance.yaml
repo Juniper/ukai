@@ -1,0 +1,153 @@
+- include: ./tenant.yaml
+- define:
+    name: create_service_instance
+    args:
+      client: object
+      service_instance: object
+      contrail_endpoint: string
+      service_template_name: string
+      tenant_name: string
+    body:
+    - openstack_post:
+        client: $client
+        url: "{{ contrail_endpoint }}/service-instances"
+        data:
+          service-instance:
+            fq_name:
+              - "default-domain"
+              - "{{ tenant_name }}"
+              - "{{ service_instance.name }}"
+            parent_type: "project"
+            uuid: "{{ service_instance.id }}"
+            service_instance_properties:
+              management_virtual_network: ""
+              right_virtual_network: ""
+              scale_out:
+                max_instances: 1
+              left_virtual_network: ""
+              interface_list:
+                -
+                  virtual_network: ""
+                -
+                  virtual_network: ""
+                -
+                  virtual_network: ""
+            display_name: "{{ service_instance.name }}"
+            service_template_refs:
+              -
+                to:
+                  - "default-domain"
+                  - "{{ service_template_name }}"
+- define:
+    name: delete_service_instance
+    args:
+      client: object
+      service_instance: object
+      contrail_endpoint: string
+    body:
+    - openstack_delete:
+        client: $client
+        url: "{{ contrail_endpoint }}/service-instance/{{ service_instance.id }}"
+- define:
+    name: service_instance_resource
+    args:
+      service_instance: object
+      event_type: string
+      db: object
+      transaction: object
+    body:
+    - when: event_type == "post_create_in_transaction"
+      blocks:
+      - db_list:
+          tx: $transaction
+          schema_id: location
+        register: locations
+      - blocks:
+        - uuid:
+          register: local_id
+        - db_create:
+            tx: $transaction
+            schema_id: local_service_instance
+            data:
+              id: "{{ local_id }}"
+              service_instance_id: "{{ service_instance.id }}"
+              location_id: "{{ item.id }}"
+              status: "CREATE_IN_PROGRESS"
+        with_items: $locations
+    - when: event_type == "post_create"
+      blocks:
+      - transaction:
+        - db_list:
+            tx: $transaction
+            schema_id: local_service_instance
+            filter:
+              service_instance_id: "{{ service_instance.id }}"
+          register: local_service_instances
+        - db_get:
+            tx: $transaction
+            schema_id: service_template
+            id: "{{ service_instance.service_template_id }}"
+          register: service_template
+      - blocks:
+        - get_config: key=keystone
+          register: keystone_config
+        - debug: var=$keystone_config
+        - get_openstack_client:
+            auth_url: "{{ item.location.keystone_endpoint }}"
+            user_name: "{{ keystone_config.user_name }}"
+            password: "{{ keystone_config.password }}"
+            version: v2.0
+            tenant_name: "{{ keystone_config.tenant_name }}"
+          register: client
+        - transaction:
+          - blocks:
+            - tenant_name:
+                client: $client
+                transaction: $transaction
+                keystone_endpoint:  $item.location.keystone_endpoint
+                tenant_id: $service_instance.tenant_id
+              register: tenant_name
+            rescue:
+            - vars:
+                tenant_name: $service_instance.tenant_id
+        - debug: var=$tenant_name
+        - create_service_instance:
+            contrail_endpoint: "{{ item.location.contrail_endpoint }}"
+            service_instance: $service_instance
+            service_template_name: "{{ service_template.name }}"
+            tenant_name: $tenant_name
+            client: $client
+        - transaction:
+          - db_update:
+              tx: $transaction
+              schema_id: local_service_instance
+              data:
+                id: "{{ item.id }}"
+                service_instance_id: "{{ item.service_instance_id }}"
+                status: "ACTIVE"
+        with_items: $local_service_instances
+        worker: 1
+    - when: event_type == "pre_delete"
+      transaction:
+      - db_list:
+          tx: $transaction
+          schema_id: local_service_instance
+          filter:
+            service_instance_id: $service_instance.id
+        register: local_service_instances
+      - debug: var=$local_service_instances
+      - blocks:
+        - get_config: key="keystone"
+          register: keystone_config
+        - get_openstack_client:
+            auth_url: "{{ item.location.keystone_endpoint }}"
+            user_name: "{{ keystone_config.user_name }}"
+            password: "{{ keystone_config.password }}"
+            version: v2.0
+            tenant_name:  "{{ keystone_config.tenant_name }}"
+          register: client
+        - delete_service_instance:
+            contrail_endpoint: "{{ item.location.contrail_endpoint }}"
+            service_instance: $service_instance
+            client: $client
+        with_items: $local_service_instances

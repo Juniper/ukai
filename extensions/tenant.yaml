@@ -1,0 +1,33 @@
+- define:
+    name: tenant_name
+    args:
+      client: object
+      keystone_endpoint: string
+      tenant_id: string
+      transaction: object
+    body:
+      - db_list:
+          tx: $transaction
+          schema_id: tenant
+          filter:
+            id: "{{ tenant_id }}"
+        register: tenants
+      - blocks:
+          - openstack_get:
+              client: $client
+              url: "{{ keystone_endpoint }}/tenants/{{tenant_id}}"
+            register: output
+          - vars:
+              tenant_name: "{{output.tenant.name}}"
+          - debug: var=$tenant_name
+          - db_create:
+              tx: $transaction
+              schema_id: tenant
+              data:
+                id: "{{tenant_id}}"
+                name: "{{tenant_name}}"
+        when: "tenants|length == 0"
+        else:
+          - vars:
+              tenant_name: "{{tenants.0.name}}"
+      - return: tenant_name

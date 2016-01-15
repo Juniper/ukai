@@ -1,0 +1,60 @@
+- include: ./id_pool.yaml
+- define:
+    name: associate_route_target
+    args:
+      network: object
+      transaction: object
+    body:
+    - allocate_id:
+        transaction: $transaction
+        name: route_target
+      register: id
+    - fail: msg="no more route targets"
+      when: " id == -1"
+    - uuid:
+      register: association_id
+    - db_create:
+        schema_id: route_target_association
+        tx: $transaction
+        data:
+          id: "{{ association_id }}"
+          route_target: "{{ id }}"
+          network_id: "{{ network.id }}"
+- define:
+    name: deassociate_route_target
+    args:
+      network: object
+      transaction: object
+    body:
+    - db_list:
+        schema_id: route_target_association
+        tx: $transaction
+        filter:
+          network_id: "{{ network.id }}"
+      register: rts
+    - debug:
+    - blocks:
+      - deallocate_id:
+          transaction: $transaction
+          name: route_target
+          id: "{{ item.route_target }}"
+      - db_delete:
+          schema_id: route_target_association
+          tx: $transaction
+          id: "{{ item.id }}"
+      with_items: $rts
+- define:
+    name: route_target_resource
+    args:
+      network: object
+      transaction: object
+      event_type: string
+    body:
+      - when: event_type == "post_create_in_transaction"
+        associate_route_target:
+          transaction: $transaction
+          network: $network
+      - when: event_type == "pre_delete_in_transaction"
+        deassociate_route_target:
+          transaction: $transaction
+          network: $network

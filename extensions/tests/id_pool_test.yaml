@@ -1,0 +1,75 @@
+test_suite:
+  before_each:
+  - read_config: path="{{ __dir__ }}/../../gohan.yaml"
+  - command: rm ./test.db
+    rescue: []
+  tests:
+  - name: ID allocation test
+    test:
+    - include: ../id_pool.yaml
+    - gohan_load_schema: src="{{ __dir__ }}/../../schema/schema.yaml"
+    - connect_db: db_type=sqlite3 connection=./test.db
+      register: db
+    - init_db: db_type=sqlite3 connection=./test.db
+    - transaction:
+        - db_create:
+            tx: $transaction
+            schema_id: id_pool
+            data:
+              id: id1
+              start: 1000
+              end: 1002
+              name: route_target
+              assigned: false
+        - allocate_id:
+            transaction: $transaction
+            name: route_target
+          register: rt
+        - assert: expect=1000 actual="{{rt}}"
+        - allocate_id:
+            name: route_target
+            transaction: $transaction
+          register: rt
+        - assert: expect=1001 actual="{{rt}}"
+        - allocate_id:
+            name: route_target
+            transaction: $transaction
+          register: rt
+        - assert: expect=1002 actual="{{rt}}"
+        - allocate_id:
+            name: route_target
+            transaction: $transaction
+          register: rt
+        - assert: expect=-1 actual="{{rt}}"
+        - db_list:
+            schema_id: id_pool
+            tx: $transaction
+            filter:
+              assigned: true
+          register: result
+        - assert: expect=3 actual="{{ result | length }}"
+        - deallocate_id:
+            transaction: $transaction
+            name: route_target
+            id: 1000
+        - deallocate_id:
+            transaction: $transaction
+            id: 1001
+            name: route_target
+        - deallocate_id:
+            transaction: $transaction
+            id: 1002
+            name: route_target
+        - db_list:
+            schema_id: id_pool
+            tx: $transaction
+            #filter:
+            #  assigned: false
+          register: result
+        - debug: var=$result
+        - assert: expect=3 actual="{{ result | length }}"
+        - allocate_id:
+            transaction: $transaction
+            name: route_target
+          register: rt
+        - assert: expect=1000 actual="{{rt}}"

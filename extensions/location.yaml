@@ -1,0 +1,220 @@
+- include: image.yaml
+- include: security_group.yaml
+- include: service_template.yaml
+- define:
+    name: location_resource
+    args:
+      location: object
+      transaction: object
+      event_type: string
+      db: db
+    body:
+      - when: event_type == "post_create_in_transaction"
+        blocks:
+        - uuid:
+          register: local_sg_id
+        - db_list:
+            tx: $transaction
+            schema_id: security_group
+          register: security_groups
+        - db_create:
+            tx: $transaction
+            schema_id: local_security_group
+            data:
+              id: "{{ local_sg_id }}"
+              security_group_id: "{{ item.id }}"
+              location_id: "{{ location.id }}"
+              status: "CREATE_IN_PROGRESS"
+          with_items: $security_groups
+        - uuid:
+          register: local_image_id
+        - db_list:
+            tx: $transaction
+            schema_id: image
+          register: images
+        - db_create:
+            tx: $transaction
+            schema_id: local_image
+            data:
+              id: "{{ local_sg_id }}"
+              image_id: "{{ item.id }}"
+              location_id: "{{ location.id }}"
+              status: "CREATE_IN_PROGRESS"
+          with_items: $images
+        - uuid:
+          register: local_service_template_id
+        - db_list:
+            tx: $transaction
+            schema_id: service_template
+          register: service_templates
+        - db_create:
+            tx: $transaction
+            schema_id: local_service_template
+            data:
+              id: "{{ local_sg_id }}"
+              service_template_id: "{{ item.id }}"
+              location_id: "{{ location.id }}"
+              status: "CREATE_IN_PROGRESS"
+          with_items: $service_templates
+      - when: event_type == "post_create"
+        blocks:
+        - transaction:
+          - db_list:
+              tx: $transaction
+              schema_id: local_security_group
+              filter:
+                location_id: $location.id
+            register: local_security_groups
+          - db_list:
+              tx: $transaction
+              schema_id: local_image
+              filter:
+                location_id: $location.id
+            register: local_images
+          - db_list:
+              tx: $transaction
+              schema_id: local_service_template
+              filter:
+                location_id: $location.id
+            register: local_service_templates
+        - get_config: key="keystone"
+          register: keystone_config
+        - get_openstack_client:
+            auth_url: "{{ location.keystone_endpoint }}"
+            user_name: "{{ keystone_config.user_name }}"
+            password: "{{ keystone_config.password }}"
+            version: v2.0
+            tenant_name:  "{{ keystone_config.tenant_name }}"
+          register: client
+        - blocks:
+          - debug: var=$item
+          - debug: msg="tenant_id {{ item.security_group }}"
+          - transaction:
+            - tenant_name:
+                client: $client
+                transaction: $transaction
+                keystone_endpoint:  "{{ keystone_config.auth_url }}"
+                tenant_id: "{{ item.security_group.tenant_id }}"
+              register: tenant_name
+              rescue: []
+          - vars:
+              tenant_name: "{{ item.security_group.tenant_id }}"
+            when: tenant_name == null
+          - create_security_group:
+              contrail_endpoint: "{{ location.contrail_endpoint }}"
+              security_group: $item.security_group
+              client: $client
+              tenant_name: "{{ tenant_name }}"
+              db: $db
+          - transaction:
+            - db_update:
+                tx: $transaction
+                schema_id: local_security_group
+                data:
+                  id: "{{ item.id }}"
+                  security_group_id: "{{ item.security_group_id }}"
+                  status: "ACTIVE"
+          with_items: $local_security_groups
+        - blocks:
+          - transaction:
+            - tenant_name:
+                client: $client
+                transaction: $transaction
+                keystone_endpoint:  "{{ keystone_config.auth_url }}"
+                tenant_id: "{{ item.image.tenant_id }}"
+              register: tenant_name
+              rescue: []
+          - vars:
+              tenant_name: "{{ item.image.tenant_id }}"
+            when: tenant_name == null
+          - create_image:
+              region: "{{ location.region }}"
+              image: $item.image
+              client: $client
+          - transaction:
+            - db_update:
+                tx: $transaction
+                schema_id: local_image
+                data:
+                  id: "{{ item.id }}"
+                  image_id: "{{ item.image_id }}"
+                  status: "ACTIVE"
+          with_items: $local_images
+        - blocks:
+          - transaction:
+            - tenant_name:
+                client: $client
+                transaction: $transaction
+                keystone_endpoint:  "{{ keystone_config.auth_url }}"
+                tenant_id: "{{ item.service_template.tenant_id }}"
+              register: tenant_name
+              rescue: []
+            - vars:
+                tenant_name: "{{ item.service_template.tenant_id }}"
+              when: tenant_name == null
+          - transaction:
+            - db_get:
+                tx: $transaction
+                schema_id: image
+                id: "{{ item.service_template.image_id }}"
+              register: image
+          - create_service_template:
+              contrail_endpoint: "{{ location.contrail_endpoint }}"
+              service_template: $item.service_template
+              image_name: "{{ image.name }}"
+              client: $client
+          - transaction:
+            - db_update:
+                tx: $transaction
+                schema_id: local_service_template
+                data:
+                  id: "{{ item.id }}"
+                  service_template_id: "{{ item.service_template_id }}"
+                  status: "ACTIVE"
+          with_items: $local_service_templates
+      - when: event_type == "pre_delete"
+        blocks:
+        - get_config: key="keystone"
+          register: keystone_config
+        - get_openstack_client:
+            auth_url: "{{ location.keystone_endpoint }}"
+            user_name: "{{ keystone_config.user_name }}"
+            password: "{{ keystone_config.password }}"
+            version: v2.0
+            tenant_name:  "{{ keystone_config.tenant_name }}"
+          register: client
+        - transaction:
+          - db_list:
+              tx: $transaction
+              schema_id: local_security_group
+              filter:
+                location_id: $location.id
+            register: local_security_groups
+          - db_list:
+              tx: $transaction
+              schema_id: local_image
+              filter:
+                location_id: $location.id
+            register: local_images
+          - db_list:
+              tx: $transaction
+              schema_id: local_service_template
+              filter:
+                location_id: $location.id
+            register: local_service_templates
+        - delete_security_group:
+              contrail_endpoint: "{{ location.contrail_endpoint }}"
+              security_group: $item.security_group
+              client: $client
+          with_items: $local_security_groups
+        - delete_image:
+            region: "{{ location.region }}"
+            image: $item.image
+            client: $client
+          rescue: []
+          with_items: $local_images
+        - delete_service_template:
+            contrail_endpoint: "{{ location.contrail_endpoint }}"
+            service_template: $item.service_template
+            client: $client
+          with_items: $local_service_templates

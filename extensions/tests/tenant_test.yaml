@@ -1,0 +1,39 @@
+test_suite:
+  before_each:
+  - read_config: path="{{ __dir__ }}/../../gohan.yaml"
+  - command: rm ./test.db
+    rescue: []
+  tests:
+  - name: Test tenant
+    test:
+    - vars:
+        keystone_admin_url: http://10.84.34.96:35357/v2.0
+    - gohan_load_schema: src="{{ __dir__ }}/../../schema/schema.yaml"
+    - connect_db: db_type=sqlite3 connection=./test.db
+      register: db
+    - init_db: db_type=sqlite3 connection=./test.db
+    - transaction:
+      - include: ../tenant.yaml
+      - get_config: key="keystone"
+        register: keystone_config
+      - get_openstack_client:
+          auth_url: "{{ keystone_config.auth_url }}"
+          user_name: "{{ keystone_config.user_name }}"
+          password: "{{ keystone_config.password }}"
+          version: v2.0
+          tenant_name:  "{{ keystone_config.tenant_name }}"
+        register: client
+      - openstack_get:
+          client: $client
+          url: "{{ keystone_admin_url }}/tenants"
+        register: output
+      - with_items: $output.tenants
+        blocks:
+        - tenant_name:
+            client: $client
+            keystone_endpoint: "{{ keystone_admin_url }}"
+            tenant_id: "{{ item.id }}"
+            transaction: $transaction
+          register: tenant_name
+        - debug: msg="{{tenant_name}}"
+        - assert: expect="{{ item.name }}" actual="{{tenant_name}}"

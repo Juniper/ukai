@@ -1,0 +1,842 @@
+policies:
+- action: read
+  effect: allow
+  id: member_schema
+  principal: Member
+  resource:
+    path: /gohan/v0.1/schemas*
+- action: '*'
+  condition:
+  - is_owner
+  effect: allow
+  id: member_policy
+  principal: Member
+  resource:
+    path: /v1.0/networks
+- action: '*'
+  condition:
+  - is_owner
+  effect: allow
+  id: member_policy2
+  principal: Member
+  resource:
+    path: /v1.0/local_networks
+- action: '*'
+  condition:
+  - is_owner
+  effect: allow
+  id: member_policy3
+  principal: Member
+  resource:
+    path: /v1.0/locations
+- action: '*'
+  effect: allow
+  id: admin_statement
+  principal: admin
+  resource:
+    path: .*
+schemas:
+- id: base
+  type: abstract
+  plural: bases
+  prefix: /v1.0
+  description: Base Class
+  schema:
+    properties:
+      id:
+        permission:
+        - create
+        title: ID
+        type: string
+        format: uuid
+        unique: true
+        description: ID
+        view:
+        - detail
+      name:
+        permission:
+        - create
+        title: Name
+        type: string
+        unique: true
+        description: Name
+      tenant_id:
+        description: Tenant ID
+        permission:
+        - create
+        title: Tenant ID
+        type: string
+        unique: false
+        view:
+        - detail
+      description:
+        description: Description
+        permission:
+        - create
+        - update
+        title: Description
+        type: string
+        unique: false
+        view:
+        - create
+        - update
+        - detail
+    propertiesOrder:
+    - id
+    - name
+    - tenant_id
+    - description
+    type: object
+  singular: base
+  metadata:
+    type: tenant
+  title: base
+- id: local_resource
+  type: abstract
+  plural: local_resourcess
+  prefix: /v1.0
+  description: Base Local Resource Class
+  schema:
+    properties:
+      location_id:
+        permission:
+        - create
+        relation: location
+        relation_property: location
+        title: Location ID
+        type: string
+        unique: false
+        description: Location ID
+      status:
+        title: Status
+        type: string
+        unique: false
+        description: status
+    propertiesOrder:
+    - location_id
+    - status
+    type: object
+  singular: local_resource
+  title: Local Resource
+- id: tenant
+  plural: tenants
+  prefix: /v1.0
+  description: Tenant
+  metadata:
+    type: admin
+  extends:
+  - base
+  schema:
+    properties: {}
+    propertiesOrder: []
+    type: object
+  singular: tenant
+  title: Tenant
+- id: route_target_association
+  plural: route_target_associations
+  prefix: /v1.0
+  description: Route Targets
+  metadata:
+    type: admin
+  schema:
+    properties:
+      id:
+        permission:
+        - create
+        title: ID
+        type: string
+        format: uuid
+        unique: true
+        description: ID
+        view:
+        - detail
+      route_target:
+        permission:
+        - create
+        title: Route Target
+        type: integer
+        unique: false
+        description: route_target
+      network_id:
+        permission:
+        - create
+        relation: network
+        title: Network ID
+        type: string
+        unique: false
+        description: network_id
+    propertiesOrder:
+    - id
+    - network_id
+    - route_target
+    type: object
+  singular: route_target_association
+  title: Route Target Association
+- id: id_pool
+  plural: id_pools
+  prefix: /v1.0
+  description: id pool
+  metadata:
+    type: admin
+  schema:
+    properties:
+      id:
+        permission:
+        - create
+        title: ID
+        type: string
+        format: uuid
+        unique: true
+        description: ID
+        view:
+        - detail
+      name:
+        permission:
+        - create
+        title: name
+        type: string
+        description: Name
+      start:
+        permission:
+        - create
+        title: start
+        type: integer
+        unique: false
+        description: start
+      end:
+        permission:
+        - create
+        title: end
+        type: integer
+        unique: false
+        description: end
+      assigned:
+        permission:
+        - create
+        title: assinged
+        type: boolean
+        unique: false
+        description: assigned
+    propertiesOrder:
+    - id
+    - name
+    - start
+    - end
+    - assigned
+    type: object
+  singular: id_pool
+  title: ID Pool
+- id: location
+  plural: locations
+  prefix: /v1.0
+  description: Location
+  extends:
+  - base
+  schema:
+    properties:
+      keystone_endpoint:
+        permission:
+        - create
+        - update
+        title: Keystone endpoint
+        type: string
+        unique: false
+        description: Keystone endpoint
+        view:
+        - create
+        - update
+        - detail
+      contrail_endpoint:
+        permission:
+        - create
+        - update
+        title: Contrail endpoint
+        type: string
+        unique: false
+        description: Contrail endpoint
+        view:
+        - create
+        - update
+        - detail
+      webui:
+        permission:
+        - create
+        - update
+        title: Webui
+        format: uri
+        type: string
+        unique: false
+        description: WebUI link
+      contrail_webui:
+        permission:
+        - create
+        - update
+        title: Contrail Webui
+        type: string
+        unique: false
+        format: uri
+        description: Contrail WebUI link
+      region:
+        permission:
+        - create
+        - update
+        title: Region
+        type: string
+        unique: false
+        description: Region
+    propertiesOrder:
+    - keystone_endpoint
+    - contrail_endpoint
+    - webui
+    - contrail_webui
+    - region
+    type: object
+  singular: location
+  title: Location
+- id: network
+  plural: networks
+  prefix: /v1.0
+  description: Network
+  extends:
+  - base
+  schema:
+    properties: {}
+    propertiesOrder: []
+    type: object
+  singular: network
+  title: Network
+- id: local_network
+  plural: local_networks
+  prefix: /v1.0
+  parent: network
+  description: Local Network
+  extends:
+  - base
+  - local_resource
+  schema:
+    properties:
+      cidr:
+        permission:
+        - create
+        title: Cidr
+        format: cidr
+        type: string
+        unique: false
+        description: cidr
+    propertiesOrder:
+    - cidr
+    type: object
+  singular: local_network
+  title: Local Network
+- id: image
+  plural: images
+  prefix: /v1.0
+  description: image
+  extends:
+  - base
+  schema:
+    properties:
+      url:
+        permission:
+        - create
+        title: URL
+        type: string
+        unique: true
+        description: URL
+      disk_format:
+        permission:
+        - create
+        title: Disk format
+        type: string
+        unique: false
+        description: Disk format
+    propertiesOrder:
+    - url
+    - disk_format
+    type: object
+  singular: image
+  title: Image
+- id: local_image
+  plural: local_images
+  prefix: /v1.0
+  description: local_image
+  parent: image
+  extends:
+  - base
+  - local_resource
+  schema:
+    properties:
+      image_id:
+        type: string
+        description: parent object
+        title: Parent
+        unique: false
+        relation: image
+        relation_property: image
+        permission:
+        - create
+    propertiesOrder:
+    - image_id
+    type: object
+  singular: local_image
+  title: Local Image
+- id: server
+  plural: servers
+  prefix: /v1.0
+  description: server
+  extends:
+  - base
+  schema:
+    properties:
+      image_id:
+        permission:
+        - create
+        title: ImageID
+        type: string
+        relation: image
+        relation_property: image
+        description: ImageID
+      network_id:
+        permission:
+        - create
+        title: Network ID
+        type: string
+        relation: network
+        relation_property: network
+        description: NetworkID
+      security_group_id:
+        permission:
+        - create
+        title: Security Group ID
+        type: string
+        relation: security_group
+        relation_property: security_group
+        description: Security Group
+    propertiesOrder:
+    - image_id
+    - network_id
+    - security_group_id
+    type: object
+  singular: server
+  title: Server
+- id: local_server
+  plural: local_servers
+  prefix: /v1.0
+  description: Local server
+  parent: server
+  extends:
+  - base
+  - local_resource
+  schema:
+    properties:
+      instance_id:
+        permission:
+        - create
+        title: Instance ID
+        type: string
+        unique: true
+        description: Instance ID
+      console_url:
+        title: Console
+        permission:
+        - create
+        type: string
+        format: uri
+        unique: false
+        description: link for console
+    propertiesOrder:
+    - instance_id
+    - console_url
+    type: object
+  singular: local_server
+  title: Local Server
+- id: network_policy
+  plural: network_policies
+  prefix: /v1.0
+  description: Network Policy
+  extends:
+  - base
+  schema:
+    properties:
+      source_network_id:
+        permission:
+        - create
+        title: Source Network ID
+        type: string
+        unique: false
+        relation: network
+ #       relation_property: source_network
+        description: Source Network
+      dest_network_id:
+        permission:
+        - create
+        title: Destination network ID
+        type: string
+        unique: false
+        relation: network
+#        relation_property: dest_network
+        description: Destination Network ID
+      entries:
+        title: Rules
+        description: Rules
+        view:
+        - create
+        - update
+        - detail
+        permission:
+        - create
+        - update
+        type: array
+        items:
+          type: object
+          propertiesOrder:
+          - protocol
+          - src_addresses
+          - src_ports
+          - direction
+          - dst_addresses
+          - dst_ports
+          - action_list
+          - rule_sequence
+          properties:
+            protocol:
+              title: Protocol
+              type: string
+              unique: false
+              enum:
+              - tcp
+              - udp
+              - icmp
+              - any
+              description: Protocol
+            src_addresses:
+              title: Source Addresses
+              type: array
+              items:
+                type: object
+                properties:
+                  virtual_network:
+                    title: Virtual Network
+                    type: string
+            src_ports:
+              title: Source Ports
+              type: array
+              items:
+                type: object
+                properties:
+                  start_port:
+                    title: Start Port
+                    type: integer
+                    default: -1
+                  end_port:
+                    title: End Port
+                    type: integer
+                    default: -1
+            dst_addresses:
+              title: Destination Addresses
+              type: array
+              items:
+                type: object
+                properties:
+                  virtual_network:
+                    title: Virtual Network
+                    type: string
+            dst_ports:
+              title: Destination Ports
+              type: array
+              items:
+                type: object
+                properties:
+                  start_port:
+                    title: Start Port
+                    type: integer
+                    default: -1
+                  end_port:
+                    title: End Port
+                    type: integer
+                    default: -1
+            rule_sequence:
+              title: Rule Sequence
+              type: object
+              properties:
+                major:
+                  title: Major
+                  type: integer
+                  default: -1
+                minor:
+                  title: Minor
+                  type: integer
+                  default: -1
+            direction:
+              title: Direction
+              type: string
+              unique: false
+              enum:
+              - ">"
+              - "<>"
+              description: Direction
+            action_list:
+              title: Action
+              type: object
+              properties:
+                simple_action:
+                  title: Simple Action
+                  type: string
+                  enum:
+                  - pass
+                  - deny
+                apply_service:
+                  title: Service List
+                  type: array
+                  items:
+                    type: string
+    propertiesOrder:
+    - source_network_id
+    - dest_network_id
+    - entries
+    type: object
+  singular: network_policy
+  title: Network Policy
+- id: local_network_policy
+  plural: local_network_policies
+  prefix: /v1.0
+  description: Local Network Policy
+  parent: network_policy
+  extends:
+  - base
+  - local_resource
+  schema:
+    properties: {}
+    propertiesOrder: []
+    type: object
+  singular: local_network_policy
+  title: Local Network Policy
+- id: security_group
+  plural: security_groups
+  prefix: /v1.0
+  description: Security Group
+  extends:
+  - base
+  schema:
+    properties:
+      contrail_id:
+        title: Contrail ID
+        type: integer
+        unique: false
+        description: security group ID used in contrail
+        view:
+        - detail
+    propertiesOrder:
+    - contrail_id
+    type: object
+  singular: security_group
+  title: Security Group
+- id: local_security_group
+  plural: local_security_groups
+  prefix: /v1.0
+  description: Local Security Group
+  parent: security_group
+  extends:
+  - base
+  - local_resource
+  schema:
+    properties:
+      security_group_id:
+        type: string
+        description: parent object
+        title: Parent
+        unique: false
+        relation: security_group
+        relation_property: security_group
+        permission:
+        - create
+    propertiesOrder:
+    - security_group_id
+    type: object
+  singular: local_security_group
+  title: Local Security Group
+- id: security_group_rule
+  plural: security_group_rules
+  prefix: /v1.0
+  parent: security_group
+  description: Security Group Rule
+  extends:
+  - base
+  schema:
+    properties:
+      ethertype:
+        permission:
+        - create
+        title: EtherType
+        type: string
+        unique: false
+        enum:
+        - IPv4
+        - IPv6
+        description: EtherType
+      protocol:
+        permission:
+        - create
+        title: Protocol
+        type: string
+        unique: false
+        enum:
+        - tcp
+        - udp
+        - icmp
+        - any
+        - ""
+        description: Protocol
+      port_range_max:
+        permission:
+        - create
+        title: Port Range Max
+        type: integer
+        unique: false
+        description: Port Range Max
+      port_range_min:
+        permission:
+        - create
+        title: Port Range Min
+        type: integer
+        unique: false
+        description: Port Range Min
+      direction:
+         permission:
+         - create
+         title: Direction
+         type: string
+         unique: false
+         enum:
+         - egress
+         - ingress
+         description: Direction
+      remote_group_id:
+        permission:
+        - create
+        title: Remote Group ID
+        type: string
+        unique: false
+        description: Remote Group ID
+      remote_ip_prefix:
+        permission:
+        - create
+        title: Remote IP Prefix
+        type: string
+        unique: false
+        description: Remote IP Prefix
+    propertiesOrder:
+    - direction
+    - ethertype
+    - protocol
+    - port_range_min
+    - port_range_max
+    - remote_group_id
+    - remote_ip_prefix
+    type: object
+  singular: security_group_rule
+  title: Security Group Rules
+- id: service_template
+  plural: service_templates
+  prefix: /v1.0
+  description: service_template
+  extends:
+  - base
+  schema:
+    properties:
+      image_id:
+        permission:
+        - create
+        title: ImageID
+        type: string
+        relation: image
+        relation_property: image
+        description: ImageID
+      service_mode:
+        permission:
+        - create
+        title: Service Mode
+        type: string
+        enum:
+        - transparent
+        - in_network
+        - in_network_nat
+        description: Service Mode
+      flavor:
+        permission:
+        - create
+        title: Flavor
+        type: string
+        enum:
+        - m1.tiny
+        - m1.small
+        - m1.medium
+        - m1.large
+        - m1.xlarge
+        description: Flavor
+    propertiesOrder:
+    - image_id
+    - service_mode
+    - flavor
+    type: object
+  singular: service_template
+  title: Service Template
+- id: local_service_template
+  plural: local_service_templates
+  prefix: /v1.0
+  description: local_service_templates
+  parent: service_template
+  extends:
+  - base
+  - local_resource
+  schema:
+    properties:
+      service_template_id:
+        type: string
+        description: parent object
+        title: Parent
+        unique: false
+        relation: service_template
+        relation_property: service_template
+        permission:
+        - create
+    propertiesOrder:
+    - service_template_id
+    type: object
+  singular: local_service_template
+  title: Local Service Template
+- id: service_instance
+  plural: service_instances
+  prefix: /v1.0
+  description: service_instances
+  extends:
+  - base
+  schema:
+    properties:
+      service_template_id:
+        permission:
+        - create
+        title: Service Template
+        type: string
+        relation: service_template
+        relation_property: service_template
+        description: Service Template
+    propertiesOrder:
+    - service_template_id
+    type: object
+  singular: service_instances
+  title: Service Instance
+- id: local_service_instance
+  plural: local_service_instance
+  prefix: /v1.0
+  description: local_service_instance
+  parent: service_instance
+  extends:
+  - base
+  - local_resource
+  schema:
+    properties: {}
+    propertiesOrder: []
+    type: object
+  singular: local_service_instance
+  title: Local Service Instance
