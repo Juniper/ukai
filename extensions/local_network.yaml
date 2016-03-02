@@ -1,32 +1,132 @@
 - include: ./tenant.yaml
+- include: ./network_policy.yaml
+- include: ./server.yaml
+- define:
+    name: create_local_resources
+    args:
+      local_network: object
+      db: object
+      client: object
+    body:
+    - transaction:
+      - db_column:
+          schema_id: local_network_policy
+          join: true
+        register: local_network_policy_colmuns
+      - db_query:
+          tx: $transaction
+          schema_id: local_network_policy
+          sql: |
+             select {{ local_network_policy_colmuns }}
+                 from local_network_policys
+                  left join network_policys
+                    on network_policys.id == local_network_policys.network_policy_id
+                  left join locations
+                    on locations.id == local_network_policys.location_id
+                 where
+                   location_id == ? and
+                   status == "CREATE_IN_PROGRESS" and
+                   (network_policys.source_network_id == ? or network_policys.dest_network_id == ?)
+          arguments:
+          - $local_network.location_id
+          - $local_network.network_id
+          - $local_network.network_id
+        register: local_network_policies
+    - blocks:
+      - blocks:
+        - create_network_policy:
+            client: $client
+            network_policy: $item.network_policy
+            location: $item.location
+            db: $db
+        - transaction:
+          - db_update:
+              tx: $transaction
+              schema_id: local_network_policy
+              data:
+                id: "{{ item.id }}"
+                network_policy_id: "{{ item.network_policy_id }}"
+                status: "ACTIVE"
+        rescue:
+        - debug: msg="network policy creation failed"
+      with_items: $local_network_policies
+    - transaction:
+      - db_column:
+          schema_id: local_server
+          join: true
+        register: local_server_colmuns
+      - db_query:
+          tx: $transaction
+          schema_id: local_server
+          sql: |
+             select {{ local_server_colmuns }}
+                 from local_servers
+                  left join servers
+                    on servers.id == local_servers.server_id
+                  left join locations
+                    on locations.id == local_servers.location_id
+                  left join networks
+                    on servers.network_id == networks.id
+                  left join security_groups
+                    on servers.security_group_id == security_groups.id
+                  left join images
+                    on servers.image_id == images.id
+                 where
+                   status == "CREATE_IN_PROGRESS" and
+                   servers.network_id == ?
+          arguments:
+          - $local_network.network_id
+        register: local_servers
+    - background:
+      - blocks:
+        - debug: var=$item
+        - create_server:
+            client: $client
+            server: $item.server
+            region: $item.location.region
+            security_group_name: $item.server.security_group.name
+          register: server_created
+        - transaction:
+          - db_update:
+              tx: $transaction
+              schema_id: local_server
+              data:
+                id: "{{ item.id }}"
+                server_id: "{{ item.server_id }}"
+                instance_id: "{{ server_created.id }}"
+                status: "ACTIVE"
+        rescue:
+        - debug: msg="failed to create server {{ error }}"
+        with_items: $local_servers
+        workers: 10
 - define:
     name: create_local_network
     args:
       local_network: object
-      transaction: object
+      db: object
     body:
-    - db_list:
-        tx: $transaction
-        schema_id: route_target_association
-        filter:
-          network_id: "{{ local_network.network_id }}"
-      register: route_targets
-    - db_get:
-        tx: $transaction
-        schema_id: network
-        id: $local_network.network_id
-      register: network
-    - db_list:
-        tx: $transaction
-        schema_id: location
-        filter:
-          id: "{{ local_network.location_id }}"
-      register: locations
     - blocks:
+      - transaction:
+        - db_list:
+            tx: $transaction
+            schema_id: route_target_association
+            filter:
+              network_id: "{{ local_network.network_id }}"
+          register: route_targets
+        - db_get:
+            tx: $transaction
+            schema_id: network
+            id: $local_network.network_id
+          register: network
+        - db_get:
+            tx: $transaction
+            schema_id: location
+            id: "{{ local_network.location_id }}"
+          register: location
       - get_config: key="keystone"
         register: keystone_config
       - get_openstack_client:
-          auth_url: "{{ item.keystone_endpoint }}"
+          auth_url: "{{ location.keystone_endpoint }}"
           user_name: "{{ keystone_config.user_name }}"
           password: "{{ keystone_config.password }}"
           version: v2.0
@@ -36,19 +136,19 @@
           value: $local_network.cidr
           sep: "/"
         register: cidrs
-      - blocks:
+      - transaction:
         - tenant_name:
             client: $client
             transaction: $transaction
-            keystone_endpoint:  $item.keystone_endpoint
+            keystone_endpoint:  $location.keystone_endpoint
             tenant_id: $local_network.tenant_id
           register: tenant_name
-        rescue:
-        - vars:
-            tenant_name: $local_network.tenant_id
+          rescue:
+          - vars:
+              tenant_name: $local_network.tenant_id
       - openstack_post:
           client: $client
-          url: "{{ item.contrail_endpoint }}/virtual-networks"
+          url: "{{ location.contrail_endpoint }}/virtual-networks"
           data:
             virtual-network:
               uuid: "{{ local_network.network_id }}"
@@ -65,58 +165,57 @@
                       ip_prefix: "{{ cidrs.0 }}"
                       ip_prefix_len: "{{ cidrs.1 }}"
                 to:
-                  - "default-domain"
-                  - "default-project"
-                  - "default-network-ipam"
+                    - "default-domain"
+                    - "default-project"
+                    - "default-network-ipam"
               route_target_list:
                 route_target:
                 - "target:1000:{{ route_targets.0.route_target }}"
-      - db_update:
-          tx: $transaction
-          schema_id: local_network
-          data:
-            id: "{{ local_network.id }}"
-            network_id: "{{ local_network.network_id }}"
-            status: "ACTIVE"
-      #TODO: create local policy & attach it
-      rescue:
-      - debug: msg="failed create local_network {{ error }}"
-      - db_update:
-          tx: $transaction
-          schema_id: local_network
-          data:
-            id: "{{ local_network.id }}"
-            network_id: "{{ local_network.network_id }}"
-            status: "ERROR"
-      with_items: $locations
+      - transaction:
+        - db_update:
+            tx: $transaction
+            schema_id: local_network
+            data:
+              id: "{{ local_network.id }}"
+              network_id: "{{ local_network.network_id }}"
+              status: "ACTIVE"
+      - create_local_resources:
+          db: $db
+          local_network: $local_network
+          client: $client
+    rescue:
+    - debug: msg="failed create local_network {{ error }}"
+    - db_update:
+        tx: $transaction
+        schema_id: local_network
+        data:
+          id: "{{ local_network.id }}"
+          network_id: "{{ local_network.network_id }}"
+          status: "ERROR"
 - define:
     name: delete_local_network
     args:
       local_network: object
-      transaction: object
+      db: object
     body:
-    - db_list:
-        tx: $transaction
-        schema_id: location
-        filter:
+    - transaction:
+      - db_get:
+          tx: $transaction
+          schema_id: location
           id: "{{local_network.location_id}}"
-      register: locations
-    - blocks:
-      - get_config: key="keystone"
-        register: keystone_config
-      - debug: var=$keystone_config
-      - get_openstack_client:
-          auth_url: "{{ item.keystone_endpoint }}"
-          user_name: "{{ keystone_config.user_name }}"
-          password: "{{ keystone_config.password }}"
-          version: v2.0
-          tenant_name:  "{{ keystone_config.tenant_name }}"
-        register: client
-      - openstack_delete:
-          client: $client
-          url: "{{ item.contrail_endpoint }}/virtual-network/{{ local_network.network_id }}"
-      with_items: $locations
-      worker: 10
+        register: location
+    - get_config: key="keystone"
+      register: keystone_config
+    - get_openstack_client:
+        auth_url: "{{ location.keystone_endpoint }}"
+        user_name: "{{ keystone_config.user_name }}"
+        password: "{{ keystone_config.password }}"
+        version: v2.0
+        tenant_name:  "{{ keystone_config.tenant_name }}"
+      register: client
+    - openstack_delete:
+        client: $client
+        url: "{{ location.contrail_endpoint }}/virtual-network/{{ local_network.network_id }}"
 - define:
     name: local_network_resource
     args:
@@ -125,15 +224,11 @@
       event_type: string
       db: object
     body:
-        #TODO create local policy in transaction../location.yaml
-        - when: event_type == "post_create"
-          transaction:
-          - debug: msg="in_transaction"
-          - create_local_network:
-              transaction: $transaction
-              local_network: $local_network
-        - when: event_type == "pre_delete"
-          transaction:
-          - delete_local_network:
-              transaction: $transaction
-              local_network: $local_network
+    - when: event_type == "post_create"
+      create_local_network:
+        db: $db
+        local_network: $local_network
+    - when: event_type == "pre_delete"
+      delete_local_network:
+        db: $db
+        local_network: $local_network

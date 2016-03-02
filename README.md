@@ -95,9 +95,10 @@ Resources Status
 - [x] ID pool
 - [x] Network
   - [x] local network
-    - [ ] local_server
+    - [x] local_server
     - [ ] local_service_instance
-    - [ ] local_network_policy
+    - [x] local_network_policy
+    - [ ] update local_network policy status when local network get deleted
   - [ ] global subnet & IPAM
   - [x] RT pool management
 - [ ] Port

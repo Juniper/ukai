@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   #
 
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "storax/ubuntu-14.04.2-server-amd64"
   config.vm.provider "vmware_fusion" do |v, override|
       override.vm.box_url = "https://oss-binaries.phusionpassenger.com/vagrant/boxes/latest/ubuntu-14.04-amd64-vmwarefusion.box"
   end
@@ -24,35 +24,33 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # single node Contrail with openstack Node
   #
   config.vm.define "contrail1", primary: true do |contrail|
-
+    contrail.vm.network "private_network", ip: "192.168.10.100"
     contrail.vm.provider "virtualbox" do |v|
       v.memory = 8096
-      v.cpus = 2
+      v.cpus = 4
     end
-    
+
     contrail.vm.provider "vmware_fusion" do |vf|
         vf.vmx["numvcpus"] = "4"
         vf.vmx["memsize"] = "8096"
         vf.vmx["vhv.enable"] = "TRUE"
     end
-    contrail.vm.network "private_network", ip: "192.168.100.11"
-   
   end
-  
-  config.vm.define "contrail2", primary: true do |contrail|
 
-    contrail.vm.provider "virtualbox" do |v|
-      v.memory = 8096
-      v.cpus = 2
-    end
-    
-    contrail.vm.provider "vmware_fusion" do |vf|
-        vf.vmx["numvcpus"] = "4"
-        vf.vmx["memsize"] = "8096"
-        vf.vmx["vhv.enable"] = "TRUE"
-    end
-    contrail.vm.network "private_network", ip: "192.168.100.12"
-    
-  end
+#  config.vm.define "contrail2", primary: true do |contrail|
+#
+#    contrail.vm.provider "virtualbox" do |v|
+#      v.memory = 8096
+#      v.cpus = 2
+#    end
+#
+#    contrail.vm.provider "vmware_fusion" do |vf|
+#        vf.vmx["numvcpus"] = "4"
+#        vf.vmx["memsize"] = "8096"
+#        vf.vmx["vhv.enable"] = "TRUE"
+#    end
+#    contrail.vm.network "private_network", ip: "192.168.100.12"
+#
+#  end
 
 end

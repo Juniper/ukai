@@ -104,7 +104,6 @@
               -
                 end_port: 65535
                 start_port: 0
-      - debug: var=$value
       - append:
           list: $rules
           value: $value
@@ -288,8 +287,6 @@
             - vars:
                 tenant_name: "{{ security_group.tenant_id }}"
         - blocks:
-          - debug: var=$item
-          - debug:
           - get_openstack_client:
               auth_url: "{{ item.location.keystone_endpoint }}"
               user_name: "{{ keystone_config.user_name }}"

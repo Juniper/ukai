@@ -444,6 +444,15 @@ schemas:
         format: uri
         unique: false
         description: link for console
+      server_id:
+        type: string
+        description: parent object
+        title: Parent
+        unique: false
+        relation: server
+        relation_property: server
+        permission:
+        - create
     propertiesOrder:
     - instance_id
     - console_url
@@ -606,7 +615,16 @@ schemas:
   - base
   - local_resource
   schema:
-    properties: {}
+    properties:
+      network_policy_id:
+        type: string
+        description: parent object
+        title: Parent
+        unique: false
+        relation: network_policy
+        relation_property: network_policy
+        permission:
+        - create
     propertiesOrder: []
     type: object
   singular: local_network_policy

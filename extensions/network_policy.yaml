@@ -5,28 +5,29 @@
       client: object
       network_policy: object
       location: object
-      transaction: transaction
+      db: db
     body:
-    - blocks:
-      - tenant_name:
-          client: $client
-          transaction: $transaction
-          keystone_endpoint:  "{{ location.keystone_endpoint }}"
-          tenant_id: "{{ network_policy.tenant_id }}"
-        register: tenant_name
-      rescue:
-      - vars:
-          tenant_name: "{{ network_policy.tenant_id }}"
-    - db_get:
-        tx: $transaction
-        schema_id: network
-        id: "{{ network_policy.source_network_id }}"
-      register: source_network
-    - db_get:
-        tx: $transaction
-        schema_id: network
-        id: "{{ network_policy.dest_network_id }}"
-      register: dest_network
+    - transaction:
+      - blocks:
+        - tenant_name:
+            client: $client
+            transaction: $transaction
+            keystone_endpoint:  "{{ location.keystone_endpoint }}"
+            tenant_id: "{{ network_policy.tenant_id }}"
+          register: tenant_name
+        rescue:
+        - vars:
+            tenant_name: "{{ network_policy.tenant_id }}"
+      - db_get:
+          tx: $transaction
+          schema_id: network
+          id: "{{ network_policy.source_network_id }}"
+        register: source_network
+      - db_get:
+          tx: $transaction
+          schema_id: network
+          id: "{{ network_policy.dest_network_id }}"
+        register: dest_network
     - openstack_post:
         client: $client
         url: "{{ location.contrail_endpoint }}/network-policys"
@@ -40,6 +41,7 @@
             - "{{ network_policy.id }}"
             network_policy_entries:
               policy_rule: $network_policy.entries
+      rescue: []
     - openstack_put:
         client: $client
         url: "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.source_network_id }}"
@@ -139,13 +141,13 @@
             tenant_name:  "{{ keystone_config.tenant_name }}"
           register: client
         - debug: msg="create simple policy"
+        - create_network_policy:
+            region: "{{ item.location.region }}"
+            network_policy: $network_policy
+            location: $item.location
+            db: $db
+            client: $client
         - transaction:
-          - create_network_policy:
-              region: "{{ item.location.region }}"
-              network_policy: $network_policy
-              location: $item.location
-              transaction: $transaction
-              client: $client
           - db_update:
               tx: $transaction
               schema_id: local_network_policy
@@ -153,6 +155,7 @@
                 id: "{{ item.id }}"
                 network_policy_id: "{{ item.network_policy_id }}"
                 status: "ACTIVE"
+        rescue: []
         with_items: $local_network_policies
     - when: event_type == "pre_delete"
       blocks:

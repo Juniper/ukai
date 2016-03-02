@@ -34,7 +34,7 @@ document_root: "."
 keystone:
     use_keystone: true
     fake: false
-    auth_url: "http://10.84.34.96:35357/v2.0"
+    auth_url: "http://10.84.34.137:35357/v2.0"
     user_name: "admin"
     tenant_name: "admin"
     password: "secret123"

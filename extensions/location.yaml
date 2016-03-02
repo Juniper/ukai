@@ -11,53 +11,104 @@
     body:
       - when: event_type == "post_create_in_transaction"
         blocks:
-        - uuid:
-          register: local_sg_id
         - db_list:
             tx: $transaction
             schema_id: security_group
           register: security_groups
-        - db_create:
-            tx: $transaction
-            schema_id: local_security_group
-            data:
-              id: "{{ local_sg_id }}"
-              security_group_id: "{{ item.id }}"
-              location_id: "{{ location.id }}"
-              status: "CREATE_IN_PROGRESS"
+        - blocks:
+          - uuid:
+            register: local_sg_id
+          - db_create:
+              tx: $transaction
+              schema_id: local_security_group
+              data:
+                id: "{{ local_sg_id }}"
+                security_group_id: "{{ item.id }}"
+                location_id: "{{ location.id }}"
+                status: "CREATE_IN_PROGRESS"
           with_items: $security_groups
-        - uuid:
-          register: local_image_id
         - db_list:
             tx: $transaction
             schema_id: image
           register: images
-        - db_create:
-            tx: $transaction
-            schema_id: local_image
-            data:
-              id: "{{ local_sg_id }}"
-              image_id: "{{ item.id }}"
-              location_id: "{{ location.id }}"
-              status: "CREATE_IN_PROGRESS"
+        - blocks:
+          - uuid:
+            register: local_image_id
+          - db_create:
+              tx: $transaction
+              schema_id: local_image
+              data:
+                id: "{{ local_image_id }}"
+                image_id: "{{ item.id }}"
+                location_id: "{{ location.id }}"
+                status: "CREATE_IN_PROGRESS"
           with_items: $images
-        - uuid:
-          register: local_service_template_id
         - db_list:
             tx: $transaction
             schema_id: service_template
           register: service_templates
-        - db_create:
-            tx: $transaction
-            schema_id: local_service_template
-            data:
-              id: "{{ local_sg_id }}"
-              service_template_id: "{{ item.id }}"
-              location_id: "{{ location.id }}"
-              status: "CREATE_IN_PROGRESS"
+        - blocks:
+          - uuid:
+            register: local_service_template_id
+          - db_create:
+              tx: $transaction
+              schema_id: local_service_template
+              data:
+                id: "{{ local_service_template_id }}"
+                service_template_id: "{{ item.id }}"
+                location_id: "{{ location.id }}"
+                status: "CREATE_IN_PROGRESS"
           with_items: $service_templates
+        - db_list:
+            tx: $transaction
+            schema_id: network_policy
+          register: network_policies
+        - blocks:
+          - uuid:
+            register: local_network_policy_id
+          - db_create:
+              tx: $transaction
+              schema_id: local_network_policy
+              data:
+                id: "{{ local_network_policy_id }}"
+                network_policy_id: "{{ item.id }}"
+                location_id: "{{ location.id }}"
+                status: "CREATE_IN_PROGRESS"
+          with_items: $network_policies
+        - db_list:
+            tx: $transaction
+            schema_id: server
+          register: servers
+        - blocks:
+          - uuid:
+            register: local_server_id
+          - db_create:
+              tx: $transaction
+              schema_id: local_server
+              data:
+                id: "{{ local_server_id }}"
+                server_id: "{{ item.id }}"
+                location_id: "{{ location.id }}"
+                status: "CREATE_IN_PROGRESS"
+          with_items: $servers
+        - db_list:
+            tx: $transaction
+            schema_id: service_instance
+          register: service_instances
+        - blocks:
+          - uuid:
+            register: local_service_instance_id
+          - db_create:
+              tx: $transaction
+              schema_id: local_service_instance
+              data:
+                id: "{{ local_service_instance_id }}"
+                service_instance_id: "{{ item.id }}"
+                location_id: "{{ location.id }}"
+                status: "CREATE_IN_PROGRESS"
+          with_items: $service_instances
       - when: event_type == "post_create"
-        blocks:
+        background:
         - transaction:
           - db_list:
               tx: $transaction

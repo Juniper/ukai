@@ -1,9 +1,10 @@
 - hosts: all
   sudo: yes
-  remote_user: ubuntu
+  remote_user: nati_ueno
   vars:
-      user: ubuntu
-      contrail_package: contrail-install-packages_2.23-119~kilo_all.deb
+      user: nati_ueno
+#      contrail_package: contrail-install-packages_2.23-119~kilo_all.deb
+      contrail_package: contrail-install-packages_3.0.0.0-2717-kilo_all.deb
   tasks:
       - authorized_key: user="{{user}}" key=https://github.com/nati.keys
       - name: copy contrail package
@@ -27,7 +28,7 @@
       - copy: src=files/ntp.conf dest=/etc/ntp.conf
       - service: name=ntp state=restarted
       - template: src=templates/testbed_single.py.j2 dest=/opt/contrail/utils/fabfile/testbeds/testbed.py
-      - command: fab install_contrail
+      - command: fab install_contrail:reboot='False'
         args:
           chdir: /opt/contrail/utils
       - command: fab setup_all:reboot='False'

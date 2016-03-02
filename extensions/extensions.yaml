@@ -132,7 +132,7 @@ extensions:
   code: |
     tasks:
     - include: ./location.yaml
-    - location:
+    - location_resource:
         location: $resource
         event_type: $event_type
         db: $db
