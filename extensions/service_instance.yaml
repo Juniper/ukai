@@ -19,19 +19,7 @@
               - "{{ service_instance.name }}"
             parent_type: "project"
             uuid: "{{ service_instance.id }}"
-            service_instance_properties:
-              management_virtual_network: ""
-              right_virtual_network: ""
-              scale_out:
-                max_instances: 1
-              left_virtual_network: ""
-              interface_list:
-                -
-                  virtual_network: ""
-                -
-                  virtual_network: ""
-                -
-                  virtual_network: ""
+            service_instance_properties: $service_instance.service_instance_properties
             display_name: "{{ service_instance.name }}"
             service_template_refs:
               -

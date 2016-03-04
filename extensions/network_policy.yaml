@@ -85,12 +85,14 @@
         data:
           virtual-network:
             network_policy_refs: []
+      rescue: []
     - openstack_put:
         client: $client
         url: "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.dest_network_id }}"
         data:
           virtual-network:
             network_policy_refs: []
+      rescue: []
     - openstack_delete:
         client: $client
         url: "{{ location.contrail_endpoint }}/network-policy/{{ network_policy.id }}"

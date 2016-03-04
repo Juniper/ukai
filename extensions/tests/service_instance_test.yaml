@@ -42,6 +42,19 @@ test_suite:
           name: test_service_template
           service_template_id: "{{ service_template_id }}"
           tenant_id: admin
+          service_instance_properties:
+            management_virtual_network: ""
+            right_virtual_network: ""
+            scale_out:
+              max_instances: 1
+            left_virtual_network: ""
+            interface_list:
+              -
+                virtual_network: ""
+              -
+                virtual_network: ""
+              -
+                virtual_network: ""
     - transaction:
         - db_create:
             tx: $transaction

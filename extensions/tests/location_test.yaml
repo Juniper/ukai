@@ -18,18 +18,39 @@ test_suite:
       register: image_id
     - uuid:
       register: service_template_id
+    - uuid:
+      register: service_instance_id
     - vars:
         image:
           id: "{{ image_id }}"
           url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
           name: upload_test
           disk_format: qcow2
+          tenant_id: admin
         service_template:
           id: "{{ service_template_id }}"
           name: test_service_template
           image_id: "{{ image_id }}"
           service_mode: transparent
           flavor: m1.tiny
+          tenant_id: admin
+        service_instance:
+          id: "{{ service_instance_id }}"
+          tenant_id: admin
+          service_template_id: "{{ service_template_id }}"
+          service_instance_properties:
+            management_virtual_network: ""
+            right_virtual_network: ""
+            scale_out:
+              max_instances: 1
+            left_virtual_network: ""
+            interface_list:
+              -
+                virtual_network: ""
+              -
+                virtual_network: ""
+              -
+                virtual_network: ""
         security_group:
           id: 081b50d0-c6e0-11e5-a837-0800200c9a66
           name: security_group1
@@ -39,8 +60,8 @@ test_suite:
           id: tokyo
           name: tokyo
           tenant_id: admin
-          keystone_endpoint: http://10.84.34.96:35357/v2.0
-          contrail_endpoint: http://10.84.34.96:8082
+          keystone_endpoint: http://10.84.34.137:35357/v2.0
+          contrail_endpoint: http://10.84.34.137:8082
           region: RegionOne
     - transaction:
         - db_create:
@@ -51,6 +72,10 @@ test_suite:
             tx: $transaction
             schema_id: service_template
             data: $service_template
+        - db_create:
+            tx: $transaction
+            schema_id: service_instance
+            data: $service_instance
         - db_create:
             tx: $transaction
             schema_id: security_group
@@ -73,7 +98,7 @@ test_suite:
         location: $location
         db: $db
         event_type: post_create
-    - sleep: 3000
+    - debugger:
     - location_resource:
         location: $location
         db: $db

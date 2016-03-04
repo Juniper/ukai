@@ -10,6 +10,7 @@
       register: token
     - openstack_endpoint: client=$client endpoint_type=image region=$region
       register: url
+    - debug: var=$url
     - http_post:
         url: "{{ url }}/images"
         headers:
@@ -19,6 +20,8 @@
           x-image-meta-id: "{{ image.id }}"
           x-image-meta-disk_format: "{{ image.disk_format }}"
           x-image-meta-name: "{{ image.name }}"
+      register: response
+    - debug: var=$response
     - openstack_get:
         client: $client
         url: "{{ url }}/images/{{ image.id }}"

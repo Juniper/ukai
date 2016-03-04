@@ -831,6 +831,69 @@ schemas:
   - base
   schema:
     properties:
+      service_instance_properties:
+        permission:
+        - create
+        title: Service Instance Property
+        type: object
+        view:
+        - create
+        - update
+        - detail
+        default:
+          management_virtual_network: ""
+          right_virtual_network: ""
+          scale_out:
+            max_instances: 1
+          left_virtual_network: ""
+          interface_list:
+            -
+              virtual_network: ""
+            -
+              virtual_network: ""
+            -
+              virtual_network: ""
+        properties_order:
+        - management_virtual_network
+        - right_virtual_network
+        - left_virtual_network
+        - scale_out
+        - interface_list
+        properties:
+          management_virtual_network:
+            type: string
+            title: Management Virtual Network
+            description: Management Virtual Network
+            default: ""
+          right_virtual_network:
+            type: string
+            title: Management Virtual Network
+            description: Management Virtual Network
+            default: ""
+          left_virtual_network:
+            type: string
+            title: Management Virtual Network
+            description: Management Virtual Network
+            default: ""
+          scale_out:
+            type: object
+            title: Scale Out
+            description: Scale Out
+            properties:
+              max_instances:
+                title: Max Instances
+                type: integer
+          interface_list:
+            title: Interface List
+            description: Interface List
+            type: array
+            items:
+              type: object
+              properties:
+                virtual_network:
+                  title: Virtual Network
+                  type: string
+        description: Service Instance Property
       service_template_id:
         permission:
         - create
@@ -840,6 +903,7 @@ schemas:
         relation_property: service_template
         description: Service Template
     propertiesOrder:
+    - service_instance_properties
     - service_template_id
     type: object
   singular: service_instances
@@ -853,7 +917,15 @@ schemas:
   - base
   - local_resource
   schema:
-    properties: {}
+    properties:
+      service_instance_id:
+        permission:
+        - create
+        title: Service Instance
+        type: string
+        relation: service_instance
+        relation_property: service_instance
+        description: Service Instance
     propertiesOrder: []
     type: object
   singular: local_service_instance
