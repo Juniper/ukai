@@ -96,9 +96,7 @@ Resources Status
 - [x] Network
   - [x] local network
     - [x] local_server
-    - [ ] local_service_instance
     - [x] local_network_policy
-    - [ ] update local_network policy status when local network get deleted
   - [ ] global subnet & IPAM
   - [x] RT pool management
 - [ ] Port
@@ -118,6 +116,7 @@ Resources Status
   - [x] local_security_group
   - [x] local_image
   - [x] local_service_template
+  - [x] local_service_instance
 - [x] Image
 - [x] Server
   - [ ] check network status

@@ -1,7 +1,7 @@
 extensions:
 - id: network
   path: "/v1.0/networks"
-  code_type: donburi
+  code_type: gohanscript
   code: |
     tasks:
     - include: ./network.yaml
@@ -11,7 +11,7 @@ extensions:
         event_type: $event_type
 - id: local_network
   path: "/v1.0/local_networks"
-  code_type: donburi
+  code_type: gohanscript
   code: |
     tasks:
     - include: ./local_network.yaml
@@ -22,7 +22,7 @@ extensions:
         db: $db
 - id: image
   path: "/v1.0/images"
-  code_type: donburi
+  code_type: gohanscript
   code: |
     tasks:
     - include: ./image.yaml
@@ -33,7 +33,7 @@ extensions:
         transaction: $transaction
 - id: service_template
   path: "/v1.0/service_templates"
-  code_type: donburi
+  code_type: gohanscript
   code: |
     tasks:
     - include: ./service_template.yaml
@@ -44,7 +44,7 @@ extensions:
         transaction: $transaction
 - id: server
   path: "/v1.0/servers"
-  code_type: donburi
+  code_type: gohanscript
   code: |
     tasks:
     - include: ./server.yaml
@@ -55,7 +55,7 @@ extensions:
         transaction: $transaction
 - id: service_instance
   path: "/v1.0/service_instances"
-  code_type: donburi
+  code_type: gohanscript
   code: |
     tasks:
     - include: ./service_instance.yaml
@@ -66,7 +66,7 @@ extensions:
         transaction: $transaction
 - id: local_server
   path: "/v1.0/local_servers"
-  code_type: donburi
+  code_type: gohanscript
   code: |
     tasks:
     - when: event_type == "post_list"
@@ -95,7 +95,7 @@ extensions:
       worker: 10
 - id: network_policy
   path: "/v1.0/network_policies"
-  code_type: donburi
+  code_type: gohanscript
   code: |
     tasks:
     - include: ./network_policy.yaml
@@ -106,7 +106,7 @@ extensions:
         transaction: $transaction
 - id: security_group
   path: "/v1.0/security_groups"
-  code_type: donburi
+  code_type: gohanscript
   code: |
     tasks:
     - include: ./security_group.yaml
@@ -117,7 +117,7 @@ extensions:
         transaction: $transaction
 - id: security_group_rules
   path: "/v1.0/security_group_rules"
-  code_type: donburi
+  code_type: gohanscript
   code: |
     tasks:
     - include: ./security_group.yaml
@@ -128,7 +128,7 @@ extensions:
         transaction: $transaction
 - id: location
   path: "/v1.0/locations"
-  code_type: donburi
+  code_type: gohanscript
   code: |
     tasks:
     - include: ./location.yaml

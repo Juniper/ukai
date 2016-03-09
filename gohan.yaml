@@ -47,12 +47,13 @@ logging:
         enabled: true
         level: WARNING
         modules:
-        - name: donburi
+        - name: gohanscript
           level: DEBUG
     file:
         enabled: true
         level: INFO
         filename: ./gohan.log
-
+extension:
+    type: gohanscript
 ssh:
     key_file: ./id_rsa

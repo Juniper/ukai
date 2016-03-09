@@ -21,7 +21,7 @@ test_suite:
     - vars:
         image:
           id: "{{ image_id }}"
-          url: https://github.com/nati/contrail-misc/raw/master/images/tinycore-in-network.qcow2
+          url: "http://192.168.0.6/tinycore-net-transparent-fw.qcow2"
           name: upload_test
           disk_format: qcow2
     - transaction:
