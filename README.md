@@ -19,7 +19,10 @@ How to setup
 
 ## [Step1] Download latest gohan
 
-https://github.com/cloudwan/ansible-gohan/releases
+https://github.com/cloudwan/gohan
+
+Note that you need to build this version of gohan.
+https://github.com/cloudwan/gohan/pull/95
 
 ## [Step2] Setup Openstack + contrail
 

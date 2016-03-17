@@ -14,11 +14,11 @@
           assigned: false
       register: pools
     - return: no_id
-      when: "pools | length == 0"
+      when: "len(pools) == 0"
     - vars:
         id: $pools.0.start
     - debug: var=pools
-    - when: pools.0.start < pools.0.end
+    - when: pools[0].start < pools[0].end
       blocks:
       - db_delete:
           tx: $transaction

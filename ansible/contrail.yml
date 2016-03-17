@@ -1,8 +1,8 @@
 - hosts: all
   sudo: yes
-  remote_user: nati_ueno
+  remote_user: ubuntu
   vars:
-      user: nati_ueno
+      user: ubuntu
 #      contrail_package: contrail-install-packages_2.23-119~kilo_all.deb
       contrail_package: contrail-install-packages_3.0.0.0-2717-kilo_all.deb
   tasks:
