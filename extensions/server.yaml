@@ -21,7 +21,6 @@
             security_groups:
             - name: "{{ security_group_name }}"
       register: output
-    - debug: var=$output
     - blocks:
       - openstack_get:
           client: $client

@@ -48,7 +48,7 @@
                 network_policy_id: "{{ item.network_policy_id }}"
                 status: "ACTIVE"
         rescue:
-        - debug: msg="network policy creation failed"
+        - log_error: msg="network policy creation failed"
       with_items: $local_network_policies
     - transaction:
       - db_column:
@@ -79,7 +79,6 @@
         register: local_servers
     - background:
       - blocks:
-        - debug: var=$item
         - create_server:
             client: $client
             server: $item.server
@@ -96,7 +95,7 @@
                 instance_id: "{{ server_created.id }}"
                 status: "ACTIVE"
         rescue:
-        - debug: msg="failed to create server {{ error }}"
+        - log_error: msg="failed to create server {{ error }}"
         with_items: $local_servers
         workers: 10
 - define:
@@ -184,7 +183,7 @@
           local_network: $local_network
           client: $client
     rescue:
-    - debug: msg="failed create local_network {{ error }}"
+    - log_error: msg="failed create local_network {{ error }}"
     - db_update:
         tx: $transaction
         schema_id: local_network

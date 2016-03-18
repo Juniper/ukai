@@ -19,7 +19,6 @@
             register: output
           - vars:
               tenant_name: "{{output.tenant.name}}"
-          - debug: var=$tenant_name
           - db_create:
               tx: $transaction
               schema_id: tenant

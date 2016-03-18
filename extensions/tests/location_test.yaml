@@ -98,7 +98,6 @@ test_suite:
         location: $location
         db: $db
         event_type: post_create
-    - debugger:
     - location_resource:
         location: $location
         db: $db

@@ -40,15 +40,15 @@
             id: tokyo
             name: tokyo
             tenant_id: admin
-            keystone_endpoint: http://10.84.34.137:35357/v2.0
-            contrail_endpoint: http://10.84.34.137:8082
+            keystone_endpoint: http://10.84.34.97:35357/v2.0
+            contrail_endpoint: http://10.84.34.97:8082
             region: RegionOne
         - location:
             id: sf
             name: sf
             tenant_id: admin
-            keystone_endpoint: http://10.84.34.96:35357/v2.0
-            contrail_endpoint: http://10.84.34.96:8082
+            keystone_endpoint: http://10.84.34.107:35357/v2.0
+            contrail_endpoint: http://10.84.34.107:8082
             region: RegionOne
         - local_network:
             id: d420e29e-2cd9-44aa-b464-daaa4080dfea
