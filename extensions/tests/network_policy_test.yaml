@@ -62,7 +62,6 @@ test_suite:
             - start_port: -1
               end_port: -1
           tenant_id: admin
-    - debugger:
     - transaction:
       - db_create:
           tx: $transaction

@@ -66,7 +66,6 @@ test_suite:
             #filter:
             #  assigned: false
           register: result
-        - debug: var=$result
         - assert: expect=3 actual="{{ result | length }}"
         - allocate_id:
             transaction: $transaction

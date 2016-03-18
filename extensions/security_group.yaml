@@ -125,7 +125,6 @@
           tenant_name: $tenant_name
           transaction: $transaction
         register: rules
-    - debug: $rules
     - openstack_post:
         client: $client
         url: "{{ contrail_endpoint }}/security-groups"
@@ -324,7 +323,6 @@
               security_group_id: "{{ security_group.id }}"
           register: local_security_groups
         - blocks:
-          - debug: var=$item
           - get_config: key="keystone"
             register: keystone_config
           - get_openstack_client:

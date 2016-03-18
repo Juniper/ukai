@@ -32,7 +32,7 @@ document_root: "."
 # keystone configuraion
 keystone:
     use_keystone: true
-    fake: false
+    fake: true
     auth_url: "http://10.84.34.137:35357/v2.0"
     user_name: "admin"
     tenant_name: "admin"

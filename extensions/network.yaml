@@ -32,7 +32,6 @@
         filter:
           network_id: "{{ network.id }}"
       register: rts
-    - debug:
     - blocks:
       - deallocate_id:
           transaction: $transaction

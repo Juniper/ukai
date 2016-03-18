@@ -79,7 +79,6 @@
       - blocks:
         - get_config: key=keystone
           register: keystone_config
-        - debug: var=$keystone_config
         - get_openstack_client:
             auth_url: "{{ item.location.keystone_endpoint }}"
             user_name: "{{ keystone_config.user_name }}"
@@ -98,7 +97,6 @@
             rescue:
             - vars:
                 tenant_name: $service_instance.tenant_id
-        - debug: var=$tenant_name
         - create_service_instance:
             contrail_endpoint: "{{ item.location.contrail_endpoint }}"
             service_instance: $service_instance
@@ -123,7 +121,6 @@
           filter:
             service_instance_id: $service_instance.id
         register: local_service_instances
-      - debug: var=$local_service_instances
       - blocks:
         - get_config: key="keystone"
           register: keystone_config

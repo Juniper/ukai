@@ -132,7 +132,6 @@
               network_policy_id: "{{ network_policy.id }}"
           register: local_network_policies
       - blocks:
-        - debug: var=$item
         - get_config: key="keystone"
           register: keystone_config
         - get_openstack_client:
@@ -142,7 +141,6 @@
             version: v2.0
             tenant_name:  "{{ keystone_config.tenant_name }}"
           register: client
-        - debug: msg="create simple policy"
         - create_network_policy:
             region: "{{ item.location.region }}"
             network_policy: $network_policy

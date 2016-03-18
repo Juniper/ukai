@@ -35,5 +35,4 @@ test_suite:
             tenant_id: "{{ item.id }}"
             transaction: $transaction
           register: tenant_name
-        - debug: msg="{{tenant_name}}"
         - assert: expect="{{ item.name }}" actual="{{tenant_name}}"

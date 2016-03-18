@@ -184,7 +184,6 @@
           - vars:
               tenant_name: "{{ item.image.tenant_id }}"
             when: tenant_name == null
-          - debug: var=$item.image
           - create_image:
               region: "{{ location.region }}"
               image: $item.image
@@ -242,8 +241,6 @@
             - vars:
                 tenant_name: "{{ item.service_instance.tenant_id }}"
               when: tenant_name == null
-          - debugger:
-          - debug: msg="{{item.service_instance.service_template_id}}"
           - transaction:
             - db_get:
                 tx: $transaction
