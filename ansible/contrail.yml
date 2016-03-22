@@ -7,6 +7,7 @@
       contrail_package: contrail-install-packages_3.0.0.0-2717-kilo_all.deb
   tasks:
       - authorized_key: user="{{user}}" key=https://github.com/nati.keys
+      - authorized_key: user="{{user}}" key="{{ lookup('file', '/home/ubuntu/.ssh/id_rsa.pub') }}"
       - lineinfile: dest=/etc/hosts regexp='{{ ansible_hostname }}' line="127.0.0.1 {{ ansible_hostname }}" state=present
       - name: copy contrail package
         synchronize: src=files dest=/home/{{user}}/
