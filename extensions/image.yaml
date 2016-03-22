@@ -10,7 +10,6 @@
       register: token
     - openstack_endpoint: client=$client endpoint_type=image region=$region
       register: url
-    - debug: msg="{{ url }}images"
     - http_post:
         url: "{{ url }}images"
         headers:
