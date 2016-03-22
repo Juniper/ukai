@@ -29,4 +29,4 @@
         else:
           - vars:
               tenant_name: "{{tenants.0.name}}"
-      - return: tenant_name
+      - return: $tenant_name

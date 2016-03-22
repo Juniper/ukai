@@ -32,10 +32,9 @@ test_suite:
             tx: $transaction
             schema_id: local_network
           register: local_networks
-    - transaction:
-      - create_local_network:
-          local_network: $item
-          transaction: $transaction
+    - create_local_network:
+        local_network: $item
+        db: $db
       with_items: $local_networks
     - get_config: key="keystone"
       register: keystone_config
@@ -117,6 +116,7 @@ test_suite:
         retries: 60
         delay: 3
       with_items: $locations
+    - debugger:
     - server_resource:
         client: $client
         server: $server

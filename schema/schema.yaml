@@ -867,13 +867,13 @@ schemas:
             default: ""
           right_virtual_network:
             type: string
-            title: Management Virtual Network
-            description: Management Virtual Network
+            title: Right Virtual Network
+            description: Right Virtual Network
             default: ""
           left_virtual_network:
             type: string
-            title: Management Virtual Network
-            description: Management Virtual Network
+            title: Left Virtual Network
+            description: Left Virtual Network
             default: ""
           scale_out:
             type: object

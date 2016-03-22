@@ -109,7 +109,7 @@
           value: $value
         register: rules
       with_items: $security_group_rules
-    - return: rules
+    - return: $rules
 - define:
     name: create_security_group
     args:

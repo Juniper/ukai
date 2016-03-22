@@ -143,8 +143,10 @@
             tenant_id: $local_network.tenant_id
           register: tenant_name
           rescue:
+          - debug: var=$local_network.tenant_id
           - vars:
               tenant_name: $local_network.tenant_id
+      - debug: var=$tenant_name
       - openstack_post:
           client: $client
           url: "{{ location.contrail_endpoint }}/virtual-networks"
@@ -167,6 +169,7 @@
                     - "default-domain"
                     - "default-project"
                     - "default-network-ipam"
+              virtual_network_network_id: "{{ route_targets.0.route_target }}"
               route_target_list:
                 route_target:
                 - "target:1000:{{ route_targets.0.route_target }}"

@@ -13,7 +13,7 @@
           name: "{{ name }}"
           assigned: false
       register: pools
-    - return: no_id
+    - return: $no_id
       when: "len(pools) == 0"
     - vars:
         id: $pools.0.start
@@ -55,7 +55,7 @@
               end: "{{ id }}"
               name: "{{ name }}"
               assigned: true
-    - return: id
+    - return: $id
 - define:
     name: deallocate_id
     args:

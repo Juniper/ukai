@@ -10,8 +10,9 @@
       register: token
     - openstack_endpoint: client=$client endpoint_type=image region=$region
       register: url
+    - debug: msg="{{ url }}images"
     - http_post:
-        url: "{{ url }}/images"
+        url: "{{ url }}images"
         headers:
           X-Auth-Token: "{{ token }}"
           x-glance-api-copy-from: "{{ image.url }}"
@@ -78,7 +79,6 @@
       - blocks:
         - get_config: key=keystone
           register: keystone_config
-        - log_error: var=$keystone_config
         - get_openstack_client:
             auth_url: "{{ item.location.keystone_endpoint }}"
             user_name: "{{ keystone_config.user_name }}"

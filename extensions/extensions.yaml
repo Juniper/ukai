@@ -64,35 +64,35 @@ extensions:
         event_type: $event_type
         db: $db
         transaction: $transaction
-- id: local_server
-  path: "/v1.0/local_servers"
-  code_type: gohanscript
-  code: |
-    tasks:
-    - when: event_type == "post_list"
-      blocks:
-      - get_config: key="keystone"
-        register: keystone_config
-      - get_openstack_client:
-          auth_url: "{{ item.location.keystone_endpoint }}"
-          user_name: "{{ keystone_config.user_name }}"
-          password: "{{ keystone_config.password }}"
-          version: v2.0
-          tenant_name:  "{{ keystone_config.tenant_name }}"
-        register: client
-      - openstack_endpoint: client=$client endpoint_type=compute region="{{region}}"
-        register: url
-      - openstack_post:
-          client: $client
-          url: "{{ url }}servers/{{ item.instance_id }}/action"
-          data:
-            os-getVNCConsole:
-              type: novnc
-        register: console_info
-      - vars:
-          item.console_url: $console_info.console.url
-      with_items: $response.local_servers
-      worker: 10
+# - id: local_server
+#   path: "/v1.0/local_servers"
+#   code_type: gohanscript
+#   code: |
+#     tasks:
+#     - when: event_type == "post_list"
+#       blocks:
+#       - get_config: key="keystone"
+#         register: keystone_config
+#       - get_openstack_client:
+#           auth_url: "{{ item.location.keystone_endpoint }}"
+#           user_name: "{{ keystone_config.user_name }}"
+#           password: "{{ keystone_config.password }}"
+#           version: v2.0
+#           tenant_name:  "{{ keystone_config.tenant_name }}"
+#         register: client
+#       - openstack_endpoint: client=$client endpoint_type=compute region="{{region}}"
+#         register: url
+#       - openstack_post:
+#           client: $client
+#           url: "{{ url }}servers/{{ item.instance_id }}/action"
+#           data:
+#             os-getVNCConsole:
+#               type: novnc
+#         register: console_info
+#       - vars:
+#           item.console_url: $console_info.console.url
+#       with_items: $response.local_servers
+#       worker: 10
 - id: network_policy
   path: "/v1.0/network_policies"
   code_type: gohanscript

@@ -30,7 +30,7 @@
         when: output.server.status != "ACTIVE"
       retries: 60
       delay: 3
-    - return: output.server
+    - return: $output.server
 - define:
     name: delete_server
     args:
@@ -100,6 +100,8 @@
               server: $server
               security_group_name: "{{ security_group.name }}"
             register: server_created
+          - debug: var=$server_created
+          - log_error: msg="server created {{ server_created.id }}"
           - transaction:
             - db_update:
                 tx: $transaction
@@ -109,6 +111,8 @@
                   server_id: "{{ server.id }}"
                   instance_id: "{{ server_created.id }}"
                   status: "ACTIVE"
+              rescue:
+              - debug: msg="err {{error}}"
           with_items: $local_servers
           worker: 10
     - when: event_type == "pre_delete"
