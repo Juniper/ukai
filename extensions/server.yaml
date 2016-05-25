@@ -65,7 +65,7 @@
       register: url
     - openstack_delete:
         client: $client
-        url: "{{ url }}servers/{{ server.id }}"
+        url: "{{ url }}servers/{{ local_server.instance_id }}"
 - define:
     name: create_local_servers
     args:

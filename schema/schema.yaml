@@ -193,10 +193,10 @@ schemas:
         unique: false
         description: status
       task_status:
-        title: Status
+        title: Task Status
         type: string
         unique: false
-        description: status
+        description: Task Status
       output:
         title: Output
         type: object

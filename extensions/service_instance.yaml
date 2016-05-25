@@ -100,6 +100,7 @@
               id: "{{ item.id }}"
               service_instance_id: "{{ item.service_instance_id }}"
               status: $status
+              task_status: $task_status
               output: $output
       with_items: $local_service_instances
       worker: '$GetConfig("loop_worker", 10)'
