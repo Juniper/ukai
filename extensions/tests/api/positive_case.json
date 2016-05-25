@@ -1767,6 +1767,162 @@
     {
         "data": null,
         "method": "GET",
+        "path": "/contrail/network-policy/7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+    },
+    {
+        "data": {
+            "network-policy": {
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+                ],
+                "network_policy_entries": {
+                    "policy_rule": [
+                        {
+                            "action_list": {
+                                "simple_action": "deny"
+                            },
+                            "application": [],
+                            "direction": "\u003c\u003e",
+                            "dst_addresses": [
+                                {
+                                    "virtual_network": "default-domain:admin:red"
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": -1,
+                                    "start_port": -1
+                                }
+                            ],
+                            "protocol": "any",
+                            "rule_sequence": {
+                                "major": -1,
+                                "minor": -1
+                            },
+                            "src_addresses": [
+                                {
+                                    "virtual_network": "default-domain:admin:blue"
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": -1,
+                                    "start_port": -1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "parent_type": "project",
+                "uuid": "7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/network-policys"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
+        },
+        "method": "POST",
+        "path": "/contrail/id-to-fqname"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/network-policy/7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+    },
+    {
+        "data": {
+            "network-policy": {
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+                ],
+                "network_policy_entries": {
+                    "policy_rule": [
+                        {
+                            "action_list": {
+                                "simple_action": "deny"
+                            },
+                            "application": [],
+                            "direction": "\u003c\u003e",
+                            "dst_addresses": [
+                                {
+                                    "virtual_network": "default-domain:admin:red"
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": -1,
+                                    "start_port": -1
+                                }
+                            ],
+                            "protocol": "any",
+                            "rule_sequence": {
+                                "major": -1,
+                                "minor": -1
+                            },
+                            "src_addresses": [
+                                {
+                                    "virtual_network": "default-domain:admin:blue"
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": -1,
+                                    "start_port": -1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "parent_type": "project",
+                "uuid": "7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/network-policys"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
+        },
+        "method": "POST",
+        "path": "/contrail/id-to-fqname"
+    },
+    {
+        "data": null,
+        "method": "GET",
         "path": "/contrail/virtual-network/7D498C24-7BEF-48B7-BE9B-88B688135D10"
     },
     {
@@ -2296,7 +2452,7 @@
                     "policy_rule": [
                         {
                             "action_list": {
-                                "simple_action": "pass"
+                                "simple_action": "deny"
                             },
                             "application": [],
                             "direction": "\u003c\u003e",

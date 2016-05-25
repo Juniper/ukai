@@ -206,6 +206,12 @@
               location_id: "{{ item.id }}"
               task_status: "IN_PROGRESS"
         with_items: $locations
+    - when: event_type == "post_update_in_transaction"
+      db_exec:
+              tx: $transaction
+              sql: "update local_network_policys set task_status='IN_PROGRESS' where network_policy_id = ?"
+              arguments:
+              - $network_policy.id
     - when: event_type == "post_create" || event_type == "post_update"
       blocks:
       - create_local_network_policies:

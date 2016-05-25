@@ -46,6 +46,29 @@ test_suite:
           data: $data
       - wait_queue: queue=$queue
       with_items: $test_data
+    - openstack_put:
+        url: "{{ gohan_url }}/v1.0/tenant/network_policies/{{ network_policy_id }}"
+        client: $client
+        data:
+          entries:
+          - action_list:
+              simple_action: deny
+            direction: "<>"
+            protocol: any
+            application: []
+            rule_sequence:
+              major: -1
+              minor: -1
+            src_addresses:
+            - virtual_network: "default-domain:admin:blue"
+            dst_addresses:
+            - virtual_network: "default-domain:admin:red"
+            src_ports:
+            - start_port: -1
+              end_port: -1
+            dst_ports:
+            - start_port: -1
+              end_port: -1
     - name: create extra locations
       blocks:
       - openstack_ensure:
