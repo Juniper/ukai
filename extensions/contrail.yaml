@@ -8,10 +8,8 @@
       - blocks:
           - format_uuid: uuid=$uuid
             register: uuid
-          - openstack_post:
+          - openstack_get:
               client: $client
-              url: "{{ contrail_endpoint }}/id-to-fqname"
-              data:
-                uuid: "${FormatUUID( uuid )}"
+              url: "{{ contrail_endpoint }}/project/{{ uuid }}"
             register: output
-      - return: $output.fq_name
+      - return: $output.project.fq_name

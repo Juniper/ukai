@@ -13,11 +13,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -81,11 +79,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -150,11 +146,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -394,11 +388,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -460,11 +452,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -528,11 +518,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -671,11 +659,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -739,11 +725,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -808,11 +792,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -1052,11 +1034,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -1118,11 +1098,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -1186,11 +1164,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -1329,11 +1305,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -1397,11 +1371,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -1466,11 +1438,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -1710,11 +1680,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -1776,11 +1744,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,
@@ -1844,11 +1810,9 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "uuid": "fc394f2a-b2df-4114-bde3-9905f800dc57"
-        },
-        "method": "POST",
-        "path": "/contrail/id-to-fqname"
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
         "data": null,

@@ -33,16 +33,16 @@
                 - vars:
                     response:
                       msg: "ok"
-          "/contrail/id-to-fqname":
-            post:
+          "/contrail/project/:id":
+            get:
               code: |
                 tasks:
                 - vars:
                     response:
-                      type: "project"
-                      fq_name:
-                      - default-domain
-                      - admin
+                      project:
+                        fq_name:
+                        - default-domain
+                        - admin
           "/images":
             post:
               code: |

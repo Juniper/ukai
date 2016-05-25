@@ -83,6 +83,7 @@ test_suite:
       - assert: expect="{{ item.id }}" actual="{{ result.location.id }}"
       with_items: $extra_locations
     - wait_queue: queue=$queue
+    - sleep: 1000
     - name: check local network status
       openstack_get:
         client: $client
