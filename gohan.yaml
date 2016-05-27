@@ -42,7 +42,7 @@ tls:
 keystone:
     use_keystone: true
     fake: false
-    auth_url: "http://10.84.34.97:35357/v2.0"
+    auth_url: "http://10.84.12.14:35357/v2.0"
     #auth_url: "http://localhost:9091/v2.0"
     user_name: "admin"
     tenant_name: "admin"
@@ -77,5 +77,5 @@ webui_config:
     # you need to set keystone auth url for users
     # auth_url: "http://localhost:9091/v2
     tls: false
-    auth_url: "http://10.84.34.97:5000/v2.0"
+    auth_url: "http://10.84.12.14:5000/v2.0"
     # address: "http://__HOST__:9091"

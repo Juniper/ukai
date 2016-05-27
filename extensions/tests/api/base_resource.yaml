@@ -153,12 +153,16 @@
                     description: Image ID or image name to use for the server
                     constraints:
                     - custom_constraint: glance.image
+                networks:
+                  - network : { get_param : network_id }
             resources:
                 server:
                     type: OS::Nova::Server
                     properties:
                         image: { get_param: image }
                         flavor: { get_param: flavor }
+                        networks:
+                        - network : { get_param : network_id }
             outputs:
                 server_networks:
                     description: The networks of the deployed server

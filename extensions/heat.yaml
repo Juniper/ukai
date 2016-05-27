@@ -50,6 +50,7 @@
     - openstack_delete:
         client: $client
         url: "{{ local_heat_instance.output.stack.links.0.href }}"
+      when: local_heat_instance.status == "ACTIVE"
 - define:
     name: create_local_heat_instances
     args:
