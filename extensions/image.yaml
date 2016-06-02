@@ -28,6 +28,10 @@
           Content-Type: "application/octet-stream"
           x-image-meta-id: $image.id
           x-image-meta-disk_format: $image.disk_format
+          x-image-meta-container_format: $image.container_format
+          x-image-meta-min_disk: $image.min_disk
+          x-image-meta-min_ram: $image.min_ram
+          x-image-meta-protected: "{{ image.protected }}"
           x-image-meta-name: $image.name
         post_data: ${nil}
       register: output

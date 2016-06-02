@@ -482,9 +482,64 @@ schemas:
         - aki
         - ari
         - ami
+      visibility:
+        permission:
+        - create
+        title: Visibility
+        type: string
+        description: Image visibility. Valid value is public or private. Default is public.
+        enum:
+        - public
+        - private
+        default: public
+      container_format:
+        permission:
+        - create
+        title: Disk format
+        type: string
+        unique: false
+        description: Disk format
+        enum:
+        - ami
+        - ari
+        - aki
+        - bare
+        - ovf
+        - ova
+        - docker
+      min_disk:
+        permission:
+        - create
+        title: Min Disk
+        type: integer
+        minimum: 0
+        unique: false
+        description: Amount of disk space in GB that is required to boot the image.
+      min_ram:
+        permission:
+        - create
+        title: Min RAM
+        type: integer
+        minimum: 0
+        unique: false
+        description: Amount of RAM in MB that is required to boot the image.
+      protected:
+        permission:
+        - create
+        title: Protected
+        type: boolean
+        minimum: 0
+        unique: false
+        default: false
+        description: Image protection for deletion. Valid value is true or false. Default is false.
     propertiesOrder:
     - url
+    - visibility
     - disk_format
+    - container_format
+    - min_disk
+    - min_ram
+    - protected
     type: object
   singular: image
   title: Image
