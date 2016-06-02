@@ -599,12 +599,30 @@ schemas:
         title: Disk(GB)
         type: integer
         unique: false
-        description: ram
-        minimum: 1
+        description: RAM disk size
+        minimum: 0
+      swap:
+        permission:
+        - create
+        title: Swap(GB)
+        type: integer
+        unique: false
+        description: Swap disk size
+        minimum: 0
+      ephemeral:
+        permission:
+        - create
+        title: Ephemeral(GB)
+        type: integer
+        unique: false
+        description: Ephemeral disk size
+        minimum: 0
     propertiesOrder:
     - ram
     - vcpus
     - disk
+    - swap
+    - ephemeral
     type: object
   singular: flavor
   title: Flavor
