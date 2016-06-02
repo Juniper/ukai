@@ -294,7 +294,7 @@ schemas:
       assigned:
         permission:
         - create
-        title: assinged
+        title: assigned
         type: boolean
         unique: false
         description: assigned
