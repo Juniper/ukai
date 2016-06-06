@@ -2228,18 +2228,18 @@
     {
         "data": null,
         "method": "GET",
-        "path": "/flavors/"
+        "path": "/flavors/CE72BEBC-20EC-4D85-A8EC-D9498998DB5F"
     },
     {
         "data": {
             "flavor": {
-                "disk": null,
+                "disk": 1,
                 "ephemeral": null,
-                "id": null,
-                "name": null,
-                "ram": null,
+                "id": "CE72BEBC-20EC-4D85-A8EC-D9498998DB5F",
+                "name": "global.m1.nano",
+                "ram": 124,
                 "swap": null,
-                "vcpus": null
+                "vcpus": 1
             }
         },
         "method": "POST",
@@ -2763,7 +2763,7 @@
     {
         "data": null,
         "method": "DELETE",
-        "path": "/flavors/"
+        "path": "/flavors/CE72BEBC-20EC-4D85-A8EC-D9498998DB5F"
     },
     {
         "data": {

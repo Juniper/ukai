@@ -66,7 +66,7 @@
             schema_id: local_flavor
             data:
               id: $UUID()
-              image_id: $item.id
+              flavor_id: $item.id
               location_id: $location.id
               task_status: "IN_PROGRESS"
           with_items: $flavors

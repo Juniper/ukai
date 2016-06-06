@@ -34,6 +34,7 @@ case "$1" in
         cp /opt/ukai/gohan.yaml ${APP_ETC}
         ln -s /opt/ukai/extensions ${APP_ETC}/extensions
         ln -s /opt/ukai/schema ${APP_ETC}/schema
+        ln -s /opt/ukai/public ${APP_ETC}/public
         cp ${APP_OPT}/packager/ukai.conf /etc/init
     fi
   ;;

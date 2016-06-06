@@ -2,7 +2,7 @@ test_suite:
   tests:
   - name: Conflict Test
     test:
-    - include: ../util.yaml
+    - include: "../util.yaml"
     - command: "rm {{ __dir__ }}/../../test.db"
       rescue: []
     - get_config: key="keystone" default_value=null
@@ -34,12 +34,6 @@ test_suite:
           data:
             id: $blue_id
             name: $blue_id
-            cidr: 10.0.0.0/20
-            local_prefix_len: 24
-        - path: "{{ gohan_url }}/v1.0/tenant/networks"
-          data:
-            id: $UUID()
-            name: $UUID()
             cidr: 10.0.0.0/20
             local_prefix_len: 24
         - path: "{{ gohan_url }}/v1.0/tenant/security_groups"

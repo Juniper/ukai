@@ -70,6 +70,7 @@ extension:
 ssh:
     key_file: ./id_rsa
 
+document_root: public
 # Generate webui config
 webui_config:
     # if true, gohan generates webui config.json

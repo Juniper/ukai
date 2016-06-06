@@ -1,0 +1,7 @@
+{
+  "authUrl": "http://10.84.12.14:5000/v2.0",
+  "gohan": {
+    "schema": "/gohan/v0.1/schemas",
+    "url": "http://__HOST__:9500"
+  }
+}
