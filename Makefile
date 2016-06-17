@@ -23,7 +23,7 @@ install:
 	cp -r schema $(OPT)
 	cp -r public $(OPT)
 	cp -r packager $(OPT)
-	rm -r ./gohan
+	rm -f ./gohan
 	curl -OL $(GOHAN)
 	unzip gohan-linux-amd64.zip
 	cp gohan $(BIN)/ukai
