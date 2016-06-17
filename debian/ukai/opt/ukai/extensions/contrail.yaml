@@ -1,0 +1,15 @@
+- define:
+    name: contrail_fqdn
+    args:
+      client: object
+      contrail_endpoint: string
+      uuid: string
+    body:
+      - blocks:
+          - format_uuid: uuid=$uuid
+            register: uuid
+          - openstack_get:
+              client: $client
+              url: "{{ contrail_endpoint }}/project/{{ uuid }}"
+            register: output
+      - return: $output.project.fq_name

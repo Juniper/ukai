@@ -58,10 +58,7 @@ logging:
         modules:
         - name: gohanscript
           level: DEBUG
-    file:
-        enabled: true
-        level: INFO
-        filename: ./gohan.log
+
 extension:
     default: gohanscript
     use:

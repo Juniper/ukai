@@ -1,0 +1,192 @@
+- define:
+    name: mock_backend
+    args: {}
+    body:
+    - http_server:
+        test: true
+        paths:
+          "/contrail/virtual-networks":
+            post:
+              code: |
+                tasks:
+                - vars:
+                    response:
+                      msg: "ok"
+          "/contrail/virtual-network/:id":
+            put:
+              code: |
+                tasks:
+                - vars:
+                    response:
+                      msg: "ok"
+          "/contrail/security-groups":
+            post:
+              code: |
+                tasks:
+                - vars:
+                    response:
+                      msg: "ok"
+          "/contrail/security-group/:id":
+            put:
+              code: |
+                tasks:
+                - vars:
+                    response:
+                      msg: "ok"
+          "/contrail/project/:id":
+            get:
+              code: |
+                tasks:
+                - vars:
+                    response:
+                      project:
+                        fq_name:
+                        - default-domain
+                        - admin
+          "/images":
+            post:
+              code: |
+                tasks:
+                - vars:
+                   code: 201
+                   response:
+                     msg: "ok"
+          "/images/:image_id":
+            get:
+              code: |
+                tasks:
+                - vars:
+                   response:
+                     msg: "ok"
+          "/servers":
+            post:
+              code: |
+                tasks:
+                - vars:
+                   code: 201
+                   response:
+                     server:
+                       id: FCDAC8D4-A110-432B-8623-A0CCC86AA969
+          "/flavors":
+            post:
+              code: |
+                tasks:
+                - vars:
+                   code: 201
+                   response:
+                     msg: "ok"
+          "/v2.0/stacks":
+            post:
+              code: |
+                tasks:
+                - vars:
+                   code: 201
+                   response:
+                     stack:
+                       links:
+                       - href: "http://{{ host }}/{{ path }}"
+          "/servers/:server_id":
+            get:
+              code: |
+                tasks:
+                - vars:
+                   response:
+                     server:
+                       id: FCDAC8D4-A110-432B-8623-A0CCC86AA969
+                       status: ACTIVE
+          "/v2.0/tenants":
+            get:
+              code: |
+                tasks:
+                - vars:
+                    response:
+                      tenants:
+                        -
+                          description: null
+                          enabled: true
+                          id: "e18e35984221433eaf1be32b95db0137"
+                          name: "admin"
+                        -
+                          description: null
+                          enabled: true
+                          id: "demo_uuid"
+                          name: "demo"
+          "/v2.0/tokens":
+            post:
+              code: |
+                tasks:
+                - vars:
+                    tenant_id: e18e35984221433eaf1be32b95db0137
+                  when: request.auth.passwordCredentials.username == "admin"
+                  else:
+                  - vars:
+                      tenant_id: 035EDD00-F4B6-4348-A04B-A42EABCEDDA6
+                - vars:
+                    response:
+                      access:
+                        token:
+                          issued_at: "2014-01-30T15:30:58.819584"
+                          expires: "2014-01-31T15:30:58Z"
+                          id: "{{request.auth.passwordCredentials.username}}_token"
+                          tenant:
+                            description: null
+                            enabled: true
+                            id: $tenant_id
+                            name: "{{ request.auth.tenantName }}"
+                        serviceCatalog:
+                          -
+                            endpoints:
+                              -
+                                adminURL: "http://{{ host }}"
+                                region: "RegionOne"
+                                internalURL: "http://{{ host }}"
+                                id: "2dad48f09e2a447a9bf852bcd93548ef"
+                                publicURL: "http://{{ host }}"
+                            endpoints_links: []
+                            type: "compute"
+                            name: "nova"
+                          -
+                            endpoints:
+                              -
+                                adminURL: 'http://{{ host }}'
+                                region: "RegionOne"
+                                internalURL: 'http://{{ host }}'
+                                id: "27d5749f36864c7d96bebf84a5ec9767"
+                                publicURL: 'http://{{ host }}'
+                            endpoints_links: []
+                            type: "image"
+                            name: "glance"
+                          -
+                            endpoints:
+                              -
+                                adminURL: "http://{{ host }}/v2.0"
+                                region: "RegionOne"
+                                internalURL: "http://{{ host }}/v2.0"
+                                id: "26af053673df4ef3a2340c4239e21ea2"
+                                publicURL: "http://{{ host }}/v2.0"
+                            endpoints_links: []
+                            type: "identity"
+                            name: "keystone"
+                          -
+                            endpoints:
+                              -
+                                adminURL: "http://{{ host }}/v2.0"
+                                region: "RegionOne"
+                                internalURL: "http://{{ host }}/v2.0"
+                                id: "26af053673df4ef3a2340c4239e21ea2"
+                                publicURL: "http://{{ host }}/v2.0"
+                            endpoints_links: []
+                            type: "orchestration"
+                            name: "heat"
+                        user:
+                          username: $request.auth.passwordCredentials.username
+                          roles_links: []
+                          id: $tenant_id
+                          roles:
+                            -
+                              name: "Member"
+                            -
+                              name: "admin"
+                          name: $request.auth.passwordCredentials.username
+      register: mockbackend
+    - return: $mockbackend

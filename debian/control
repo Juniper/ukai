@@ -1,0 +1,14 @@
+Source: ukai
+Section: app
+Priority: optional
+Maintainer: Nachi Ueno <nueno@juniper.net>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+Homepage: http://github.com/Juniper/ukai 
+#Vcs-Git: git://git.debian.org/collab-maint/ukai.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/ukai.git;a=summary
+
+Package: ukai
+Architecture: any
+Depends: zip
+Description: Contrail Global Controller 

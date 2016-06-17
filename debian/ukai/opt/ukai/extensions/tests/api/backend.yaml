@@ -1,0 +1,41 @@
+- when: 'GetConfig("unit_test", true)'
+  blocks:
+  - mock_backend:
+    register: mockbackend
+  - vars:
+      locations:
+      - id: $tokyo_id
+        name: tokyo
+        keystone_endpoint: ${ GetTestServerURL(mockbackend.server) + "/v2.0"}
+        contrail_endpoint: ${ GetTestServerURL(mockbackend.server) + "/contrail"}
+        region: RegionOne
+      - id: $sf_id
+        name: sf
+        keystone_endpoint: ${ GetTestServerURL(mockbackend.server) + "/v2.0"}
+        contrail_endpoint: ${ GetTestServerURL(mockbackend.server) + "/contrail"}
+        region: RegionOne
+      extra_locations:
+      - id: $paris_id
+        name: paris
+        keystone_endpoint: ${ GetTestServerURL(mockbackend.server) + "/v2.0"}
+        contrail_endpoint: ${ GetTestServerURL(mockbackend.server) + "/contrail"}
+        region: RegionOne
+  else:
+  - vars:
+      locations:
+      - id: $tokyo_id
+        name: tokyo
+        keystone_endpoint: ${ "http://" + GetConfig("locations/0/ip", "localhost") + ":35357/v2.0"}
+        contrail_endpoint: ${ "http://" + GetConfig("locations/0/ip", "localhost") + ":8082"}
+        region: ${ GetConfig("locations/0/region", "RegionOne") }
+      - id: $sf_id
+        name: sf
+        keystone_endpoint: ${ "http://" + GetConfig("locations/1/ip", "localhost") + ":35357/v2.0"}
+        contrail_endpoint: ${ "http://" + GetConfig("locations/1/ip", "localhost") + ":8082"}
+        region: ${ GetConfig("locations/1/region", "RegionOne") }
+      extra_locations:
+      - id: $paris_id
+        name: paris
+        keystone_endpoint: ${ "http://" + GetConfig("locations/2/ip", "localhost") + ":35357/v2.0"}
+        contrail_endpoint: ${ "http://" + GetConfig("locations/2/ip", "localhost") + ":8082"}
+        region: RegionOne

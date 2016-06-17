@@ -1,0 +1,2705 @@
+[
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/virtual-network/7D498C24-7BEF-48B7-BE9B-88B688135D10"
+    },
+    {
+        "data": {
+            "virtual-network": {
+                "display_name": "7D498C24-7BEF-48B7-BE9B-88B688135D10",
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "7D498C24-7BEF-48B7-BE9B-88B688135D10"
+                ],
+                "network_ipam_refs": [
+                    {
+                        "attr": {
+                            "ipam_subnets": [
+                                {
+                                    "default_gateway": "10.0.0.1",
+                                    "subnet": {
+                                        "ip_prefix": "10.0.0.0",
+                                        "ip_prefix_len": 24
+                                    },
+                                    "subnet_name": "default"
+                                }
+                            ]
+                        },
+                        "to": [
+                            "default-domain",
+                            "default-project",
+                            "default-network-ipam"
+                        ]
+                    }
+                ],
+                "parent_type": "project",
+                "route_target_list": {
+                    "route_target": [
+                        "target:65000:1000"
+                    ]
+                },
+                "uuid": "7D498C24-7BEF-48B7-BE9B-88B688135D10",
+                "virtual_network_network_id": 1000
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/virtual-networks"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/virtual-network/CB866F85-E87A-4754-84BD-01A5DC970750"
+    },
+    {
+        "data": {
+            "virtual-network": {
+                "display_name": "CB866F85-E87A-4754-84BD-01A5DC970750",
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "CB866F85-E87A-4754-84BD-01A5DC970750"
+                ],
+                "network_ipam_refs": [
+                    {
+                        "attr": {
+                            "ipam_subnets": [
+                                {
+                                    "default_gateway": "20.0.0.1",
+                                    "subnet": {
+                                        "ip_prefix": "20.0.0.0",
+                                        "ip_prefix_len": 24
+                                    },
+                                    "subnet_name": "default"
+                                }
+                            ]
+                        },
+                        "to": [
+                            "default-domain",
+                            "default-project",
+                            "default-network-ipam"
+                        ]
+                    }
+                ],
+                "parent_type": "project",
+                "route_target_list": {
+                    "route_target": [
+                        "target:65000:1001",
+                        "target:65000:2000"
+                    ]
+                },
+                "uuid": "CB866F85-E87A-4754-84BD-01A5DC970750",
+                "virtual_network_network_id": 1001
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/virtual-networks"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/security-group/B4508372-2553-4643-9481-BFAB978997E5"
+    },
+    {
+        "data": {
+            "security-group": {
+                "configured_security_group_id": 1000,
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "B4508372-2553-4643-9481-BFAB978997E5"
+                ],
+                "name": "B4508372-2553-4643-9481-BFAB978997E5",
+                "parent_type": "project",
+                "security_group_entries": {
+                    "policy_rule": [
+                        {
+                            "direction": "\u003e",
+                            "dst_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": null,
+                                    "subnet": {
+                                        "ip_prefix": "0.0.0.0",
+                                        "ip_prefix_len": 0
+                                    },
+                                    "virtual_network": null
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ],
+                            "ethertype": "IPv4",
+                            "protocol": "any",
+                            "src_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "local",
+                                    "subnet": null,
+                                    "virtual_network": null
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ]
+                        },
+                        {
+                            "direction": "\u003e",
+                            "dst_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "local",
+                                    "subnet": null,
+                                    "virtual_network": null
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ],
+                            "ethertype": "IPv4",
+                            "protocol": "any",
+                            "src_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "default-domain:admin:B4508372-2553-4643-9481-BFAB978997E5",
+                                    "subnet": {
+                                        "ip_prefix": "0.0.0.0",
+                                        "ip_prefix_len": 0
+                                    },
+                                    "virtual_network": null
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ]
+                        },
+                        {
+                            "direction": "\u003e",
+                            "dst_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": null,
+                                    "subnet": {
+                                        "ip_prefix": "::",
+                                        "ip_prefix_len": 0
+                                    },
+                                    "virtual_network": null
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ],
+                            "ethertype": "IPv6",
+                            "protocol": "any",
+                            "src_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "local",
+                                    "subnet": null,
+                                    "virtual_network": null
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ]
+                        },
+                        {
+                            "direction": "\u003e",
+                            "dst_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": null,
+                                    "subnet": {
+                                        "ip_prefix": "0.0.0.0",
+                                        "ip_prefix_len": 0
+                                    },
+                                    "virtual_network": null
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": 80,
+                                    "start_port": 80
+                                }
+                            ],
+                            "ethertype": "IPv4",
+                            "protocol": "tcp",
+                            "src_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "local",
+                                    "subnet": null,
+                                    "virtual_network": null
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "uuid": "B4508372-2553-4643-9481-BFAB978997E5"
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/security-groups"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "POST",
+        "path": "/images"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/images/7940A908-CCD4-4F97-8979-D169B66019B2"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/flavors/CE72BEBC-20EC-4D85-A8EC-D9498998DB5F"
+    },
+    {
+        "data": {
+            "flavor": {
+                "disk": 1,
+                "ephemeral": null,
+                "id": "CE72BEBC-20EC-4D85-A8EC-D9498998DB5F",
+                "name": "global.m1.nano",
+                "ram": 124,
+                "swap": null,
+                "vcpus": 1
+            }
+        },
+        "method": "POST",
+        "path": "/flavors"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/service-template/16F175A5-0615-4EF8-A820-826941AF5ECF"
+    },
+    {
+        "data": {
+            "service-template": {
+                "display_name": "test_service_template",
+                "fq_name": [
+                    "default-domain",
+                    "test_service_template"
+                ],
+                "parent_type": "domain",
+                "service_template_properties": {
+                    "availability_zone_enable": false,
+                    "flavor": "global.m1.nano",
+                    "image_name": "upload_test",
+                    "interface_type": [
+                        {
+                            "service_interface_type": "management",
+                            "shared_ip": false,
+                            "static_route_enable": false
+                        },
+                        {
+                            "service_interface_type": "left",
+                            "shared_ip": false,
+                            "static_route_enable": false
+                        },
+                        {
+                            "service_interface_type": "right",
+                            "shared_ip": false,
+                            "static_route_enable": false
+                        }
+                    ],
+                    "ordered_interfaces": true,
+                    "service_mode": "",
+                    "service_scaling": false,
+                    "service_type": "firewall"
+                },
+                "uuid": "16F175A5-0615-4EF8-A820-826941AF5ECF"
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/service-templates"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/service-instance/2D4C403C-207F-486F-B1BF-C71AD588EDB0"
+    },
+    {
+        "data": {
+            "service-instance": {
+                "display_name": "test_service_instance",
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "test_service_instance"
+                ],
+                "parent_type": "project",
+                "service_instance_properties": {
+                    "interface_list": [
+                        {
+                            "virtual_network": "any"
+                        },
+                        {
+                            "virtual_network": "any"
+                        },
+                        {
+                            "virtual_network": "any"
+                        }
+                    ],
+                    "left_virtual_network": "any",
+                    "management_virtual_network": "any",
+                    "right_virtual_network": "any",
+                    "scale_out": {
+                        "max_instances": 1
+                    }
+                },
+                "service_template_refs": [
+                    {
+                        "to": [
+                            "default-domain",
+                            "test_service_template"
+                        ]
+                    }
+                ],
+                "uuid": "2D4C403C-207F-486F-B1BF-C71AD588EDB0"
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/service-instances"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/network-policy/7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+    },
+    {
+        "data": {
+            "network-policy": {
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+                ],
+                "network_policy_entries": {
+                    "policy_rule": [
+                        {
+                            "action_list": {
+                                "simple_action": "pass"
+                            },
+                            "application": [],
+                            "direction": "\u003c\u003e",
+                            "dst_addresses": [
+                                {
+                                    "virtual_network": "default-domain:admin:red"
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": -1,
+                                    "start_port": -1
+                                }
+                            ],
+                            "protocol": "any",
+                            "rule_sequence": {
+                                "major": -1,
+                                "minor": -1
+                            },
+                            "src_addresses": [
+                                {
+                                    "virtual_network": "default-domain:admin:blue"
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": -1,
+                                    "start_port": -1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "parent_type": "project",
+                "uuid": "7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/network-policys"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "description": "",
+            "parameters": {
+                "flavor": "m1.tiny",
+                "image": "tinycore"
+            },
+            "stack_name": "heat_instance",
+            "template": "heat_template_version: 2013-05-23\nparameters:\n    flavor:\n        type: string\n        description: Flavor for the server to be created\n        default: m1.tiny\n        constraints:\n        - custom_constraint: nova.flavor\n    image:\n        type: string\n        description: Image ID or image name to use for the server\n        constraints:\n        - custom_constraint: glance.image\n    networks:\n      - network : { get_param : network_id }\nresources:\n    server:\n        type: OS::Nova::Server\n        properties:\n            image: { get_param: image }\n            flavor: { get_param: flavor }\n            networks:\n            - network : { get_param : network_id }\noutputs:\n    server_networks:\n        description: The networks of the deployed server\n        value: { get_attr: [server, networks] }\n"
+        },
+        "method": "POST",
+        "path": "/v2.0/stacks"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "server": {
+                "flavorRef": "CE72BEBC-20EC-4D85-A8EC-D9498998DB5F",
+                "imageRef": "7940A908-CCD4-4F97-8979-D169B66019B2",
+                "name": "FCDAC8D4-A110-432B-8623-A0CCC86AA969",
+                "networks": [
+                    {
+                        "uuid": "7D498C24-7BEF-48B7-BE9B-88B688135D10"
+                    }
+                ],
+                "security_groups": [
+                    {
+                        "name": "B4508372-2553-4643-9481-BFAB978997E5"
+                    }
+                ]
+            }
+        },
+        "method": "POST",
+        "path": "/servers"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/servers/FCDAC8D4-A110-432B-8623-A0CCC86AA969"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/virtual-network/7D498C24-7BEF-48B7-BE9B-88B688135D10"
+    },
+    {
+        "data": {
+            "virtual-network": {
+                "display_name": "7D498C24-7BEF-48B7-BE9B-88B688135D10",
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "7D498C24-7BEF-48B7-BE9B-88B688135D10"
+                ],
+                "network_ipam_refs": [
+                    {
+                        "attr": {
+                            "ipam_subnets": [
+                                {
+                                    "default_gateway": "10.0.1.1",
+                                    "subnet": {
+                                        "ip_prefix": "10.0.1.0",
+                                        "ip_prefix_len": 24
+                                    },
+                                    "subnet_name": "default"
+                                }
+                            ]
+                        },
+                        "to": [
+                            "default-domain",
+                            "default-project",
+                            "default-network-ipam"
+                        ]
+                    }
+                ],
+                "parent_type": "project",
+                "route_target_list": {
+                    "route_target": [
+                        "target:65000:1000"
+                    ]
+                },
+                "uuid": "7D498C24-7BEF-48B7-BE9B-88B688135D10",
+                "virtual_network_network_id": 1000
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/virtual-networks"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/virtual-network/CB866F85-E87A-4754-84BD-01A5DC970750"
+    },
+    {
+        "data": {
+            "virtual-network": {
+                "display_name": "CB866F85-E87A-4754-84BD-01A5DC970750",
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "CB866F85-E87A-4754-84BD-01A5DC970750"
+                ],
+                "network_ipam_refs": [
+                    {
+                        "attr": {
+                            "ipam_subnets": [
+                                {
+                                    "default_gateway": "20.0.1.1",
+                                    "subnet": {
+                                        "ip_prefix": "20.0.1.0",
+                                        "ip_prefix_len": 24
+                                    },
+                                    "subnet_name": "default"
+                                }
+                            ]
+                        },
+                        "to": [
+                            "default-domain",
+                            "default-project",
+                            "default-network-ipam"
+                        ]
+                    }
+                ],
+                "parent_type": "project",
+                "route_target_list": {
+                    "route_target": [
+                        "target:65000:1001",
+                        "target:65000:2000"
+                    ]
+                },
+                "uuid": "CB866F85-E87A-4754-84BD-01A5DC970750",
+                "virtual_network_network_id": 1001
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/virtual-networks"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/security-group/B4508372-2553-4643-9481-BFAB978997E5"
+    },
+    {
+        "data": {
+            "security-group": {
+                "configured_security_group_id": 1000,
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "B4508372-2553-4643-9481-BFAB978997E5"
+                ],
+                "name": "B4508372-2553-4643-9481-BFAB978997E5",
+                "parent_type": "project",
+                "security_group_entries": {
+                    "policy_rule": [
+                        {
+                            "direction": "\u003e",
+                            "dst_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": null,
+                                    "subnet": {
+                                        "ip_prefix": "0.0.0.0",
+                                        "ip_prefix_len": 0
+                                    },
+                                    "virtual_network": null
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ],
+                            "ethertype": "IPv4",
+                            "protocol": "any",
+                            "src_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "local",
+                                    "subnet": null,
+                                    "virtual_network": null
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ]
+                        },
+                        {
+                            "direction": "\u003e",
+                            "dst_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "local",
+                                    "subnet": null,
+                                    "virtual_network": null
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ],
+                            "ethertype": "IPv4",
+                            "protocol": "any",
+                            "src_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "default-domain:admin:B4508372-2553-4643-9481-BFAB978997E5",
+                                    "subnet": {
+                                        "ip_prefix": "0.0.0.0",
+                                        "ip_prefix_len": 0
+                                    },
+                                    "virtual_network": null
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ]
+                        },
+                        {
+                            "direction": "\u003e",
+                            "dst_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": null,
+                                    "subnet": {
+                                        "ip_prefix": "::",
+                                        "ip_prefix_len": 0
+                                    },
+                                    "virtual_network": null
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ],
+                            "ethertype": "IPv6",
+                            "protocol": "any",
+                            "src_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "local",
+                                    "subnet": null,
+                                    "virtual_network": null
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ]
+                        },
+                        {
+                            "direction": "\u003e",
+                            "dst_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": null,
+                                    "subnet": {
+                                        "ip_prefix": "0.0.0.0",
+                                        "ip_prefix_len": 0
+                                    },
+                                    "virtual_network": null
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": 80,
+                                    "start_port": 80
+                                }
+                            ],
+                            "ethertype": "IPv4",
+                            "protocol": "tcp",
+                            "src_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "local",
+                                    "subnet": null,
+                                    "virtual_network": null
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "uuid": "B4508372-2553-4643-9481-BFAB978997E5"
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/security-groups"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "POST",
+        "path": "/images"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/images/7940A908-CCD4-4F97-8979-D169B66019B2"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/flavors/CE72BEBC-20EC-4D85-A8EC-D9498998DB5F"
+    },
+    {
+        "data": {
+            "flavor": {
+                "disk": 1,
+                "ephemeral": null,
+                "id": "CE72BEBC-20EC-4D85-A8EC-D9498998DB5F",
+                "name": "global.m1.nano",
+                "ram": 124,
+                "swap": null,
+                "vcpus": 1
+            }
+        },
+        "method": "POST",
+        "path": "/flavors"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/service-template/16F175A5-0615-4EF8-A820-826941AF5ECF"
+    },
+    {
+        "data": {
+            "service-template": {
+                "display_name": "test_service_template",
+                "fq_name": [
+                    "default-domain",
+                    "test_service_template"
+                ],
+                "parent_type": "domain",
+                "service_template_properties": {
+                    "availability_zone_enable": false,
+                    "flavor": "global.m1.nano",
+                    "image_name": "upload_test",
+                    "interface_type": [
+                        {
+                            "service_interface_type": "management",
+                            "shared_ip": false,
+                            "static_route_enable": false
+                        },
+                        {
+                            "service_interface_type": "left",
+                            "shared_ip": false,
+                            "static_route_enable": false
+                        },
+                        {
+                            "service_interface_type": "right",
+                            "shared_ip": false,
+                            "static_route_enable": false
+                        }
+                    ],
+                    "ordered_interfaces": true,
+                    "service_mode": "",
+                    "service_scaling": false,
+                    "service_type": "firewall"
+                },
+                "uuid": "16F175A5-0615-4EF8-A820-826941AF5ECF"
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/service-templates"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/service-instance/2D4C403C-207F-486F-B1BF-C71AD588EDB0"
+    },
+    {
+        "data": {
+            "service-instance": {
+                "display_name": "test_service_instance",
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "test_service_instance"
+                ],
+                "parent_type": "project",
+                "service_instance_properties": {
+                    "interface_list": [
+                        {
+                            "virtual_network": "any"
+                        },
+                        {
+                            "virtual_network": "any"
+                        },
+                        {
+                            "virtual_network": "any"
+                        }
+                    ],
+                    "left_virtual_network": "any",
+                    "management_virtual_network": "any",
+                    "right_virtual_network": "any",
+                    "scale_out": {
+                        "max_instances": 1
+                    }
+                },
+                "service_template_refs": [
+                    {
+                        "to": [
+                            "default-domain",
+                            "test_service_template"
+                        ]
+                    }
+                ],
+                "uuid": "2D4C403C-207F-486F-B1BF-C71AD588EDB0"
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/service-instances"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/network-policy/7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+    },
+    {
+        "data": {
+            "network-policy": {
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+                ],
+                "network_policy_entries": {
+                    "policy_rule": [
+                        {
+                            "action_list": {
+                                "simple_action": "pass"
+                            },
+                            "application": [],
+                            "direction": "\u003c\u003e",
+                            "dst_addresses": [
+                                {
+                                    "virtual_network": "default-domain:admin:red"
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": -1,
+                                    "start_port": -1
+                                }
+                            ],
+                            "protocol": "any",
+                            "rule_sequence": {
+                                "major": -1,
+                                "minor": -1
+                            },
+                            "src_addresses": [
+                                {
+                                    "virtual_network": "default-domain:admin:blue"
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": -1,
+                                    "start_port": -1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "parent_type": "project",
+                "uuid": "7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/network-policys"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "description": "",
+            "parameters": {
+                "flavor": "m1.tiny",
+                "image": "tinycore"
+            },
+            "stack_name": "heat_instance",
+            "template": "heat_template_version: 2013-05-23\nparameters:\n    flavor:\n        type: string\n        description: Flavor for the server to be created\n        default: m1.tiny\n        constraints:\n        - custom_constraint: nova.flavor\n    image:\n        type: string\n        description: Image ID or image name to use for the server\n        constraints:\n        - custom_constraint: glance.image\n    networks:\n      - network : { get_param : network_id }\nresources:\n    server:\n        type: OS::Nova::Server\n        properties:\n            image: { get_param: image }\n            flavor: { get_param: flavor }\n            networks:\n            - network : { get_param : network_id }\noutputs:\n    server_networks:\n        description: The networks of the deployed server\n        value: { get_attr: [server, networks] }\n"
+        },
+        "method": "POST",
+        "path": "/v2.0/stacks"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "server": {
+                "flavorRef": "CE72BEBC-20EC-4D85-A8EC-D9498998DB5F",
+                "imageRef": "7940A908-CCD4-4F97-8979-D169B66019B2",
+                "name": "FCDAC8D4-A110-432B-8623-A0CCC86AA969",
+                "networks": [
+                    {
+                        "uuid": "7D498C24-7BEF-48B7-BE9B-88B688135D10"
+                    }
+                ],
+                "security_groups": [
+                    {
+                        "name": "B4508372-2553-4643-9481-BFAB978997E5"
+                    }
+                ]
+            }
+        },
+        "method": "POST",
+        "path": "/servers"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/servers/FCDAC8D4-A110-432B-8623-A0CCC86AA969"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/virtual-network/7D498C24-7BEF-48B7-BE9B-88B688135D10"
+    },
+    {
+        "data": {
+            "virtual-network": {
+                "display_name": "7D498C24-7BEF-48B7-BE9B-88B688135D10",
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "7D498C24-7BEF-48B7-BE9B-88B688135D10"
+                ],
+                "network_ipam_refs": [
+                    {
+                        "attr": {
+                            "ipam_subnets": [
+                                {
+                                    "default_gateway": "10.0.2.1",
+                                    "subnet": {
+                                        "ip_prefix": "10.0.2.0",
+                                        "ip_prefix_len": 24
+                                    },
+                                    "subnet_name": "default"
+                                }
+                            ]
+                        },
+                        "to": [
+                            "default-domain",
+                            "default-project",
+                            "default-network-ipam"
+                        ]
+                    }
+                ],
+                "parent_type": "project",
+                "route_target_list": {
+                    "route_target": [
+                        "target:65000:1000"
+                    ]
+                },
+                "uuid": "7D498C24-7BEF-48B7-BE9B-88B688135D10",
+                "virtual_network_network_id": 1000
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/virtual-networks"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/virtual-network/CB866F85-E87A-4754-84BD-01A5DC970750"
+    },
+    {
+        "data": {
+            "virtual-network": {
+                "display_name": "CB866F85-E87A-4754-84BD-01A5DC970750",
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "CB866F85-E87A-4754-84BD-01A5DC970750"
+                ],
+                "network_ipam_refs": [
+                    {
+                        "attr": {
+                            "ipam_subnets": [
+                                {
+                                    "default_gateway": "20.0.2.1",
+                                    "subnet": {
+                                        "ip_prefix": "20.0.2.0",
+                                        "ip_prefix_len": 24
+                                    },
+                                    "subnet_name": "default"
+                                }
+                            ]
+                        },
+                        "to": [
+                            "default-domain",
+                            "default-project",
+                            "default-network-ipam"
+                        ]
+                    }
+                ],
+                "parent_type": "project",
+                "route_target_list": {
+                    "route_target": [
+                        "target:65000:1001",
+                        "target:65000:2000"
+                    ]
+                },
+                "uuid": "CB866F85-E87A-4754-84BD-01A5DC970750",
+                "virtual_network_network_id": 1001
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/virtual-networks"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/security-group/B4508372-2553-4643-9481-BFAB978997E5"
+    },
+    {
+        "data": {
+            "security-group": {
+                "configured_security_group_id": 1000,
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "B4508372-2553-4643-9481-BFAB978997E5"
+                ],
+                "name": "B4508372-2553-4643-9481-BFAB978997E5",
+                "parent_type": "project",
+                "security_group_entries": {
+                    "policy_rule": [
+                        {
+                            "direction": "\u003e",
+                            "dst_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": null,
+                                    "subnet": {
+                                        "ip_prefix": "0.0.0.0",
+                                        "ip_prefix_len": 0
+                                    },
+                                    "virtual_network": null
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ],
+                            "ethertype": "IPv4",
+                            "protocol": "any",
+                            "src_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "local",
+                                    "subnet": null,
+                                    "virtual_network": null
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ]
+                        },
+                        {
+                            "direction": "\u003e",
+                            "dst_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "local",
+                                    "subnet": null,
+                                    "virtual_network": null
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ],
+                            "ethertype": "IPv4",
+                            "protocol": "any",
+                            "src_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "default-domain:admin:B4508372-2553-4643-9481-BFAB978997E5",
+                                    "subnet": {
+                                        "ip_prefix": "0.0.0.0",
+                                        "ip_prefix_len": 0
+                                    },
+                                    "virtual_network": null
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ]
+                        },
+                        {
+                            "direction": "\u003e",
+                            "dst_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": null,
+                                    "subnet": {
+                                        "ip_prefix": "::",
+                                        "ip_prefix_len": 0
+                                    },
+                                    "virtual_network": null
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ],
+                            "ethertype": "IPv6",
+                            "protocol": "any",
+                            "src_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "local",
+                                    "subnet": null,
+                                    "virtual_network": null
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ]
+                        },
+                        {
+                            "direction": "\u003e",
+                            "dst_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": null,
+                                    "subnet": {
+                                        "ip_prefix": "0.0.0.0",
+                                        "ip_prefix_len": 0
+                                    },
+                                    "virtual_network": null
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": 80,
+                                    "start_port": 80
+                                }
+                            ],
+                            "ethertype": "IPv4",
+                            "protocol": "tcp",
+                            "src_addresses": [
+                                {
+                                    "network_policy": null,
+                                    "security_group": "local",
+                                    "subnet": null,
+                                    "virtual_network": null
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": 65535,
+                                    "start_port": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "uuid": "B4508372-2553-4643-9481-BFAB978997E5"
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/security-groups"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "POST",
+        "path": "/images"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/images/7940A908-CCD4-4F97-8979-D169B66019B2"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/flavors/CE72BEBC-20EC-4D85-A8EC-D9498998DB5F"
+    },
+    {
+        "data": {
+            "flavor": {
+                "disk": 1,
+                "ephemeral": null,
+                "id": "CE72BEBC-20EC-4D85-A8EC-D9498998DB5F",
+                "name": "global.m1.nano",
+                "ram": 124,
+                "swap": null,
+                "vcpus": 1
+            }
+        },
+        "method": "POST",
+        "path": "/flavors"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/service-template/16F175A5-0615-4EF8-A820-826941AF5ECF"
+    },
+    {
+        "data": {
+            "service-template": {
+                "display_name": "test_service_template",
+                "fq_name": [
+                    "default-domain",
+                    "test_service_template"
+                ],
+                "parent_type": "domain",
+                "service_template_properties": {
+                    "availability_zone_enable": false,
+                    "flavor": "global.m1.nano",
+                    "image_name": "upload_test",
+                    "interface_type": [
+                        {
+                            "service_interface_type": "management",
+                            "shared_ip": false,
+                            "static_route_enable": false
+                        },
+                        {
+                            "service_interface_type": "left",
+                            "shared_ip": false,
+                            "static_route_enable": false
+                        },
+                        {
+                            "service_interface_type": "right",
+                            "shared_ip": false,
+                            "static_route_enable": false
+                        }
+                    ],
+                    "ordered_interfaces": true,
+                    "service_mode": "",
+                    "service_scaling": false,
+                    "service_type": "firewall"
+                },
+                "uuid": "16F175A5-0615-4EF8-A820-826941AF5ECF"
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/service-templates"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/service-instance/2D4C403C-207F-486F-B1BF-C71AD588EDB0"
+    },
+    {
+        "data": {
+            "service-instance": {
+                "display_name": "test_service_instance",
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "test_service_instance"
+                ],
+                "parent_type": "project",
+                "service_instance_properties": {
+                    "interface_list": [
+                        {
+                            "virtual_network": "any"
+                        },
+                        {
+                            "virtual_network": "any"
+                        },
+                        {
+                            "virtual_network": "any"
+                        }
+                    ],
+                    "left_virtual_network": "any",
+                    "management_virtual_network": "any",
+                    "right_virtual_network": "any",
+                    "scale_out": {
+                        "max_instances": 1
+                    }
+                },
+                "service_template_refs": [
+                    {
+                        "to": [
+                            "default-domain",
+                            "test_service_template"
+                        ]
+                    }
+                ],
+                "uuid": "2D4C403C-207F-486F-B1BF-C71AD588EDB0"
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/service-instances"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/contrail/network-policy/7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+    },
+    {
+        "data": {
+            "network-policy": {
+                "fq_name": [
+                    "default-domain",
+                    "admin",
+                    "7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+                ],
+                "network_policy_entries": {
+                    "policy_rule": [
+                        {
+                            "action_list": {
+                                "simple_action": "pass"
+                            },
+                            "application": [],
+                            "direction": "\u003c\u003e",
+                            "dst_addresses": [
+                                {
+                                    "virtual_network": "default-domain:admin:red"
+                                }
+                            ],
+                            "dst_ports": [
+                                {
+                                    "end_port": -1,
+                                    "start_port": -1
+                                }
+                            ],
+                            "protocol": "any",
+                            "rule_sequence": {
+                                "major": -1,
+                                "minor": -1
+                            },
+                            "src_addresses": [
+                                {
+                                    "virtual_network": "default-domain:admin:blue"
+                                }
+                            ],
+                            "src_ports": [
+                                {
+                                    "end_port": -1,
+                                    "start_port": -1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "parent_type": "project",
+                "uuid": "7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+            }
+        },
+        "method": "POST",
+        "path": "/contrail/network-policys"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "description": "",
+            "parameters": {
+                "flavor": "m1.tiny",
+                "image": "tinycore"
+            },
+            "stack_name": "heat_instance",
+            "template": "heat_template_version: 2013-05-23\nparameters:\n    flavor:\n        type: string\n        description: Flavor for the server to be created\n        default: m1.tiny\n        constraints:\n        - custom_constraint: nova.flavor\n    image:\n        type: string\n        description: Image ID or image name to use for the server\n        constraints:\n        - custom_constraint: glance.image\n    networks:\n      - network : { get_param : network_id }\nresources:\n    server:\n        type: OS::Nova::Server\n        properties:\n            image: { get_param: image }\n            flavor: { get_param: flavor }\n            networks:\n            - network : { get_param : network_id }\noutputs:\n    server_networks:\n        description: The networks of the deployed server\n        value: { get_attr: [server, networks] }\n"
+        },
+        "method": "POST",
+        "path": "/v2.0/stacks"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "server": {
+                "flavorRef": "CE72BEBC-20EC-4D85-A8EC-D9498998DB5F",
+                "imageRef": "7940A908-CCD4-4F97-8979-D169B66019B2",
+                "name": "FCDAC8D4-A110-432B-8623-A0CCC86AA969",
+                "networks": [
+                    {
+                        "uuid": "7D498C24-7BEF-48B7-BE9B-88B688135D10"
+                    }
+                ],
+                "security_groups": [
+                    {
+                        "name": "B4508372-2553-4643-9481-BFAB978997E5"
+                    }
+                ]
+            }
+        },
+        "method": "POST",
+        "path": "/servers"
+    },
+    {
+        "data": null,
+        "method": "GET",
+        "path": "/servers/FCDAC8D4-A110-432B-8623-A0CCC86AA969"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "os-getVNCConsole": {
+                "type": "novnc"
+            }
+        },
+        "method": "POST",
+        "path": "/servers/FCDAC8D4-A110-432B-8623-A0CCC86AA969/action"
+    },
+    {
+        "data": {
+            "os-getVNCConsole": {
+                "type": "novnc"
+            }
+        },
+        "method": "POST",
+        "path": "/servers/FCDAC8D4-A110-432B-8623-A0CCC86AA969/action"
+    },
+    {
+        "data": {
+            "os-getVNCConsole": {
+                "type": "novnc"
+            }
+        },
+        "method": "POST",
+        "path": "/servers/FCDAC8D4-A110-432B-8623-A0CCC86AA969/action"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "//v2.0/stacks"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "//v2.0/stacks"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "//v2.0/stacks"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "virtual-network": {
+                "network_policy_refs": []
+            }
+        },
+        "method": "PUT",
+        "path": "/contrail/virtual-network/7D498C24-7BEF-48B7-BE9B-88B688135D10"
+    },
+    {
+        "data": {
+            "virtual-network": {
+                "network_policy_refs": []
+            }
+        },
+        "method": "PUT",
+        "path": "/contrail/virtual-network/CB866F85-E87A-4754-84BD-01A5DC970750"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/network-policy/7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "virtual-network": {
+                "network_policy_refs": []
+            }
+        },
+        "method": "PUT",
+        "path": "/contrail/virtual-network/7D498C24-7BEF-48B7-BE9B-88B688135D10"
+    },
+    {
+        "data": {
+            "virtual-network": {
+                "network_policy_refs": []
+            }
+        },
+        "method": "PUT",
+        "path": "/contrail/virtual-network/CB866F85-E87A-4754-84BD-01A5DC970750"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/network-policy/7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "virtual-network": {
+                "network_policy_refs": []
+            }
+        },
+        "method": "PUT",
+        "path": "/contrail/virtual-network/7D498C24-7BEF-48B7-BE9B-88B688135D10"
+    },
+    {
+        "data": {
+            "virtual-network": {
+                "network_policy_refs": []
+            }
+        },
+        "method": "PUT",
+        "path": "/contrail/virtual-network/CB866F85-E87A-4754-84BD-01A5DC970750"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/network-policy/7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/service-instance/2D4C403C-207F-486F-B1BF-C71AD588EDB0"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/service-instance/2D4C403C-207F-486F-B1BF-C71AD588EDB0"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/service-instance/2D4C403C-207F-486F-B1BF-C71AD588EDB0"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/service-template/16F175A5-0615-4EF8-A820-826941AF5ECF"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/service-template/16F175A5-0615-4EF8-A820-826941AF5ECF"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/service-template/16F175A5-0615-4EF8-A820-826941AF5ECF"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/servers/FCDAC8D4-A110-432B-8623-A0CCC86AA969"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/servers/FCDAC8D4-A110-432B-8623-A0CCC86AA969"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/servers/FCDAC8D4-A110-432B-8623-A0CCC86AA969"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/images/7940A908-CCD4-4F97-8979-D169B66019B2"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/images/7940A908-CCD4-4F97-8979-D169B66019B2"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/images/7940A908-CCD4-4F97-8979-D169B66019B2"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/security-group/B4508372-2553-4643-9481-BFAB978997E5"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/security-group/B4508372-2553-4643-9481-BFAB978997E5"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/security-group/B4508372-2553-4643-9481-BFAB978997E5"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/virtual-network/7D498C24-7BEF-48B7-BE9B-88B688135D10"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/virtual-network/7D498C24-7BEF-48B7-BE9B-88B688135D10"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/virtual-network/7D498C24-7BEF-48B7-BE9B-88B688135D10"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/virtual-network/CB866F85-E87A-4754-84BD-01A5DC970750"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/virtual-network/CB866F85-E87A-4754-84BD-01A5DC970750"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/virtual-network/CB866F85-E87A-4754-84BD-01A5DC970750"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/flavors/CE72BEBC-20EC-4D85-A8EC-D9498998DB5F"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantName": "admin"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/flavors/CE72BEBC-20EC-4D85-A8EC-D9498998DB5F"
+    }
+]

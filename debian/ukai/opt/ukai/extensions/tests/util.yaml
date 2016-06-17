@@ -1,0 +1,52 @@
+- include: ./mock_backend.yaml
+- define:
+    name: test_setup_location
+    args:
+      db: object
+      mockbackend: object
+    body:
+    - when: 'GetConfig("unit_test", true)'
+      blocks:
+      - vars:
+          locations:
+          - id: tokyo
+            name: tokyo
+            tenant_id: e18e35984221433eaf1be32b95db0137
+            keystone_endpoint: ${ GetTestServerURL(mockbackend.server) + "/v2.0"}
+            contrail_endpoint: ${ GetTestServerURL(mockbackend.server) + "/contrail"}
+            region: RegionOne
+          - id: sf
+            name: sf
+            tenant_id: e18e35984221433eaf1be32b95db0137
+            keystone_endpoint: ${ GetTestServerURL(mockbackend.server) + "/v2.0"}
+            contrail_endpoint: ${ GetTestServerURL(mockbackend.server) + "/contrail"}
+            region: RegionOne
+      else:
+      - vars:
+          locations:
+          - id: tokyo
+            name: tokyo
+            tenant_id: e18e35984221433eaf1be32b95db0137
+            keystone_endpoint: ${ "http://" + GetConfig("locations/0/ip", "localhost") + ":35357/v2.0"}
+            contrail_endpoint: ${ "http://" + GetConfig("locations/0/ip", "localhost") + ":8082"}
+            region: ${ GetConfig("locations/0/region", "RegionOne") }
+          - id: sf
+            name: sf
+            tenant_id: e18e35984221433eaf1be32b95db0137
+            keystone_endpoint: ${ "http://" + GetConfig("locations/1/ip", "localhost") + ":35357/v2.0"}
+            contrail_endpoint: ${ "http://" + GetConfig("locations/1/ip", "localhost") + ":8082"}
+            region: ${ GetConfig("locations/1/region", "RegionOne") }
+    - transaction:
+      - db_create:
+          tx: $transaction
+          schema_id: location
+          data: $item
+        with_items: $locations
+- define:
+    name: test_setup
+    args:
+      db: object
+    body:
+    - mock_backend:
+      register: mockbackend
+    - test_setup_location: db=$db mockbackend=$mockbackend

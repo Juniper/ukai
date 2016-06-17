@@ -1,0 +1,217 @@
+test_suite:
+  tests:
+  - name: Policy Test
+    test:
+    - include: ../util.yaml
+    - command: "rm {{ __dir__ }}/../../test.db"
+      rescue: []
+    - get_config: key="keystone" default_value=null
+      register: keystone_config
+    - gohan_server: config_file=../gohan.yaml test=${true}
+      register: gohan_server
+    - vars:
+        server: $gohan_server.server
+        queue: $gohan_server.queue
+        green_id: 098F21EF-B284-4C4E-8F67-3A0F414BA79C
+    - include: ./base_resource.yaml
+    - include: ./backend.yaml
+    - get_openstack_client:
+        auth_url: "{{ locations.0.keystone_endpoint }}"
+        user_name: "{{ keystone_config.user_name }}"
+        password: "{{ keystone_config.password }}"
+        version: v2.0
+        tenant_name:  "{{ keystone_config.tenant_name }}"
+        domain_name: ""
+      register: client
+    - vars:
+        policy_test_data:
+        - path: "{{ gohan_url }}/v1.0/admin/id_pools"
+          data:
+            start: 3000
+            end: 4000
+            name: route_target
+            assigned: false
+        - path: "{{ gohan_url }}/v1.0/locations"
+          data:
+            id: $UUID()
+            name: bad_location
+            keystone_endpoint: ${ GetTestServerURL(mockbackend.server) + "/v2.0"}
+            contrail_endpoint: ${ GetTestServerURL(mockbackend.server) + "/contrail"}
+            region: RegionOne
+        - path: "{{ gohan_url }}/v1.0/route_target_associations"
+          data:
+            route_taget: 3000
+            network_id: $blue_id
+        - path: "{{ gohan_url }}/v1.0/servers"
+          data:
+            name: $server_id
+            image_id: $image_id
+            network_id: $blue_id
+            security_group_id: $sg_id
+        - path: "{{ gohan_url }}/v1.0/tenant/security_group_rules"
+          data:
+            name: bad_sg_id
+            security_group_id: $sg_id
+            ethertype: IPv4
+            protocol: tcp
+            port_range_min: 80
+            port_range_max: 80
+            direction: egress
+            remote_ip_prefix: 10.0.0.0/24
+        - path: "{{ gohan_url }}/v1.0/tenant/network_policies"
+          data:
+            id: $UUID()
+            source_network_id: $green_id
+            dest_network_id: $red_id
+            entries:
+            - action_list:
+                simple_action: pass
+              direction: "<>"
+              protocol: any
+              application: []
+              rule_sequence:
+                major: -1
+                minor: -1
+              src_addresses:
+              - virtual_network: "default-domain:admin:blue"
+              dst_addresses:
+              - virtual_network: "default-domain:admin:red"
+              src_ports:
+              - start_port: -1
+                end_port: -1
+              dst_ports:
+              - start_port: -1
+                end_port: -1
+        - path: "{{ gohan_url }}/v1.0/tenant/service_templates"
+          data:
+            id: $UUID()
+            name: $UUID()
+            image_id: $image_id
+            flavor_id: $flavor_id
+        - path: "{{ gohan_url }}/v1.0/tenant/network_policies"
+          data:
+            id: $UUID()
+            source_network_id: $blue_id
+            dest_network_id: $green_id
+            entries:
+            - action_list:
+                simple_action: pass
+              direction: "<>"
+              protocol: any
+              application: []
+              rule_sequence:
+                major: -1
+                minor: -1
+              src_addresses:
+              - virtual_network: "default-domain:admin:blue"
+              dst_addresses:
+              - virtual_network: "default-domain:admin:red"
+              src_ports:
+              - start_port: -1
+                end_port: -1
+              dst_ports:
+              - start_port: -1
+                end_port: -1
+        - path: "{{ gohan_url }}/v1.0/tenant/heat_instances"
+          data:
+            heat_instance:
+              id: $UUID()
+              name: bad_instance
+              heat_template_id: $heat_template_id
+              parameters:
+                flavor: m1.tiny
+                image: tinycore
+        - path: "{{ gohan_url }}/v1.0/tenant/service_instances"
+          data:
+            id: $UUID()
+            name: bad_service_instance
+            service_template_id: $service_template_id
+            service_instance_properties:
+              management_virtual_network: "any"
+              right_virtual_network: "any"
+              scale_out:
+                max_instances: 1
+              left_virtual_network: "any"
+              interface_list:
+                -
+                  virtual_network: "any"
+                -
+                  virtual_network: "any"
+                -
+                  virtual_network: "any"
+        - path: "{{ gohan_url }}/v1.0/tenant/local_networks"
+          data: {}
+        - path: "{{ gohan_url }}/v1.0/tenant/local_images"
+          data:  {}
+        - path: "{{ gohan_url }}/v1.0/local_servers"
+          data:  {}
+        - path: "{{ gohan_url }}/v1.0/tenant/local_network_policies"
+          data:  {}
+        - path: "{{ gohan_url }}/v1.0/tenant/local_security_groups"
+          data:  {}
+        - path: "{{ gohan_url }}/v1.0/tenant/local_service_templates"
+          data:  {}
+        - path: "{{ gohan_url }}/v1.0/tenant/local_heat_instances"
+          data:  {}
+    - name: create locations
+      blocks:
+      - openstack_ensure:
+          client: $client
+          url: "{{ gohan_url }}/v1.0/locations/{{ item.id }}"
+          post_url: "{{ gohan_url }}/v1.0/locations"
+          data: $item
+      with_items: $locations
+    - name: create base resources
+      blocks:
+      - vars:
+          path: $item.path
+          data: $item.data
+      - openstack_post:
+          client: $client
+          url: $path
+          data: $data
+      - wait_queue: queue=$queue
+      with_items: $test_data
+    - get_openstack_client:
+        auth_url: "{{ locations.0.keystone_endpoint }}"
+        user_name: "power_user"
+        password: "power_user"
+        version: v2.0
+        tenant_name:  "other"
+        domain_name: ""
+      register: demoClient
+    - openstack_post:
+        client: $demoClient
+        url: "{{ gohan_url }}/v1.0/tenant/networks"
+        data:
+          id: $green_id
+          name: $green_id
+          cidr: 30.0.0.0/20
+          local_prefix_len: 24
+    - name: policy test request
+      blocks:
+      - vars:
+          path: $item.path
+          data: $item.data
+          success: false
+      - openstack_post:
+          client: $demoClient
+          url: $path
+          data: $data
+        register: output
+        rescue:
+        - vars:
+            success: true
+      - when: success != true
+        blocks:
+        - fail: msg="expected fail for {{ path }}"
+      with_items: $policy_test_data
+    - wait_queue: queue=$queue
+    - name: delete resources
+      blocks:
+      - openstack_delete:
+          client: $client
+          url: $item
+      - wait_queue: queue=$queue
+      with_items: $delete_path
+    - stop_test_server: server=$server
