@@ -1,15 +1,15 @@
 - hosts: all
   sudo: yes
-  remote_user: vagrant
+  remote_user: ubuntu
   vars:
-      user: vagrant
+      user: ubuntu
 #      contrail_package: contrail-install-packages_2.23-119~kilo_all.deb
-      contrail_package: contrail-install-packages_3.0.0.0-2729~liberty_all.deb
+      contrail_package: contrail-install-packages_3.0.2.0-51~liberty_all.deb
   tasks:
-      - authorized_key: user="{{user}}" key=https://github.com/nati.keys
+      #- authorized_key: user="{{user}}" key=https://github.com/nati.keys
       - lineinfile: dest=/etc/hosts regexp='{{ ansible_hostname }}' line="127.0.0.1 {{ ansible_hostname }}" state=present
       - name: copy contrail package
-        synchronize: src=files dest=/home/vagrant/
+        synchronize: src=files dest=/home/ubuntu/
       - command: sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
       - command: sed -i 's/^AcceptEnv LANG LC_*/#AcceptEnv LANG LC_*/' /etc/ssh/sshd_config
       - command: echo "root:secret"|chpasswd

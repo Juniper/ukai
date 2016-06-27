@@ -623,7 +623,7 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | heat_instance_id | Heat Instance ID | Heat Instance | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -830,7 +830,12 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | url | URL | URL | string |  | uri |  |
+| visibility | Visibility | Image visibility. Valid value is public or private. Default is public. | string | public |  |  |
 | disk_format | Disk format | Disk format | string |  |  |  |
+| container_format | Disk format | Disk format | string |  |  |  |
+| min_disk | Min Disk | Amount of disk space in GB that is required to boot the image. | integer |  |  |  |
+| min_ram | Min RAM | Amount of RAM in MB that is required to boot the image. | integer |  |  |  |
+| protected | Protected | Image protection for deletion. Valid value is true or false. Default is false. | boolean | False |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -858,7 +863,12 @@ HTTP Status Code: 200 (OK)
         "tenant_id": $tenant_id,
         "description": $description,
         "url": $url,
-        "disk_format": $disk_format
+        "visibility": $visibility,
+        "disk_format": $disk_format,
+        "container_format": $container_format,
+        "min_disk": $min_disk,
+        "min_ram": $min_ram,
+        "protected": $protected
       }
     ]
   }
@@ -883,7 +893,12 @@ HTTP Status Code: 200 (OK)
         "tenant_id": $tenant_id,
         "description": $description,
         "url": $url,
-        "disk_format": $disk_format
+        "visibility": $visibility,
+        "disk_format": $disk_format,
+        "container_format": $container_format,
+        "min_disk": $min_disk,
+        "min_ram": $min_ram,
+        "protected": $protected
     }
   }
 ```
@@ -904,7 +919,12 @@ Sample Request
         "tenant_id": $tenant_id,
         "description": $description,
         "url": $url,
-        "disk_format": $disk_format
+        "visibility": $visibility,
+        "disk_format": $disk_format,
+        "container_format": $container_format,
+        "min_disk": $min_disk,
+        "min_ram": $min_ram,
+        "protected": $protected
       }
     }
   }
@@ -924,7 +944,12 @@ HTTP Status Code: 201 (Accepted)
         "tenant_id": $tenant_id,
         "description": $description,
         "url": $url,
-        "disk_format": $disk_format
+        "visibility": $visibility,
+        "disk_format": $disk_format,
+        "container_format": $container_format,
+        "min_disk": $min_disk,
+        "min_ram": $min_ram,
+        "protected": $protected
       }
     }
   }
@@ -955,7 +980,12 @@ Sample Request
         "tenant_id": $tenant_id,
         "description": $description,
         "url": $url,
-        "disk_format": $disk_format
+        "visibility": $visibility,
+        "disk_format": $disk_format,
+        "container_format": $container_format,
+        "min_disk": $min_disk,
+        "min_ram": $min_ram,
+        "protected": $protected
       }
     }
   }
@@ -975,7 +1005,12 @@ HTTP Status Code: 200 (OK)
         "tenant_id": $tenant_id,
         "description": $description,
         "url": $url,
-        "disk_format": $disk_format
+        "visibility": $visibility,
+        "disk_format": $disk_format,
+        "container_format": $container_format,
+        "min_disk": $min_disk,
+        "min_ram": $min_ram,
+        "protected": $protected
       }
     }
   }
@@ -1020,7 +1055,9 @@ Properties
 | description | Description | Description | string |  |  |  |
 | ram | RAM(mb) | RAN(mb) | integer |  |  |  |
 | vcpus | VCPUs | VCPUs | integer |  |  |  |
-| disk | Disk(GB) | ram | integer |  |  |  |
+| disk | Disk(GB) | RAM disk size | integer |  |  |  |
+| swap | Swap(GB) | Swap disk size | integer |  |  |  |
+| ephemeral | Ephemeral(GB) | Ephemeral disk size | integer |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -1049,7 +1086,9 @@ HTTP Status Code: 200 (OK)
         "description": $description,
         "ram": $ram,
         "vcpus": $vcpus,
-        "disk": $disk
+        "disk": $disk,
+        "swap": $swap,
+        "ephemeral": $ephemeral
       }
     ]
   }
@@ -1075,7 +1114,9 @@ HTTP Status Code: 200 (OK)
         "description": $description,
         "ram": $ram,
         "vcpus": $vcpus,
-        "disk": $disk
+        "disk": $disk,
+        "swap": $swap,
+        "ephemeral": $ephemeral
     }
   }
 ```
@@ -1097,7 +1138,9 @@ Sample Request
         "description": $description,
         "ram": $ram,
         "vcpus": $vcpus,
-        "disk": $disk
+        "disk": $disk,
+        "swap": $swap,
+        "ephemeral": $ephemeral
       }
     }
   }
@@ -1118,7 +1161,9 @@ HTTP Status Code: 201 (Accepted)
         "description": $description,
         "ram": $ram,
         "vcpus": $vcpus,
-        "disk": $disk
+        "disk": $disk,
+        "swap": $swap,
+        "ephemeral": $ephemeral
       }
     }
   }
@@ -1150,7 +1195,9 @@ Sample Request
         "description": $description,
         "ram": $ram,
         "vcpus": $vcpus,
-        "disk": $disk
+        "disk": $disk,
+        "swap": $swap,
+        "ephemeral": $ephemeral
       }
     }
   }
@@ -1171,7 +1218,9 @@ HTTP Status Code: 200 (OK)
         "description": $description,
         "ram": $ram,
         "vcpus": $vcpus,
-        "disk": $disk
+        "disk": $disk,
+        "swap": $swap,
+        "ephemeral": $ephemeral
       }
     }
   }
@@ -1603,7 +1652,7 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | service_instance_id | Service Instance | Service Instance | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -1813,7 +1862,7 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | service_template_id | Parent | parent object | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -2436,7 +2485,7 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | security_group_id | Parent | parent object | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -3038,7 +3087,7 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | network_policy_id | Parent | parent object | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -3453,7 +3502,7 @@ Properties
 | instance_id | Instance ID | Instance ID | string |  |  |  |
 | console_url | Console | link for console | string |  | uri |  |
 | server_id | Parent | parent object | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -3675,7 +3724,7 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | flavor_id | Parent | parent object | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -3885,7 +3934,7 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | image_id | Parent | parent object | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -4096,7 +4145,7 @@ Properties
 | description | Description | Description | string |  |  |  |
 | cidr | Cidr | cidr | string |  | cidr |  |
 | network_id | network | parent object | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -4308,7 +4357,7 @@ Properties
 | name | name | Name | string |  |  |  |
 | start | start | start | number |  |  |  |
 | end | end | end | number |  |  |  |
-| assigned | assinged | assigned | boolean |  |  |  |
+| assigned | assigned | assigned | boolean |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.

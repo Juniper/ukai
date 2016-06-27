@@ -774,7 +774,7 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | heat_instance_id | Heat Instance ID | Heat Instance | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -981,7 +981,12 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | url | URL | URL | string |  | uri |  |
+| visibility | Visibility | Image visibility. Valid value is public or private. Default is public. | string | public |  |  |
 | disk_format | Disk format | Disk format | string |  |  |  |
+| container_format | Disk format | Disk format | string |  |  |  |
+| min_disk | Min Disk | Amount of disk space in GB that is required to boot the image. | integer |  |  |  |
+| min_ram | Min RAM | Amount of RAM in MB that is required to boot the image. | integer |  |  |  |
+| protected | Protected | Image protection for deletion. Valid value is true or false. Default is false. | boolean | False |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -1009,7 +1014,12 @@ HTTP Status Code: 200 (OK)
         "tenant_id": $tenant_id,
         "description": $description,
         "url": $url,
-        "disk_format": $disk_format
+        "visibility": $visibility,
+        "disk_format": $disk_format,
+        "container_format": $container_format,
+        "min_disk": $min_disk,
+        "min_ram": $min_ram,
+        "protected": $protected
       }
     ]
   }
@@ -1034,7 +1044,12 @@ HTTP Status Code: 200 (OK)
         "tenant_id": $tenant_id,
         "description": $description,
         "url": $url,
-        "disk_format": $disk_format
+        "visibility": $visibility,
+        "disk_format": $disk_format,
+        "container_format": $container_format,
+        "min_disk": $min_disk,
+        "min_ram": $min_ram,
+        "protected": $protected
     }
   }
 ```
@@ -1055,7 +1070,12 @@ Sample Request
         "tenant_id": $tenant_id,
         "description": $description,
         "url": $url,
-        "disk_format": $disk_format
+        "visibility": $visibility,
+        "disk_format": $disk_format,
+        "container_format": $container_format,
+        "min_disk": $min_disk,
+        "min_ram": $min_ram,
+        "protected": $protected
       }
     }
   }
@@ -1075,7 +1095,12 @@ HTTP Status Code: 201 (Accepted)
         "tenant_id": $tenant_id,
         "description": $description,
         "url": $url,
-        "disk_format": $disk_format
+        "visibility": $visibility,
+        "disk_format": $disk_format,
+        "container_format": $container_format,
+        "min_disk": $min_disk,
+        "min_ram": $min_ram,
+        "protected": $protected
       }
     }
   }
@@ -1106,7 +1131,12 @@ Sample Request
         "tenant_id": $tenant_id,
         "description": $description,
         "url": $url,
-        "disk_format": $disk_format
+        "visibility": $visibility,
+        "disk_format": $disk_format,
+        "container_format": $container_format,
+        "min_disk": $min_disk,
+        "min_ram": $min_ram,
+        "protected": $protected
       }
     }
   }
@@ -1126,7 +1156,12 @@ HTTP Status Code: 200 (OK)
         "tenant_id": $tenant_id,
         "description": $description,
         "url": $url,
-        "disk_format": $disk_format
+        "visibility": $visibility,
+        "disk_format": $disk_format,
+        "container_format": $container_format,
+        "min_disk": $min_disk,
+        "min_ram": $min_ram,
+        "protected": $protected
       }
     }
   }
@@ -1171,7 +1206,9 @@ Properties
 | description | Description | Description | string |  |  |  |
 | ram | RAM(mb) | RAN(mb) | integer |  |  |  |
 | vcpus | VCPUs | VCPUs | integer |  |  |  |
-| disk | Disk(GB) | ram | integer |  |  |  |
+| disk | Disk(GB) | RAM disk size | integer |  |  |  |
+| swap | Swap(GB) | Swap disk size | integer |  |  |  |
+| ephemeral | Ephemeral(GB) | Ephemeral disk size | integer |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -1200,7 +1237,9 @@ HTTP Status Code: 200 (OK)
         "description": $description,
         "ram": $ram,
         "vcpus": $vcpus,
-        "disk": $disk
+        "disk": $disk,
+        "swap": $swap,
+        "ephemeral": $ephemeral
       }
     ]
   }
@@ -1226,7 +1265,9 @@ HTTP Status Code: 200 (OK)
         "description": $description,
         "ram": $ram,
         "vcpus": $vcpus,
-        "disk": $disk
+        "disk": $disk,
+        "swap": $swap,
+        "ephemeral": $ephemeral
     }
   }
 ```
@@ -1248,7 +1289,9 @@ Sample Request
         "description": $description,
         "ram": $ram,
         "vcpus": $vcpus,
-        "disk": $disk
+        "disk": $disk,
+        "swap": $swap,
+        "ephemeral": $ephemeral
       }
     }
   }
@@ -1269,7 +1312,9 @@ HTTP Status Code: 201 (Accepted)
         "description": $description,
         "ram": $ram,
         "vcpus": $vcpus,
-        "disk": $disk
+        "disk": $disk,
+        "swap": $swap,
+        "ephemeral": $ephemeral
       }
     }
   }
@@ -1301,7 +1346,9 @@ Sample Request
         "description": $description,
         "ram": $ram,
         "vcpus": $vcpus,
-        "disk": $disk
+        "disk": $disk,
+        "swap": $swap,
+        "ephemeral": $ephemeral
       }
     }
   }
@@ -1322,7 +1369,9 @@ HTTP Status Code: 200 (OK)
         "description": $description,
         "ram": $ram,
         "vcpus": $vcpus,
-        "disk": $disk
+        "disk": $disk,
+        "swap": $swap,
+        "ephemeral": $ephemeral
       }
     }
   }
@@ -1754,7 +1803,7 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | service_instance_id | Service Instance | Service Instance | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -1964,7 +2013,7 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | service_template_id | Parent | parent object | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -2587,7 +2636,7 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | security_group_id | Parent | parent object | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -3189,7 +3238,7 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | network_policy_id | Parent | parent object | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -3604,7 +3653,7 @@ Properties
 | instance_id | Instance ID | Instance ID | string |  |  |  |
 | console_url | Console | link for console | string |  | uri |  |
 | server_id | Parent | parent object | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -3826,7 +3875,7 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | flavor_id | Parent | parent object | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -4036,7 +4085,7 @@ Properties
 | tenant_id | Tenant ID | Tenant ID | string |  |  |  |
 | description | Description | Description | string |  |  |  |
 | image_id | Parent | parent object | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -4247,7 +4296,7 @@ Properties
 | description | Description | Description | string |  |  |  |
 | cidr | Cidr | cidr | string |  | cidr |  |
 | network_id | network | parent object | string |  |  |  |
-| task_status | Status | status | string |  |  |  |
+| task_status | Task Status | Task Status | string |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -4459,7 +4508,7 @@ Properties
 | name | name | Name | string |  |  |  |
 | start | start | start | number |  |  |  |
 | end | end | end | number |  |  |  |
-| assigned | assinged | assigned | boolean |  |  |  |
+| assigned | assigned | assigned | boolean |  |  |  |
 
 Note: it is mandatory property if there is no default value specified.
 id is an exception. if id property is null, gohan server will put uuid.
@@ -4830,7 +4879,7 @@ OpenContrail Global Controller.
 
 ```
 wget -qO - https://deb.packager.io/key | sudo apt-key add -
-echo "deb https://deb.packager.io/gh/nati/ukai trusty master" | sudo tee /etc/apt/sources.list.d/ukai.list
+echo "deb https://deb.packager.io/gh/Juniper/ukai trusty master" | sudo tee /etc/apt/sources.list.d/ukai.list
 sudo apt-get update
 sudo apt-get install ukai
 ```
@@ -4846,7 +4895,7 @@ configuraion on KeyStone.
 
 This section describe sample configuraion.
 
-Configure /etc/mysql/my.cnf  & restart mysql
+Configure /etc/mysql/my.cnf
 
 MySQL Master configuration sample
 
@@ -4856,13 +4905,17 @@ log-bin=mysql-bin
 server-id=1
 ```
 
+Restart mysql
+
 ```
 mysql> CREATE USER 'slave'@'%' IDENTIFIED BY 'secret';
-mysql> GRANT REPLICATION SLAVE ON *.* TO 'slave'@'%';
-mysql> SHOW Master Statusl
+mysql> GRANT REPLICATION SLAVE ON . TO ‘slave’@’$SLAVE_IP’;
+mysql> SHOW Master Status;
 ```
 
-Dump master data for keystone.db and copy this file to slaves
+Copy master status output.
+
+Dump master data for keystone.db
 
 ```
 mysqldump -uroot -p`cat /etc/contrail/mysql.token` keystone > keystone.db
@@ -4870,7 +4923,8 @@ mysqldump -uroot -p`cat /etc/contrail/mysql.token` keystone > keystone.db
 
 Setup MySQL slave
 
-Configure /etc/mysql/my.cnf & restart mysql
+Configure /etc/mysql/my.cnf
+Assign server id greater than 1
 
 ```
 [mysqld]
@@ -4879,22 +4933,36 @@ max_connections = 10000
 replicate-do-db=keystone
 ```
 
+Restart mysql
+
+Configure repliaction
+MASTER_LOG_FILE and MASTER_LOG_POS should be values we confirmed in master mysql.
+
 ```
-mysql>  CHANGE MASTER TO MASTER_HOST='192.168.0.6', MASTER_USER='slave', MASTER_PASSWORD='secret', MASTER_LOG_FILE='mysql-bin.000002', MASTER_LOG_POS=1507;
+mysql>  CHANGE MASTER TO MASTER_HOST='$MASTER_IP', MASTER_USER='slave', MASTER_PASSWORD='secret', MASTER_LOG_FILE='mysql-bin.000002', MASTER_LOG_POS=1507;
 Query OK, 0 rows affected (0.01 sec)
+mysql > drop database keystone;
+mysql > create database keystone;
 ```
 
 Import initial data
 
+Copy keystone.db from master server
+
 ```
-mysql -uroot -p`cat /etc/contrail/mysql.token` keystone –e “drop database keystone”
 mysql -uroot -p`cat /etc/contrail/mysql.token` keystone < keystone.db
 ```
 
 Start slave mode
 
 ```
-mysql -uroot -p`cat /etc/contrail/mysql.token` keystone –e “start slave”
+mysql -uroot -p`cat /etc/contrail/mysql.token` keystone –e "start slave"
+```
+
+Check replication status.
+
+```
+mysql>  show slave status;
 ```
 
 ### Setup fernet token
@@ -4915,28 +4983,57 @@ provider = fernet
 
 Restart keystone
 
+Copy master’s /etc/keystone/fernet-keys to slave
+Note that user & group of fernet-keys should be keystone
 
-setup on keystone slave & add same provider configuraion.
-
-Copy master’s /etc/keystone/fernet-keys
 Restart keystone
+
 
 # Setup keystone endpoints
 
 You can configure keystone endpoint from OpenStack client.
+You can use this simple oneliner. (please replace REGION_NAME, MASTER_IP and SLAVE_IP.
+
+```
+keystone endpoint-list | awk '/RegionOne/{print "keystone endpoint-create --publicurl  '\''" $6 "'\'' \
+   --internalurl '\''"$8"'\'' --adminurl '\''"$10"'\'' \
+   --service-id "$12 " --region $REGION_NAME"}' | sed 's/$MASTER_IP/$SLAVE_IP/g' \
+```
+
 
 ## Configure keystone in /etc/ukai/gohan.yaml
+
+
+Setup Gohan db in mysql
+
+```
+CREATE USER 'gohan'@'localhost' IDENTIFIED BY 'gohan';
+CREATE DATABASE gohan;
+GRANT ALL PRIVILEGES ON gohan.* TO 'gohan'@'localhost';
+```
+
+update gohan config
 
 ``` yaml
 # keystone configuration
 keystone:
     use_keystone: true
     fake: false
-    auth_url: "http://10.84.34.96:35357/v2.0"
+    auth_url: "http://$MASTER_IP:35357/v2.0"
     user_name: "admin"
     tenant_name: "admin"
     password: "secret123"
+
+webui_config:
+    # if true, gohan generates webui config.json
+    enabled: true
+    # you need to set keystone auth url for users
+    # auth_url: "http://localhost:9091/v2
+    tls: false
+    auth_url: "http://$MASTER_IP:5000/v2.0"
 ```
+
+update webui config also
 
 ### Setup BGP peering configuraion between contrail clusters
 
@@ -5005,6 +5102,7 @@ For more information please take look [Gohan document](http://gohan.cloudwan.io/
 - [x] Network Policy
 - [x] Heat
 - [x] Location
+- [x] Flavor
 
 ## Negative API Test
 
@@ -5046,6 +5144,7 @@ For more information please take look [Gohan document](http://gohan.cloudwan.io/
 - [x] Network Policy
 - [x] Heat
 - [x] Location
+- [x] Flavor
 
 ### Southbound Error
 
@@ -5059,6 +5158,7 @@ For more information please take look [Gohan document](http://gohan.cloudwan.io/
 - [x] Network Policy
 - [x] Heat
 - [x] Location
+- [x] Flavor
 
 ## Failure Test
 

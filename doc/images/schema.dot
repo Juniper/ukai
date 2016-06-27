@@ -18,10 +18,10 @@ digraph schemas {
   local_heat_instance -> heat_instance [ label = "heat_instance_id"];
   
 
-  image [ label = "{ image | id\lname\ltenant_id\ldescription\lurl\ldisk_format\l }", shape = "record"];
+  image [ label = "{ image | id\lname\ltenant_id\ldescription\lurl\lvisibility\ldisk_format\lcontainer_format\lmin_disk\lmin_ram\lprotected\l }", shape = "record"];
   
 
-  flavor [ label = "{ flavor | id\lname\ltenant_id\ldescription\lram\lvcpus\ldisk\l }", shape = "record"];
+  flavor [ label = "{ flavor | id\lname\ltenant_id\ldescription\lram\lvcpus\ldisk\lswap\lephemeral\l }", shape = "record"];
   
 
   service_template [ label = "{ service_template | id\lname\ltenant_id\ldescription\limage_id\lservice_mode\lflavor_id\l }", shape = "record"];
