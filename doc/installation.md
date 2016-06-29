@@ -158,6 +158,54 @@ keystone endpoint-list | awk '/RegionOne/{print "keystone endpoint-create --publ
    --service-id "$12 " --region $REGION_NAME"}' | sed 's/$MASTER_IP/$SLAVE_IP/g' \ | bash
 ```
 
+## [Optional] Setup CORS
+
+In order to use webui for global controller, 
+you need to setup CORS on the master keystone.
+
+Step1: install wsgicors module
+
+```
+pip install wsgicors
+```
+
+Step2: Add cors filter to /etc/keystone/keystone-paste.ini
+
+```
+[filter:cors]
+use = egg:wsgicors#middleware
+policy = open
+open_origin = *
+open_headers = *
+open_methods = *
+open_maxage = 86400
+```
+
+Step3: Modify existing pipelines to add cors filter
+
+```
+[pipeline:public_api]
+pipeline = cors stats_monitoring sizelimit url_normalize build_auth_context token_auth admin_token_auth xml_body_v2 json_body ec2_extension user_crud_extension public_service
+
+[pipeline:admin_api]
+pipeline = cors sizelimit url_normalize build_auth_context token_auth admin_token_auth xml_body_v2 json_body ec2_extension s3_extension crud_extension admin_service
+
+[pipeline:api_v3]
+pipeline = cors stats_reporting sizelimit url_normalize build_auth_context token_auth admin_token_auth xml_body_v3 json_body ec2_extension_v3 s3_extension simple_cert_extension revoke_extension service_v3
+
+[pipeline:public_version_api]
+pipeline = cors sizelimit url_normalize xml_body public_version_service
+
+[pipeline:admin_version_api]
+pipeline = cors sizelimit url_normalize xml_body admin_version_service
+```
+
+Step4: Restart Keystone
+
+```
+service keystone restart
+```
+
 ## Install OpenContrail Global Controller
 
 ```
