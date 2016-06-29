@@ -8,11 +8,18 @@ OpenContrail Global Controller.
 You need to setup multi-region OpenStack with OpenContrail.
 Note that OpenContrail controllers should be peered each other.
 
-### [Optional] Setup Keystone with MySQL replication
+## [Optional] Setup Keystone in the multi region
 
-In this section, we describe how to setup keystone using mysql replication.
+In OpenStack, Keystone manages authentication and endpoint management for each region.
+Keystone can be either centralized or distributed. 
+In this section, we describe how to setup keystone in distributed manner. 
 
-Configure /etc/mysql/my.cnf
+In this example, we have Region1 and Region2. We will use MySQL server in Region1 as master, and MySQL server in Region2 as slave. You can use local keystone in each region for authentication. You need to go master keystone in case of you need to change tenants or user information.
+
+### Configure MySQL master
+
+Step1: Login to the MySQL in Region1
+Step2: Configure /etc/mysql/my.cnf
 
 MySQL Master configuration sample
 
@@ -22,40 +29,50 @@ log-bin=mysql-bin
 server-id=1
 ```
 
-Restart mysql
+Step3: Restart MySQL server
 
 ```
-mysql> CREATE USER 'slave'@'%' IDENTIFIED BY 'secret';
+service mysql restart
+```
+
+Step4: Create slave users for each slave
+
+```
+mysql> CREATE USER 'slave'@'$SLAVE_IP' IDENTIFIED BY 'secret';
 mysql> GRANT REPLICATION SLAVE ON *.* TO 'slave’@’$SLAVE_IP';
 mysql> SHOW Master Status;
 ```
 
-Copy master status output.
-Dump master data for keystone.db
+Note that we need MYSQL_LOG_POS and MASTER_LOG_FILE value later.
+
+Step5: Dump master data for keystone.db
 
 ```
 mysqldump -uroot -p`cat /etc/contrail/mysql.token` keystone > keystone.db
 ```
 
-Setup MySQL slave
+### Configure MySQL slave
 
-Configure /etc/mysql/my.cnf
-Assign server id greater than 1
+Step1: Login to MySQL server in Region2
+
+Step2: Configure /etc/mysql/my.cnf
+
+Note that server-id should be unique.
 
 ```
 [mysqld]
 server-id=2
-max_connections = 10000
 replicate-do-db=keystone
 ```
 
-Restart MySQL
+Step3: Restart MySQL
 
 ```
-service mysql-server restart
+service mysql restart
 ```
 
-Configure replication
+Step:4 Configure replication
+
 MASTER_LOG_FILE and MASTER_LOG_POS should be values we confirmed in master mysql.
 
 ```
@@ -65,15 +82,15 @@ mysql > drop database keystone;
 mysql > create database keystone;
 ```
 
-Import initial data
+Step5: Import initial data
 
-Copy keystone.db from master server
+Copy keystone.db from MySQL master and apply.
 
 ```
 mysql -uroot -p`cat /etc/contrail/mysql.token` keystone < keystone.db
 ```
 
-Start slave mode
+Step6: Start slave mode
 
 ```
 mysql -uroot -p`cat /etc/contrail/mysql.token` keystone –e "start slave"
@@ -85,15 +102,19 @@ Check replication status.
 mysql>  show slave status;
 ```
 
-### [Optional] Setup fernet token
+## Setup Fernet token
 
-setup master keystone
+We will use Keystone in Region1 as master, and Region2 as slave.
+
+### Setup master keystone
+
+Step1: Setup Keystone in Region1.
 
 ```
 keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
 ```
 
-Configure fernet provider
+Step2: Configure Fernet provider
 
 /etc/keystone/keystone.conf
 
@@ -101,13 +122,29 @@ Configure fernet provider
 provider = fernet
 ```
 
-Restart keystone
+Step3: Restart keystone
 
-Copy master’s /etc/keystone/fernet-keys to slave.
+```
+service keystone restart
+```
 
-Note that user & group of fernet-keys should be keystone.
+### Setup slave keystone
 
-Restart keystone
+Step1: Copy master’s /etc/keystone/fernet-keys to slave.
+
+Step2: Configure Fernet provider
+
+/etc/keystone/keystone.conf
+
+```
+provider = fernet
+```
+
+Step3: Restart keystone
+
+```
+service keystone restart
+```
 
 
 ## Setup keystone endpoints
@@ -131,7 +168,6 @@ sudo apt-get install ukai
 ```
 
 ### Configure keystone in /etc/ukai/gohan.yaml
-
 
 Setup Gohan db in mysql
 
