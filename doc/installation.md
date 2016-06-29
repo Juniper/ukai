@@ -1,24 +1,19 @@
-# Operational Details
+# Installation
 
-## Installation
-
-In this section, we describe sample setup configuraion of
+In this section, we describe sample setup configuration of
 OpenContrail Global Controller.
 
-### Install OpenContrail Global Controller
 
 ```
-wget -qO - https://deb.packager.io/key | sudo apt-key add -
-echo "deb https://deb.packager.io/gh/Juniper/ukai trusty master" | sudo tee /etc/apt/sources.list.d/ukai.list
-sudo apt-get update
-sudo apt-get install ukai
-```
 
-### Setup Openstack + contrail
+## Setup Multi Region Openstack with OpenContrail
 
-You need decide AS number in your setup.
+You need to setup multi-region OpenStack with OpenContrail.
+Note that OpenContrail controllers need to be peered each other.
 
-### Sync keystone data
+## [Optional] Setup Keystone with replication
+
+## [Sync keystone data
 
 OpenContrail Global Controller requires multi-region
 configuraion on KeyStone.
@@ -130,8 +125,15 @@ keystone endpoint-list | awk '/RegionOne/{print "keystone endpoint-create --publ
    --service-id "$12 " --region $REGION_NAME"}' | sed 's/$MASTER_IP/$SLAVE_IP/g' \ | bash
 ```
 
+### Install OpenContrail Global Controller
 
-## Configure keystone in /etc/ukai/gohan.yaml
+```
+wget -qO - https://deb.packager.io/key | sudo apt-key add -
+echo "deb https://deb.packager.io/gh/Juniper/ukai trusty master" | sudo tee /etc/apt/sources.list.d/ukai.list
+sudo apt-get update
+sudo apt-get install ukai
+
+### Configure keystone in /etc/ukai/gohan.yaml
 
 
 Setup Gohan db in mysql
@@ -162,12 +164,6 @@ webui_config:
     tls: false
     auth_url: "http://$MASTER_IP:5000/v2.0"
 ```
-
-update webui config also
-
-### Setup BGP peering configuraion between contrail clusters
-
-You can do it from contrail webui.
 
 ### Start ukai
 
