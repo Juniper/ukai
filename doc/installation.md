@@ -3,22 +3,14 @@
 In this section, we describe sample setup configuration of
 OpenContrail Global Controller.
 
-
-```
-
 ## Setup Multi Region Openstack with OpenContrail
 
 You need to setup multi-region OpenStack with OpenContrail.
-Note that OpenContrail controllers need to be peered each other.
+Note that OpenContrail controllers should be peered each other.
 
-## [Optional] Setup Keystone with replication
+### [Optional] Setup Keystone with MySQL replication
 
-## [Sync keystone data
-
-OpenContrail Global Controller requires multi-region
-configuraion on KeyStone.
-
-This section describe sample configuraion.
+In this section, we describe how to setup keystone using mysql replication.
 
 Configure /etc/mysql/my.cnf
 
@@ -39,7 +31,6 @@ mysql> SHOW Master Status;
 ```
 
 Copy master status output.
-
 Dump master data for keystone.db
 
 ```
@@ -58,9 +49,13 @@ max_connections = 10000
 replicate-do-db=keystone
 ```
 
-Restart mysql
+Restart MySQL
 
-Configure repliaction
+```
+service mysql-server restart
+```
+
+Configure replication
 MASTER_LOG_FILE and MASTER_LOG_POS should be values we confirmed in master mysql.
 
 ```
@@ -90,7 +85,7 @@ Check replication status.
 mysql>  show slave status;
 ```
 
-### Setup fernet token
+### [Optional] Setup fernet token
 
 setup master keystone
 
@@ -98,7 +93,7 @@ setup master keystone
 keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
 ```
 
-configure conf
+Configure fernet provider
 
 /etc/keystone/keystone.conf
 
@@ -108,16 +103,17 @@ provider = fernet
 
 Restart keystone
 
-Copy master’s /etc/keystone/fernet-keys to slave
-Note that user & group of fernet-keys should be keystone
+Copy master’s /etc/keystone/fernet-keys to slave.
+
+Note that user & group of fernet-keys should be keystone.
 
 Restart keystone
 
 
-# Setup keystone endpoints
+## Setup keystone endpoints
 
 You can configure keystone endpoint from OpenStack client on master node.
-You can use this simple oneliner. (please replace REGION_NAME, MASTER_IP and SLAVE_IP.
+You can use this simple oneliner. (Please replace REGION_NAME, MASTER_IP and SLAVE_IP).
 
 ```
 keystone endpoint-list | awk '/RegionOne/{print "keystone endpoint-create --publicurl  '\''" $6 "'\'' \
@@ -125,7 +121,7 @@ keystone endpoint-list | awk '/RegionOne/{print "keystone endpoint-create --publ
    --service-id "$12 " --region $REGION_NAME"}' | sed 's/$MASTER_IP/$SLAVE_IP/g' \ | bash
 ```
 
-### Install OpenContrail Global Controller
+## Install OpenContrail Global Controller
 
 ```
 wget -qO - https://deb.packager.io/key | sudo apt-key add -
@@ -171,7 +167,7 @@ webui_config:
 service ukai start
 ```
 
-## Initial configuraion
+## Initial configuration
 
 ### Create following ID pools
 
@@ -181,6 +177,6 @@ From WebUI, you can add ID pool resource
 - virtual_network_id   Note that this ID should start from 600000
 - security_group_id
 
-### Create location resource
+## Create location resource
 
 You need create location for each location
