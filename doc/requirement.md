@@ -1,5 +1,3 @@
-** OpenContrail Global Controller v1.0 **
-
 # Requirements
 
 ## Assumption and Constraints
