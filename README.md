@@ -1,79 +1,44 @@
 OpenContrail Global Controller (codename Ukai)
 ----------------------------------------------
 
-OpenContrail Global Controller is a cloud & network controller for multiple controllers.
+# Introduction
 
-![ukai](https://upload.wikimedia.org/wikipedia/commons/3/31/Kisokaido54_Godo.jpg "Ukai")
-[Ukai](https://en.wikipedia.org/wiki/Cormorant_fishing#Japan)
+## Purpose
 
-- Global Network Resource management
-  Ukai manages network resources and it get translated to local resources in the DC.
-- Global identifier pool management such as Route Target and Security Group ID etc.
+The goal of OpenContrail Global Controller is to provide seamless experience on multiple region.
+cloud environment. Generally, we will separate failure domain using Region concept on multiple region environment
+in order to provide high availability. However, there are burden to connect or configuring
+ servers and virtual machines over multiple different regions.
 
-Status
-------
-Alpha in QA
+The Global Controller has two main responsibility, resource ID management and multiple location resource provisioning.
+
+## Scope
+
+### Centralized resource identifier management
+
+We have multiple kinds of identifiers (IDs), which are needed to coordinated in centralized location,
+ such as Route Target, Virtual Network IDs, Security Groups ID.
+OpenContrail can interconnect virtual networks (VNs) in different Data Centers using BGP VPN technology (RFC4364).
+BGP VPN realizes virtual private networks (VPNs) using Route Target identifier (RFC4360).
+We need to coordinate route target ID ranges if we inter connect multiple DCs. In order to automate this process.
+Virtual network ID is similar with route target. It is used to identify same virtual networks in different DCs for preventing looping in
+service chaining described later.
+Security Group IDs are used to identify same security group, so that we can use same security group policy over multiple
+DCs. It is operational burden for users if we can't use same security group over multiple region, because we need
+to configure to allow traffic from all route in a same virtual networks.
+OpenContrail Global Controller manages these identifiers.
+
+### Multiple location resource provisioning
+
+We have many use-cases need to have same resource need to be existing in multiple DCs such as Policy or services.
+Let's say we have a security policy to apply firewall (FW) for any traffic for application server network which exists in multiple
+locations. We need to have same virtual network, network policy, and FWs in each location.
+OpenContrail Global Controller automates this process.
 
 Doc
 -------
 
-see more detail in [Doc](./doc)
-
-
-TODOs
------
-
-Common
-
-- [x] Better error message
-- [ ] Better logging
-- [x] Retry execution
-- [x] Queuing
-
-Resources Status
-
-- [x] ID pool
-- [x] Network
-  - [x] local network
-    - [x] local_server
-    - [x] local_network_policy
-  - [x] global subnet & IPAM
-  - [x] RT pool management
-  - [x] Multiple RT
-  - [x] Update network
-- [x] Security group
-  - [x] Global sg id management
-  - [x] Input ip validation check
-- [x] service_template
-- [x] service_instance
-  - [x] support in_network and in_network_nat
-- [x] network_policy
-  - [x] input ip validation check
-- [x] location
-  - [x] local_security_group
-  - [x] local_image
-  - [x] local_service_template
-  - [x] local_service_instance
-  - [ ] health status
-- [x] Image
-- [x] Server
-- [x] Heat
-- [x] Flavor
-
-Testing
-
-- [ ] CI test
-- [ ] make ansible + vagrant for createing testing enviroment including two contrail setup
-- [ ] Dependency analysis & test
-
-Benchmark
-
-- [x] mock backend
-- [ ] real backend
-
-Document
-- [x] API Doc
-- [ ] Detailed Setup procedure
+see more detail in [Doc](https://nati.gitbooks.io/contrail-global-controller/content/)
 
 Licensing
 ---------
