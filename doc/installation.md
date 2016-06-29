@@ -128,6 +128,7 @@ wget -qO - https://deb.packager.io/key | sudo apt-key add -
 echo "deb https://deb.packager.io/gh/Juniper/ukai trusty master" | sudo tee /etc/apt/sources.list.d/ukai.list
 sudo apt-get update
 sudo apt-get install ukai
+```
 
 ### Configure keystone in /etc/ukai/gohan.yaml
 
