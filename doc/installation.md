@@ -132,7 +132,14 @@ service keystone restart
 
 Step1: Copy master’s /etc/keystone/fernet-keys to slave.
 
-Step2: Configure Fernet provider
+
+Step2: Make sure permission
+
+```
+chown -R keystone.keystone fernet-keys
+```
+
+Step3: Configure Fernet provider
 
 /etc/keystone/keystone.conf
 
@@ -140,7 +147,7 @@ Step2: Configure Fernet provider
 provider = fernet
 ```
 
-Step3: Restart keystone
+Step4: Restart keystone
 
 ```
 service keystone restart
