@@ -162,7 +162,7 @@ You can use this simple oneliner. (Please replace REGION_NAME, MASTER_IP and SLA
 ```
 keystone endpoint-list | awk '/RegionOne/{print "keystone endpoint-create --publicurl  '\''" $6 "'\'' \
    --internalurl '\''"$8"'\'' --adminurl '\''"$10"'\'' \
-   --service-id "$12 " --region $REGION_NAME"}' | sed 's/$MASTER_IP/$SLAVE_IP/g' \ | bash
+   --service-id "$12 " --region $REGION_NAME"}' | sed 's/$MASTER_IP/$SLAVE_IP/g'| bash
 ```
 
 ## [Optional] Setup CORS
