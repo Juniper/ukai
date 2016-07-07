@@ -63,6 +63,7 @@ Note that server-id should be unique.
 [mysqld]
 server-id=2
 replicate-do-db=keystone
+replicate-ignore-table=keystone.revocation_event
 ```
 
 Step3: Restart MySQL
@@ -122,8 +123,6 @@ Step2: Configure Fernet provider & revoke provider
 [token]
 provider = fernet
 
-[revoke]
-driver = kvs
 ```
 
 Step3: Restart keystone
