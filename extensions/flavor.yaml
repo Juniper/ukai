@@ -29,7 +29,7 @@
             vcpus: $flavor.vcpus
             disk: $flavor.disk
             swap: $flavor.swap
-            ephemeral: $flavor.ephemeral
+            "OS-FLV-EXT-DATA:ephemeral": $flavor.ephemeral
       register: output
 - define:
     name: delete_local_flavor
