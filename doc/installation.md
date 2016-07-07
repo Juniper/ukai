@@ -114,12 +114,16 @@ Step1: Setup Keystone in Region1.
 keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
 ```
 
-Step2: Configure Fernet provider
+Step2: Configure Fernet provider & revoke provider
 
 /etc/keystone/keystone.conf
 
 ```
+[token]
 provider = fernet
+
+[revoke]
+driver = kvs
 ```
 
 Step3: Restart keystone
