@@ -495,7 +495,7 @@ schemas:
       container_format:
         permission:
         - create
-        title: Disk format
+        title: Container format format
         type: string
         unique: false
         description: Disk format
@@ -609,6 +609,7 @@ schemas:
         unique: false
         description: Swap disk size
         minimum: 0
+        default: 0
       ephemeral:
         permission:
         - create
@@ -617,6 +618,7 @@ schemas:
         unique: false
         description: Ephemeral disk size
         minimum: 0
+        default: 0
     propertiesOrder:
     - ram
     - vcpus
