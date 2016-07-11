@@ -30,3 +30,5 @@ ansible/.vagrant
 *.deb
 
 hosts
+_book
+hosts_*
