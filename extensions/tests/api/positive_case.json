@@ -1129,12 +1129,12 @@
     {
         "data": {
             "flavor": {
+                "OS-FLV-EXT-DATA:ephemeral": 0,
                 "disk": 1,
-                "ephemeral": null,
                 "id": "CE72BEBC-20EC-4D85-A8EC-D9498998DB5F",
                 "name": "global.m1.nano",
                 "ram": 124,
-                "swap": null,
+                "swap": 0,
                 "vcpus": 1
             }
         },
@@ -1162,12 +1162,12 @@
     {
         "data": {
             "flavor": {
+                "OS-FLV-EXT-DATA:ephemeral": 0,
                 "disk": 1,
-                "ephemeral": null,
                 "id": "CE72BEBC-20EC-4D85-A8EC-D9498998DB5F",
                 "name": "global.m1.nano",
                 "ram": 124,
-                "swap": null,
+                "swap": 0,
                 "vcpus": 1
             }
         },
@@ -1425,9 +1425,6 @@
                             "virtual_network": "any"
                         }
                     ],
-                    "left_virtual_network": "any",
-                    "management_virtual_network": "any",
-                    "right_virtual_network": "any",
                     "scale_out": {
                         "max_instances": 1
                     }
@@ -1491,9 +1488,6 @@
                             "virtual_network": "any"
                         }
                     ],
-                    "left_virtual_network": "any",
-                    "management_virtual_network": "any",
-                    "right_virtual_network": "any",
                     "scale_out": {
                         "max_instances": 1
                     }
@@ -2233,12 +2227,12 @@
     {
         "data": {
             "flavor": {
+                "OS-FLV-EXT-DATA:ephemeral": 0,
                 "disk": 1,
-                "ephemeral": null,
                 "id": "CE72BEBC-20EC-4D85-A8EC-D9498998DB5F",
                 "name": "global.m1.nano",
                 "ram": 124,
-                "swap": null,
+                "swap": 0,
                 "vcpus": 1
             }
         },
@@ -2354,9 +2348,6 @@
                             "virtual_network": "any"
                         }
                     ],
-                    "left_virtual_network": "any",
-                    "management_virtual_network": "any",
-                    "right_virtual_network": "any",
                     "scale_out": {
                         "max_instances": 1
                     }

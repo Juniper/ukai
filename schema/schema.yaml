@@ -1088,8 +1088,8 @@ schemas:
         type: string
         enum:
         - transparent
-        - in_network
-        - in_network_nat
+        - in-network
+        - in-network-nat
         description: Service Mode
       flavor_id:
         permission:
@@ -1099,10 +1099,54 @@ schemas:
         relation: flavor
         relation_property: flavor
         description: flavor_id
+      availability_zone_enable:
+        permission:
+        - create
+        title: Availability Zone
+        type: boolean
+        description: Enable Availability Zone or not
+      interface_type:
+        type: array
+        permission:
+        - create
+        title: Interfaces
+        description: Interfaces
+        view:
+        - create
+        - update
+        - detail
+        items:
+          type: object
+          properties:
+            static_route_enable:
+              permission:
+              - create
+              title: Static Route
+              type: boolean
+              description: Enable Static Route Zone or not
+            shared_ip:
+              permission:
+              - create
+              title: Shared IP
+              type: boolean
+              description: Enable  Shared IP or not
+            service_interface_type:
+              permission:
+              - create
+              title: Service Interface Type
+              type: string
+              enum:
+              - left
+              - right
+              - management
+              - other0
+              description: Service Interface Type
     propertiesOrder:
     - image_id
     - service_mode
     - flavor_id
+    - availability_zone_enable
+    - interface_type
     type: object
   singular: service_template
   title: Service Template
@@ -1163,27 +1207,9 @@ schemas:
             -
               virtual_network: ""
         properties_order:
-        - management_virtual_network
-        - right_virtual_network
-        - left_virtual_network
         - scale_out
         - interface_list
         properties:
-          management_virtual_network:
-            type: string
-            title: Management Virtual Network
-            description: Management Virtual Network
-            default: ""
-          right_virtual_network:
-            type: string
-            title: Right Virtual Network
-            description: Right Virtual Network
-            default: ""
-          left_virtual_network:
-            type: string
-            title: Left Virtual Network
-            description: Left Virtual Network
-            default: ""
           scale_out:
             type: object
             title: Scale Out

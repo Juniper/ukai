@@ -93,17 +93,28 @@
         name: test_service_template
         image_id: $image_id
         flavor_id: $flavor_id
+        availability_zone_enable: false
+        interface_type:
+          -
+            static_route_enable: false
+            shared_ip: false
+            service_interface_type: "management"
+          -
+            static_route_enable: false
+            shared_ip: false
+            service_interface_type: "left"
+          -
+            static_route_enable: false
+            shared_ip: false
+            service_interface_type: "right"
     - path: "{{ gohan_url }}/v1.0/tenant/service_instances"
       data:
         id: $service_instance_id
         name: test_service_instance
         service_template_id: $service_template_id
         service_instance_properties:
-          management_virtual_network: "any"
-          right_virtual_network: "any"
           scale_out:
             max_instances: 1
-          left_virtual_network: "any"
           interface_list:
             -
               virtual_network: "any"
