@@ -357,16 +357,16 @@ schemas:
         permission:
         - create
         - update
-        title: Webui
+        title: Horizon WebUI
         format: uri
         type: string
         unique: false
-        description: WebUI link
+        description: Horizon WebUI Link
       contrail_webui:
         permission:
         - create
         - update
-        title: Contrail Webui
+        title: Contrail WebUI
         type: string
         unique: false
         format: uri
