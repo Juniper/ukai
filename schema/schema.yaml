@@ -991,6 +991,7 @@ schemas:
       ethertype:
         permission:
         - create
+        - update
         title: EtherType
         type: string
         unique: false
@@ -1001,6 +1002,7 @@ schemas:
       protocol:
         permission:
         - create
+        - update
         title: Protocol
         type: string
         unique: false
@@ -1014,6 +1016,7 @@ schemas:
       port_range_max:
         permission:
         - create
+        - update
         title: Port Range Max
         type: integer
         unique: false
@@ -1023,6 +1026,7 @@ schemas:
       port_range_min:
         permission:
         - create
+        - update
         title: Port Range Min
         type: integer
         unique: false
@@ -1032,6 +1036,7 @@ schemas:
       direction:
          permission:
          - create
+         - update
          title: Direction
          type: string
          unique: false
@@ -1042,6 +1047,7 @@ schemas:
       remote_group_id:
         permission:
         - create
+        - update
         title: Remote Group ID
         type: string
         unique: false
@@ -1049,11 +1055,11 @@ schemas:
       remote_ip_prefix:
         permission:
         - create
+        - update
         title: Remote IP Prefix
         type: string
         unique: false
         description: Remote IP Prefix
-        format: cidr
     propertiesOrder:
     - direction
     - ethertype

@@ -185,6 +185,7 @@ extensions:
         db: $db
         queue: $queue
         transaction: $transaction
+        params: $params
 - id: location
   path: "/v1.0/locations"
   code_type: gohanscript

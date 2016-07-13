@@ -355,14 +355,21 @@
       event_type: string
       queue: object
       db: db
+      params: object
     body:
       - when: event_type == "pre_create" || event_type == "pre_update"
         blocks:
         - transaction:
+          - vars:
+              security_group_id: $params.security_group
+            when: event_type == "pre_update"
+            else:
+            - vars:
+                security_group_id: $security_group_rule.security_group_id
           - db_get:
               schema_id: security_group
               tx: $transaction
-              id: $security_group_rule.security_group_id
+              id: $security_group_id
               tenant_id: $security_group_rule.tenant_id
             register: security_group
             rescue:
@@ -370,23 +377,33 @@
                 name: CustomException
                 code: 404
                 message: "security group not found"
-        - when: security_group_rule.remote_ip_prefix == null && security_group_rule.remote_group_id == null
+        - when: security_group_rule.remote_ip_prefix == "" && security_group_rule.remote_group_id == "" && event_type == "pre_create"
           blocks:
           - error:
               name: CustomException
               code: 400
               message: "both of remote_ip_prefix and remote_group_id are unspecified"
-        - when: security_group_rule.remote_ip_prefix != null && security_group_rule.remote_group_id != null
+        - when: security_group_rule.remote_ip_prefix != "" && security_group_rule.remote_group_id != ""
           blocks:
           - error:
               name: CustomException
               code: 400
               message: "both of remote_ip_prefix and remote_group_id specified"
-        - when: security_group_rule.remote_ip_prefix != null
+        - when: security_group_rule.remote_ip_prefix != null && security_group_rule.remote_ip_prefix != ""
           blocks:
           - parse_cidr:
               cidr: $security_group_rule.remote_ip_prefix
             register: cidr
+            rescue:
+            - error:
+                name: CustomException
+                code: 400
+                message: "malformed remote_ip_prefix"
+          - when: cidr[2] != 32 && cidr[2] != 128
+            error:
+              name: CustomException
+              code: 400
+              message: "malformed remote_ip_prefix"
           - when: (cidr[2] == 32 && security_group_rule.ethertype == "IPv6") || (cidr[2] == 128 &&  security_group_rule.ethertype == "IPv4")
             error:
               name: CustomException
