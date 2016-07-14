@@ -216,6 +216,30 @@ Step4: Restart Keystone
 service keystone restart
 ```
 
+## Specify region_name for service monitor
+
+Add region_name for /etc/contrail/contrail-svc-monitor.conf
+
+```
+[DEFAULTS]
+ifmap_server_ip=5.5.5.24
+ifmap_server_port=8443
+ifmap_username=svc-monitor
+ifmap_password=svc-monitor
+api_server_ip=5.5.5.24
+api_server_port=8082
+api_server_use_ssl=False
+zk_server_ip=5.5.5.24:2181
+log_file=/var/log/contrail/contrail-svc-monitor.log
+cassandra_server_list=5.5.5.24:9160
+disc_server_ip=5.5.5.24
+disc_server_port=5998
+region_name=RegionTwo  # <-- specify region_name
+log_local=1
+log_level=SYS_NOTICE
+rabbit_server=5.5.5.24:5672
+```
+
 ## Install OpenContrail Global Controller
 
 ```
