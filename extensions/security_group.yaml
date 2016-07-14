@@ -40,7 +40,7 @@
       - blocks:
         - vars:
             remote_group_id: "{{ fqdn.0 }}:{{ fqdn.1 }}:{{ item.remote_group_id }}"
-        when: item.remote_group_id != null
+        when: item.remote_group_id != null && item.remote_group_id != ""
         else:
         - vars:
             remote_group_id: null
