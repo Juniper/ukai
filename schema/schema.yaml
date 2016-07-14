@@ -1290,6 +1290,9 @@ schemas:
         permission:
         - create
         description: Template
+        view:
+        - create
+        - detail
       parameters:
         title: Parameters
         type: object
