@@ -146,44 +146,39 @@
           dst_ports:
           - start_port: -1
             end_port: -1
-    - path: "{{ gohan_url }}/v1.0/tenant/heat_templates"
-      data:
-        id: $heat_template_id
-        name: heat_template
-        template: |
-            heat_template_version: 2013-05-23
-            parameters:
-                flavor:
-                    type: string
-                    description: Flavor for the server to be created
-                    default: m1.tiny
-                    constraints:
-                    - custom_constraint: nova.flavor
-                image:
-                    type: string
-                    description: Image ID or image name to use for the server
-                    constraints:
-                    - custom_constraint: glance.image
-                networks:
-                  - network : { get_param : network_id }
-            resources:
-                server:
-                    type: OS::Nova::Server
-                    properties:
-                        image: { get_param: image }
-                        flavor: { get_param: flavor }
-                        networks:
-                        - network : { get_param : network_id }
-            outputs:
-                server_networks:
-                    description: The networks of the deployed server
-                    value: { get_attr: [server, networks] }
     - path: "{{ gohan_url }}/v1.0/tenant/heat_instances"
       data:
         heat_instance:
           id: $heat_instance_id
           name: heat_instance
-          heat_template_id: $heat_template_id
+          template: |
+              heat_template_version: 2013-05-23
+              parameters:
+                  flavor:
+                      type: string
+                      description: Flavor for the server to be created
+                      default: m1.tiny
+                      constraints:
+                      - custom_constraint: nova.flavor
+                  image:
+                      type: string
+                      description: Image ID or image name to use for the server
+                      constraints:
+                      - custom_constraint: glance.image
+                  networks:
+                    - network : { get_param : network_id }
+              resources:
+                  server:
+                      type: OS::Nova::Server
+                      properties:
+                          image: { get_param: image }
+                          flavor: { get_param: flavor }
+                          networks:
+                          - network : { get_param : network_id }
+              outputs:
+                  server_networks:
+                      description: The networks of the deployed server
+                      value: { get_attr: [server, networks] }
           parameters:
             flavor: m1.tiny
             image: tinycore

@@ -5,7 +5,6 @@
     body:
     - vars:
         heat_instance: $local_heat_instance.heat_instance
-        heat_template: $local_heat_instance.heat_instance.heat_template
         location: $local_heat_instance.location
         region: $local_heat_instance.location.region
     - get_config: key=keystone default_value=null
@@ -25,9 +24,11 @@
         url: "{{ url }}stacks"
         data:
           parameters: $heat_instance.parameters
+          environment: $heat_instance.environment
+          file: $heat_instance.file
           stack_name: "{{ heat_instance.name }}"
           description: "{{ heat_instance.description }}"
-          template: "{{ heat_template.template }}"
+          template: "{{ heat_instance.template }}"
       register: output
     - return: $output
 - define:
@@ -120,16 +121,6 @@
     body:
     - when: event_type == "post_create_in_transaction"
       blocks:
-      - db_get:
-          schema_id: heat_template
-          tx: $transaction
-          id: $heat_instance.heat_template_id
-          tenant_id: $heat_instance.tenant_id
-        rescue:
-        - error:
-            name: CustomException
-            code: 404
-            message: "heat template not found"
       - db_list:
           tx: $transaction
           schema_id: location

@@ -377,13 +377,13 @@
                 name: CustomException
                 code: 404
                 message: "security group not found"
-        - when: security_group_rule.remote_ip_prefix == "" && security_group_rule.remote_group_id == "" && event_type == "pre_create"
+        - when: (security_group_rule.remote_ip_prefix == "" || security_group_rule.remote_ip_prefix == null) && (security_group_rule.remote_group_id == "" || security_group_rule.remote_group_id == null) && event_type == "pre_create"
           blocks:
           - error:
               name: CustomException
               code: 400
               message: "both of remote_ip_prefix and remote_group_id are unspecified"
-        - when: security_group_rule.remote_ip_prefix != "" && security_group_rule.remote_group_id != ""
+        - when: (security_group_rule.remote_ip_prefix != "" && security_group_rule.remote_ip_prefix != null) && (security_group_rule.remote_group_id != "" && security_group_rule.remote_group_id != null)
           blocks:
           - error:
               name: CustomException

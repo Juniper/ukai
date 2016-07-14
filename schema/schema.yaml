@@ -1274,30 +1274,6 @@ schemas:
     type: object
   singular: local_service_instance
   title: Local Service Instance
-- id: heat_template
-  plural: heat_templates
-  prefix: /v1.0/tenant
-  description: Global Heat Template.
-  extends:
-  - base
-  schema:
-    properties:
-      template:
-        title: Heat Template
-        type: string
-        format: yaml
-        unique: false
-        permission:
-        - create
-        description: Heat Template
-        view:
-        - create
-        - detail
-    propertiesOrder:
-    - template
-    type: object
-  singular: heat_template
-  title: Heat Template
 - id: heat_instance
   plural: heat_instances
   prefix: /v1.0/tenant
@@ -1306,15 +1282,14 @@ schemas:
   - base
   schema:
     properties:
-      heat_template_id:
-        title: Heat Template
+      template:
+        title: Template
         type: string
-        relation: heat_template
-        relation_property: heat_template
+        format: yaml
         unique: false
         permission:
         - create
-        description: Heat Template
+        description: Template
       parameters:
         title: Parameters
         type: object
@@ -1322,9 +1297,25 @@ schemas:
         permission:
         - create
         description: Parameters
+      environment:
+        title: Environment
+        type: object
+        unique: false
+        permission:
+        - create
+        description: Environments
+      files:
+        title: Files
+        type: object
+        unique: false
+        permission:
+        - create
+        description: Files
     propertiesOrder:
-    - heat_template_id
+    - template
     - parameters
+    - environment
+    - files
     type: object
   singular: heat_instance
   title: Heat Instance

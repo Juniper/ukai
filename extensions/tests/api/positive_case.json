@@ -1674,6 +1674,8 @@
     {
         "data": {
             "description": "",
+            "environment": null,
+            "file": null,
             "parameters": {
                 "flavor": "m1.tiny",
                 "image": "tinycore"
@@ -1700,6 +1702,8 @@
     {
         "data": {
             "description": "",
+            "environment": null,
+            "file": null,
             "parameters": {
                 "flavor": "m1.tiny",
                 "image": "tinycore"
@@ -2458,6 +2462,8 @@
     {
         "data": {
             "description": "",
+            "environment": null,
+            "file": null,
             "parameters": {
                 "flavor": "m1.tiny",
                 "image": "tinycore"
