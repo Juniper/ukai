@@ -240,6 +240,12 @@ log_level=SYS_NOTICE
 rabbit_server=5.5.5.24:5672
 ```
 
+then restart contrail-svc-monitor
+
+```
+service contrail-svc-monitor restart
+```
+
 ## Install OpenContrail Global Controller
 
 ```
