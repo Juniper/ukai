@@ -1289,9 +1289,11 @@ schemas:
         unique: false
         permission:
         - create
+        - update
         description: Template
         view:
         - create
+        - update
         - detail
       parameters:
         title: Parameters
@@ -1299,6 +1301,7 @@ schemas:
         unique: false
         permission:
         - create
+        - update
         description: Parameters
       environment:
         title: Environment
@@ -1306,6 +1309,7 @@ schemas:
         unique: false
         permission:
         - create
+        - update
         description: Environments
       files:
         title: Files
@@ -1313,6 +1317,7 @@ schemas:
         unique: false
         permission:
         - create
+        - update
         description: Files
     propertiesOrder:
     - template
@@ -1342,7 +1347,15 @@ schemas:
         relation_property: heat_instance
         description: Heat Instance
         on_delete_cascade: true
-    propertiesOrder: []
+      stack_id:
+        permission:
+        - create
+        title: Stack ID
+        type: string
+        description: Stack ID
+    propertiesOrder:
+    - heat_instance_id
+    - stack_id
     type: object
   singular: local_heat_instance
   title: Local Heat Instance

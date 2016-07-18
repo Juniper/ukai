@@ -32,12 +32,14 @@
       register: output
     - return: $output
 - define:
-    name: delete_local_heat_instance
+    name: update_local_heat_instance
     args:
       local_heat_instance: object
     body:
     - vars:
+        heat_instance: $local_heat_instance.heat_instance
         location: $local_heat_instance.location
+        region: $local_heat_instance.location.region
     - get_config: key=keystone default_value=null
       register: keystone_config
     - get_openstack_client:
@@ -48,10 +50,79 @@
         tenant_name: $keystone_config.tenant_name
         domain_name: ""
       register: client
+    - openstack_endpoint: client=$client endpoint_type=orchestration region=$region name="" availability=""
+      register: url
+    - openstack_put:
+        client: $client
+        url: "{{ url }}stacks/{{ heat_instance.name }}/{{ local_heat_instance.stack_id }}"
+        data:
+          parameters: $heat_instance.parameters
+          environment: $heat_instance.environment
+          file: $heat_instance.file
+          stack_name: "{{ heat_instance.name }}"
+          description: "{{ heat_instance.description }}"
+          template: "{{ heat_instance.template }}"
+      register: output
+    - return: $output
+- define:
+    name: delete_local_heat_instance
+    args:
+      local_heat_instance: object
+    body:
+    - vars:
+        heat_instance: $local_heat_instance.heat_instance
+        location: $local_heat_instance.location
+        region: $local_heat_instance.location.region
+    - get_config: key=keystone default_value=null
+      register: keystone_config
+    - get_openstack_client:
+        auth_url: $location.keystone_endpoint
+        user_name: $keystone_config.user_name
+        password: $keystone_config.password
+        version: v2.0
+        tenant_name: $keystone_config.tenant_name
+        domain_name: ""
+      register: client
+    - openstack_endpoint: client=$client endpoint_type=orchestration region=$region name="" availability=""
+      register: url
     - openstack_delete:
         client: $client
-        url: "{{ local_heat_instance.output.stack.links.0.href }}"
-      when: local_heat_instance.status == "ACTIVE"
+        url: "{{ url }}stacks/{{ heat_instance.name }}/{{ local_heat_instance.stack_id }}"
+- define:
+    name: update_local_heat_instances
+    args:
+      db: object
+      filter: object
+    body:
+    - transaction:
+      - db_list:
+          tx: $transaction
+          schema_id: local_heat_instance
+          filter: $filter
+        register: local_heat_instances
+    - blocks:
+      - vars:
+          status: ACTIVE
+          task_status: COMPLETE
+      - update_local_heat_instance:
+          local_heat_instance: $item
+        register: output
+        rescue:
+        - vars:
+            status: ERROR
+            task_status: "IN_PROGRESS"
+            output: $error
+      - transaction:
+        - db_update:
+            tx: $transaction
+            schema_id: local_heat_instance
+            data:
+              id: $item.id
+              heat_instance_id: $item.heat_instance_id
+              status: $status
+              task_status: $task_status
+      with_items: $local_heat_instances
+      worker: '$GetConfig("loop_worker", 10)'
 - define:
     name: create_local_heat_instances
     args:
@@ -83,6 +154,7 @@
             data:
               id: $item.id
               heat_instance_id: $item.heat_instance_id
+              stack_id: $output.stack.id
               status: $status
               task_status: $task_status
               output: $output
@@ -136,9 +208,35 @@
               location_id: $item.id
               task_status: "IN_PROGRESS"
         with_items: $locations
-    - when: event_type == "post_create" || event_type == "post_update"
+    - when: event_type == "post_update_in_transaction"
+      blocks:
+      - db_list:
+          tx: $transaction
+          schema_id: local_heat_instance
+          filter:
+            heat_instance_id: $heat_instance.id
+        register: local_heat_instances
+      - blocks:
+        - db_update:
+            tx: $transaction
+            schema_id: local_heat_instance
+            data:
+              id: $item.id
+              heat_instance_id: $heat_instance.id
+              task_status: "IN_PROGRESS"
+        with_items: $local_heat_instances
+    - when: event_type == "post_create"
       job:
       - create_local_heat_instances:
+          db: $db
+          filter:
+            heat_instance_id: $heat_instance.id
+            task_status: "IN_PROGRESS"
+        register: local_heat_instances
+      queue: $queue
+    - when: event_type == "post_update"
+      job:
+      - update_local_heat_instances:
           db: $db
           filter:
             heat_instance_id: $heat_instance.id
