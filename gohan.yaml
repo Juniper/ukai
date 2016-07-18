@@ -64,6 +64,7 @@ extension:
     use:
     - gohanscript
     - go
+    timelimit: 3000
 ssh:
     key_file: ./id_rsa
 

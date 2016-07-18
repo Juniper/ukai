@@ -789,7 +789,6 @@ schemas:
           - dst_addresses
           - dst_ports
           - action_list
-          - rule_sequence
           properties:
             protocol:
               title: Protocol
@@ -800,6 +799,7 @@ schemas:
               - udp
               - icmp
               - any
+              default: any
               description: Protocol
             src_addresses:
               title: Source Addresses
@@ -810,6 +810,7 @@ schemas:
                   virtual_network:
                     title: Virtual Network
                     type: string
+                    relation: network
             src_ports:
               title: Source Ports
               type: array
@@ -837,8 +838,7 @@ schemas:
                   virtual_network:
                     title: Virtual Network
                     type: string
-                    minimum: -1
-                    maximum: 65535
+                    relation: network
             dst_ports:
               title: Destination Ports
               type: array
@@ -855,18 +855,6 @@ schemas:
                     default: -1
                     minimum: -1
                     maximum: 65535
-            rule_sequence:
-              title: Rule Sequence
-              type: object
-              properties:
-                major:
-                  title: Major
-                  type: integer
-                  default: -1
-                minor:
-                  title: Minor
-                  type: integer
-                  default: -1
             direction:
               title: Direction
               type: string
@@ -875,6 +863,7 @@ schemas:
               - ">"
               - "<>"
               description: Direction
+              default: "<>"
             action_list:
               title: Action
               type: object
@@ -885,11 +874,14 @@ schemas:
                   enum:
                   - pass
                   - deny
+                  default: pass
                 apply_service:
                   title: Service List
                   type: array
                   items:
                     type: string
+                    relation: service_instance
+                  default: []
     propertiesOrder:
     - source_network_id
     - dest_network_id
@@ -1235,6 +1227,7 @@ schemas:
                 virtual_network:
                   title: Virtual Network
                   type: string
+                  relation: network
         description: Service Instance Property
       service_template_id:
         permission:

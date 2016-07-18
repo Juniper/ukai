@@ -28,6 +28,17 @@
         list: $fqdn
         value: "{{ service_instance.name }}"
       register: fqdn
+    - blocks:
+      - blocks:
+        - contrail_id_to_fqdn:
+              client: $client
+              uuid: $item.virtual_network
+              contrail_endpoint: $location.contrail_endpoint
+          register: fqdn
+        - vars:
+            item.virtual_network: "{{ fqdn.0 }}:{{ fqdn.1 }}:{{ fqdn.2 }}"
+        when: item.virtual_network != ""
+      with_items: $service_instance.service_instance_properties.interface_list
     - openstack_ensure:
         client: $client
         url: "{{ contrail_endpoint }}/service-instance/{{ service_instance.id }}"
@@ -144,6 +155,13 @@
       transaction: object
       queue: object
     body:
+    - when: event_type == "pre_create" || event_type == "pre_update"
+      blocks:
+      - blocks:
+        - vars:
+            item.virtual_network: ""
+          when: item.virtual_network == null
+        with_items: $service_instance.service_instance_properties.interface_list
     - when: event_type == "post_create_in_transaction"
       blocks:
       - db_get:

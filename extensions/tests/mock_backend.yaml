@@ -43,6 +43,16 @@
                         fq_name:
                         - default-domain
                         - admin
+          "/contrail/id-to-fqname":
+            post:
+              code: |
+                tasks:
+                - vars:
+                    response:
+                      fq_name:
+                      - default-domain
+                      - admin
+                      - resource
           "/images":
             post:
               code: |

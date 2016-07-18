@@ -22,11 +22,51 @@
         client: $client
         contrail_endpoint:  $location.contrail_endpoint
         uuid: $network_policy.tenant_id
-      register: fqdn
+      register: policy_fqdn
     - append:
-        list: $fqdn
-        value: "{{ network_policy.id }}"
-      register: fqdn
+        list: $policy_fqdn
+        value: "{{ network_policy.name }}"
+      register: policy_fqdn
+    - blocks:
+      - blocks:
+        - blocks:
+          - contrail_id_to_fqdn:
+              client: $client
+              uuid: $item.virtual_network
+              contrail_endpoint:  $location.contrail_endpoint
+            register: fqdn
+          - vars:
+              item.virtual_network: "{{ fqdn.0 }}:{{ fqdn.1 }}:{{ fqdn.2 }}"
+          when: item.virtual_network != "any"
+        with_items: $entry.src_addresses
+      - blocks:
+        - blocks:
+          - contrail_id_to_fqdn:
+                client: $client
+                uuid: $item.virtual_network
+                contrail_endpoint: $location.contrail_endpoint
+            register: fqdn
+          - vars:
+              item.virtual_network: "{{ fqdn.0 }}:{{ fqdn.1 }}:{{ fqdn.2 }}"
+          when: item.virtual_network != "any"
+        with_items: $entry.dst_addresses
+      - vars:
+          services: []
+      - blocks:
+        - contrail_id_to_fqdn:
+              client: $client
+              uuid: $item
+              contrail_endpoint: $location.contrail_endpoint
+          register: fqdn
+        - append:
+            list: $services
+            value: "{{ fqdn.0 }}:{{ fqdn.1 }}:{{ fqdn.2 }}"
+          register: services
+        with_items: $entry.action_list.apply_service
+      - vars:
+          entry.action_list.apply_service: $services
+      with_items: $network_policy.entries
+      loop_var: entry
     - openstack_ensure:
         client: $client
         url: "{{ location.contrail_endpoint }}/network-policy/{{ network_policy.id }}"
@@ -35,7 +75,8 @@
           network-policy:
             parent_type: project
             uuid: "{{ network_policy.id }}"
-            fq_name: $fqdn
+            display_name: "{{ network_policy.name }}"
+            fq_name: $policy_fqdn
             network_policy_entries:
               policy_rule: $network_policy.entries
       register: output
@@ -50,7 +91,7 @@
                 sequence:
                   major: 0
                   minor: 0
-              to: $fqdn
+              to: $policy_fqdn
     - openstack_put:
         client: $client
         url: "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.dest_network_id }}"
@@ -62,7 +103,7 @@
                 sequence:
                   major: 0
                   minor: 0
-              to: $fqdn
+              to: $policy_fqdn
     - return: $output
 - define:
     name: delete_local_network_policy
@@ -164,13 +205,37 @@
       db: object
       transaction: object
     body:
-    - when: event_type == "pre_create"
+    - when: event_type == "pre_create" || event_type == "pre_update"
       blocks:
-      - when: network_policy.source_network_id == network_policy.dest_network_id
+      - when: network_policy.source_network_id == network_policy.dest_network_id && event_type == "pre_create"
         error:
           name: CustomException
           code: 400
           message: "source network and dest network must be different"
+      - blocks:
+        - blocks:
+          - vars:
+              item.virtual_network: any
+            when: item.virtual_network == null
+          with_items: $entry.src_addresses
+        - blocks:
+          - vars:
+              item.virtual_network: any
+            when: item.virtual_network == null
+          with_items: $entry.dst_addresses
+        - vars:
+            services: []
+        - blocks:
+          - append:
+              list: $services
+              value: $item
+            when: item != null
+            register: services
+          with_items: $entry.action_list.apply_service
+        - vars:
+            entry.action_list.apply_service: $services
+        with_items: $network_policy.entries
+        loop_var: entry
     - when: event_type == "post_create_in_transaction"
       blocks:
       - db_get:

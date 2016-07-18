@@ -476,13 +476,13 @@
                 "service_instance_properties": {
                     "interface_list": [
                         {
-                            "virtual_network": "any"
+                            "virtual_network": ""
                         },
                         {
-                            "virtual_network": "any"
+                            "virtual_network": ""
                         },
                         {
-                            "virtual_network": "any"
+                            "virtual_network": ""
                         }
                     ],
                     "scale_out": {
@@ -522,6 +522,20 @@
         "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
+        "data": {
+            "uuid": "7d498c24-7bef-48b7-be9b-88b688135d10"
+        },
+        "method": "POST",
+        "path": "/contrail/id-to-fqname"
+    },
+    {
+        "data": {
+            "uuid": "cb866f85-e87a-4754-84bd-01a5dc970750"
+        },
+        "method": "POST",
+        "path": "/contrail/id-to-fqname"
+    },
+    {
         "data": null,
         "method": "GET",
         "path": "/contrail/network-policy/7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
@@ -529,22 +543,24 @@
     {
         "data": {
             "network-policy": {
+                "display_name": "",
                 "fq_name": [
                     "default-domain",
                     "admin",
-                    "7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+                    ""
                 ],
                 "network_policy_entries": {
                     "policy_rule": [
                         {
                             "action_list": {
+                                "apply_service": [],
                                 "simple_action": "pass"
                             },
                             "application": [],
                             "direction": "\u003c\u003e",
                             "dst_addresses": [
                                 {
-                                    "virtual_network": "default-domain:admin:red"
+                                    "virtual_network": "default-domain:admin:resource"
                                 }
                             ],
                             "dst_ports": [
@@ -554,13 +570,9 @@
                                 }
                             ],
                             "protocol": "any",
-                            "rule_sequence": {
-                                "major": -1,
-                                "minor": -1
-                            },
                             "src_addresses": [
                                 {
-                                    "virtual_network": "default-domain:admin:blue"
+                                    "virtual_network": "default-domain:admin:resource"
                                 }
                             ],
                             "src_ports": [
@@ -1123,13 +1135,13 @@
                 "service_instance_properties": {
                     "interface_list": [
                         {
-                            "virtual_network": "any"
+                            "virtual_network": ""
                         },
                         {
-                            "virtual_network": "any"
+                            "virtual_network": ""
                         },
                         {
-                            "virtual_network": "any"
+                            "virtual_network": ""
                         }
                     ],
                     "scale_out": {
@@ -1169,6 +1181,20 @@
         "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
+        "data": {
+            "uuid": "7d498c24-7bef-48b7-be9b-88b688135d10"
+        },
+        "method": "POST",
+        "path": "/contrail/id-to-fqname"
+    },
+    {
+        "data": {
+            "uuid": "cb866f85-e87a-4754-84bd-01a5dc970750"
+        },
+        "method": "POST",
+        "path": "/contrail/id-to-fqname"
+    },
+    {
         "data": null,
         "method": "GET",
         "path": "/contrail/network-policy/7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
@@ -1176,22 +1202,24 @@
     {
         "data": {
             "network-policy": {
+                "display_name": "",
                 "fq_name": [
                     "default-domain",
                     "admin",
-                    "7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+                    ""
                 ],
                 "network_policy_entries": {
                     "policy_rule": [
                         {
                             "action_list": {
+                                "apply_service": [],
                                 "simple_action": "pass"
                             },
                             "application": [],
                             "direction": "\u003c\u003e",
                             "dst_addresses": [
                                 {
-                                    "virtual_network": "default-domain:admin:red"
+                                    "virtual_network": "default-domain:admin:resource"
                                 }
                             ],
                             "dst_ports": [
@@ -1201,13 +1229,9 @@
                                 }
                             ],
                             "protocol": "any",
-                            "rule_sequence": {
-                                "major": -1,
-                                "minor": -1
-                            },
                             "src_addresses": [
                                 {
-                                    "virtual_network": "default-domain:admin:blue"
+                                    "virtual_network": "default-domain:admin:resource"
                                 }
                             ],
                             "src_ports": [
@@ -1770,13 +1794,13 @@
                 "service_instance_properties": {
                     "interface_list": [
                         {
-                            "virtual_network": "any"
+                            "virtual_network": ""
                         },
                         {
-                            "virtual_network": "any"
+                            "virtual_network": ""
                         },
                         {
-                            "virtual_network": "any"
+                            "virtual_network": ""
                         }
                     ],
                     "scale_out": {
@@ -1816,6 +1840,20 @@
         "path": "/contrail/project/fc394f2a-b2df-4114-bde3-9905f800dc57"
     },
     {
+        "data": {
+            "uuid": "7d498c24-7bef-48b7-be9b-88b688135d10"
+        },
+        "method": "POST",
+        "path": "/contrail/id-to-fqname"
+    },
+    {
+        "data": {
+            "uuid": "cb866f85-e87a-4754-84bd-01a5dc970750"
+        },
+        "method": "POST",
+        "path": "/contrail/id-to-fqname"
+    },
+    {
         "data": null,
         "method": "GET",
         "path": "/contrail/network-policy/7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
@@ -1823,22 +1861,24 @@
     {
         "data": {
             "network-policy": {
+                "display_name": "",
                 "fq_name": [
                     "default-domain",
                     "admin",
-                    "7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
+                    ""
                 ],
                 "network_policy_entries": {
                     "policy_rule": [
                         {
                             "action_list": {
+                                "apply_service": [],
                                 "simple_action": "pass"
                             },
                             "application": [],
                             "direction": "\u003c\u003e",
                             "dst_addresses": [
                                 {
-                                    "virtual_network": "default-domain:admin:red"
+                                    "virtual_network": "default-domain:admin:resource"
                                 }
                             ],
                             "dst_ports": [
@@ -1848,13 +1888,9 @@
                                 }
                             ],
                             "protocol": "any",
-                            "rule_sequence": {
-                                "major": -1,
-                                "minor": -1
-                            },
                             "src_addresses": [
                                 {
-                                    "virtual_network": "default-domain:admin:blue"
+                                    "virtual_network": "default-domain:admin:resource"
                                 }
                             ],
                             "src_ports": [
@@ -2022,7 +2058,7 @@
     {
         "data": null,
         "method": "DELETE",
-        "path": "//v2.0/stacks"
+        "path": "/v2.0/stacks/heat_instance/"
     },
     {
         "data": {
@@ -2040,7 +2076,7 @@
     {
         "data": null,
         "method": "DELETE",
-        "path": "//v2.0/stacks"
+        "path": "/v2.0/stacks/heat_instance/"
     },
     {
         "data": {
@@ -2058,7 +2094,7 @@
     {
         "data": null,
         "method": "DELETE",
-        "path": "//v2.0/stacks"
+        "path": "/v2.0/stacks/heat_instance/"
     },
     {
         "data": {

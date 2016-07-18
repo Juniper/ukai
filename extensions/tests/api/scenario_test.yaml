@@ -60,9 +60,9 @@ test_suite:
               major: -1
               minor: -1
             src_addresses:
-            - virtual_network: "default-domain:admin:blue"
+            - virtual_network: $blue_id
             dst_addresses:
-            - virtual_network: "default-domain:admin:red"
+            - virtual_network: $red_id
             src_ports:
             - start_port: -1
               end_port: -1
