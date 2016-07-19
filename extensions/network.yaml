@@ -281,12 +281,11 @@
             policies: []
         - debug: msg=$network.policies
         - blocks:
-          - debug: msg=$item
           - append:
               list: $policies
               value: $item
             register: policies
-            when: item != null
+            when: item != null && item != ""
           with_items: $network.policies
         - vars:
             network.policies: $policies
