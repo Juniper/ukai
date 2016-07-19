@@ -59,7 +59,8 @@
         user_name: "{{ keystone_config.user_name }}"
         password: "{{ keystone_config.password }}"
         version: v2.0
-        tenant_name:  "{{ keystone_config.tenant_name }}"
+        tenant_name:  ""
+        tenant_id: $server.tenant_id
         domain_name: ""
       register: client
     - openstack_endpoint: client=$client endpoint_type=compute region="{{region}}" name="" availability=""
@@ -124,7 +125,8 @@
           user_name: "{{ keystone_config.user_name }}"
           password: "{{ keystone_config.password }}"
           version: v2.0
-          tenant_name:  "{{ keystone_config.tenant_name }}"
+          tenant_name:  ""
+          tenant_id: $item.server.tenant_id
           domain_name: ""
         register: client
       - delete_local_server:

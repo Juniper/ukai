@@ -16,7 +16,8 @@
         user_name: "{{ keystone_config.user_name }}"
         password: "{{ keystone_config.password }}"
         version: v2.0
-        tenant_name: "{{ keystone_config.tenant_name }}"
+        tenant_name:  ""
+        tenant_id: $service_instance.tenant_id
         domain_name: ""
       register: client
     - contrail_fqdn:
@@ -73,7 +74,8 @@
         user_name: "{{ keystone_config.user_name }}"
         password: "{{ keystone_config.password }}"
         version: v2.0
-        tenant_name: "{{ keystone_config.tenant_name }}"
+        tenant_name:  ""
+        tenant_id: $service_instance.tenant_id
         domain_name: ""
       register: client
     - openstack_delete:
@@ -135,7 +137,8 @@
           user_name: "{{ keystone_config.user_name }}"
           password: "{{ keystone_config.password }}"
           version: v2.0
-          tenant_name:  "{{ keystone_config.tenant_name }}"
+          tenant_name:  ""
+          tenant_id: $item.service_instance.tenant_id
           domain_name: ""
         register: client
       - delete_local_service_instance:

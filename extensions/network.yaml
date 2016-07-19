@@ -33,7 +33,8 @@
           user_name: "{{ keystone_config.user_name }}"
           password: "{{ keystone_config.password }}"
           version: v2.0
-          tenant_name:  "{{ keystone_config.tenant_name }}"
+          tenant_name: ""
+          tenant_id: $network.tenant_id
           domain_name: ""
         register: client
       - split:
@@ -103,7 +104,8 @@
         user_name: "{{ keystone_config.user_name }}"
         password: "{{ keystone_config.password }}"
         version: v2.0
-        tenant_name:  "{{ keystone_config.tenant_name }}"
+        tenant_name: ""
+        tenant_id: $local_network.tenant_id
         domain_name: ""
       register: client
     - openstack_delete:

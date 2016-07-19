@@ -21,6 +21,7 @@ test_suite:
         version: v2.0
         tenant_name:  "{{ keystone_config.tenant_name }}"
         domain_name: ""
+        tenant_id: ""
       register: client
     - vars:
         conflict_data:

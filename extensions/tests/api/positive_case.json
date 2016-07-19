@@ -19,7 +19,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -85,7 +85,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -151,7 +151,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -217,7 +217,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -283,7 +283,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -350,7 +350,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -417,7 +417,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -569,7 +569,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -721,7 +721,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -895,7 +895,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1069,7 +1069,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1092,7 +1092,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1115,7 +1115,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1148,7 +1148,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1181,7 +1181,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1220,7 +1220,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1259,7 +1259,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1323,7 +1323,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1387,7 +1387,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1450,7 +1450,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1513,7 +1513,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1601,7 +1601,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1689,7 +1689,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1717,7 +1717,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1745,7 +1745,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1837,7 +1837,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1929,7 +1929,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -1995,7 +1995,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2062,7 +2062,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2250,7 +2250,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2273,7 +2273,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2306,7 +2306,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2370,7 +2370,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2433,7 +2433,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2525,7 +2525,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2553,7 +2553,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2591,8 +2591,7 @@
                 "passwordCredentials": {
                     "password": "secret123",
                     "username": "admin"
-                },
-                "tenantName": "admin"
+                }
             }
         },
         "method": "POST",
@@ -2604,8 +2603,7 @@
                 "passwordCredentials": {
                     "password": "secret123",
                     "username": "admin"
-                },
-                "tenantName": "admin"
+                }
             }
         },
         "method": "POST",
@@ -2617,8 +2615,7 @@
                 "passwordCredentials": {
                     "password": "secret123",
                     "username": "admin"
-                },
-                "tenantName": "admin"
+                }
             }
         },
         "method": "POST",
@@ -2658,7 +2655,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2676,7 +2673,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2712,7 +2709,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2725,7 +2722,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2742,8 +2739,7 @@
                 "passwordCredentials": {
                     "password": "secret123",
                     "username": "admin"
-                },
-                "tenantName": "admin"
+                }
             }
         },
         "method": "POST",
@@ -2756,7 +2752,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2774,7 +2770,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2787,7 +2783,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2805,7 +2801,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2823,7 +2819,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2841,7 +2837,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2859,7 +2855,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2877,7 +2873,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2895,7 +2891,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2913,7 +2909,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2931,7 +2927,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -2967,7 +2963,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3003,7 +2999,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3016,38 +3012,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
-            }
-        },
-        "method": "POST",
-        "path": "/v2.0/tokens"
-    },
-    {
-        "data": null,
-        "method": "DELETE",
-        "path": "/contrail/service-instance/2D4C403C-207F-486F-B1BF-C71AD588EDB0"
-    },
-    {
-        "data": {
-            "auth": {
-                "passwordCredentials": {
-                    "password": "secret123",
-                    "username": "admin"
-                },
-                "tenantName": "admin"
-            }
-        },
-        "method": "POST",
-        "path": "/v2.0/tokens"
-    },
-    {
-        "data": {
-            "auth": {
-                "passwordCredentials": {
-                    "password": "secret123",
-                    "username": "admin"
-                },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3065,7 +3030,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3078,7 +3043,67 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/service-instance/2D4C403C-207F-486F-B1BF-C71AD588EDB0"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                }
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": null,
+        "method": "DELETE",
+        "path": "/contrail/service-template/16F175A5-0615-4EF8-A820-826941AF5ECF"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                }
+            }
+        },
+        "method": "POST",
+        "path": "/v2.0/tokens"
+    },
+    {
+        "data": {
+            "auth": {
+                "passwordCredentials": {
+                    "password": "secret123",
+                    "username": "admin"
+                },
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3096,7 +3121,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3109,38 +3134,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
-            }
-        },
-        "method": "POST",
-        "path": "/v2.0/tokens"
-    },
-    {
-        "data": null,
-        "method": "DELETE",
-        "path": "/contrail/service-template/16F175A5-0615-4EF8-A820-826941AF5ECF"
-    },
-    {
-        "data": {
-            "auth": {
-                "passwordCredentials": {
-                    "password": "secret123",
-                    "username": "admin"
-                },
-                "tenantName": "admin"
-            }
-        },
-        "method": "POST",
-        "path": "/v2.0/tokens"
-    },
-    {
-        "data": {
-            "auth": {
-                "passwordCredentials": {
-                    "password": "secret123",
-                    "username": "admin"
-                },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3158,7 +3152,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3171,7 +3165,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3189,7 +3183,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3207,7 +3201,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3225,7 +3219,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3243,7 +3237,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3261,7 +3255,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3279,7 +3273,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3297,7 +3291,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3315,7 +3309,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3333,7 +3327,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",
@@ -3351,7 +3345,7 @@
                     "password": "secret123",
                     "username": "admin"
                 },
-                "tenantName": "admin"
+                "tenantId": "fc394f2ab2df4114bde39905f800dc57"
             }
         },
         "method": "POST",

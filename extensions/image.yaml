@@ -12,7 +12,8 @@
         user_name: $keystone_config.user_name
         password: $keystone_config.password
         version: v2.0
-        tenant_name: $keystone_config.tenant_name
+        tenant_name: ""
+        tenant_id: $image.tenant_id
         domain_name: ""
       register: client
     - openstack_token:
@@ -60,7 +61,8 @@
         user_name: $keystone_config.user_name
         password: $keystone_config.password
         version: v2.0
-        tenant_name: $keystone_config.tenant_name
+        tenant_name: ""
+        tenant_id: $image.tenant_id
         domain_name: ""
       register: client
     - openstack_token:

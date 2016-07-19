@@ -31,6 +31,7 @@ test_suite:
           password: "{{ keystone_config.password }}"
           version: v2.0
           tenant_name:  "{{ keystone_config.tenant_name }}"
+          tenant_id: ""
           domain_name: ""
         register: client
       - contrail_fqdn:

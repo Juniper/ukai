@@ -495,7 +495,7 @@ schemas:
       container_format:
         permission:
         - create
-        title: Container format format
+        title: Container format
         type: string
         unique: false
         description: Disk format
