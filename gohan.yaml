@@ -54,7 +54,7 @@ cors: "*"
 logging:
     stderr:
         enabled: true
-        level: DEBUG
+        level: ERROR
         modules:
         - name: gohanscript
           level: DEBUG

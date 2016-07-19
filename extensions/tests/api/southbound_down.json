@@ -52,6 +52,7 @@
                         ]
                     }
                 ],
+                "network_policy_refs": [],
                 "parent_type": "project",
                 "route_target_list": {
                     "route_target": [
@@ -118,6 +119,7 @@
                         ]
                     }
                 ],
+                "network_policy_refs": [],
                 "parent_type": "project",
                 "route_target_list": {
                     "route_target": [
@@ -711,6 +713,7 @@
                         ]
                     }
                 ],
+                "network_policy_refs": [],
                 "parent_type": "project",
                 "route_target_list": {
                     "route_target": [
@@ -777,6 +780,7 @@
                         ]
                     }
                 ],
+                "network_policy_refs": [],
                 "parent_type": "project",
                 "route_target_list": {
                     "route_target": [
@@ -1370,6 +1374,7 @@
                         ]
                     }
                 ],
+                "network_policy_refs": [],
                 "parent_type": "project",
                 "route_target_list": {
                     "route_target": [
@@ -1436,6 +1441,7 @@
                         ]
                     }
                 ],
+                "network_policy_refs": [],
                 "parent_type": "project",
                 "route_target_list": {
                     "route_target": [
@@ -2107,24 +2113,6 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "virtual-network": {
-                "network_policy_refs": []
-            }
-        },
-        "method": "PUT",
-        "path": "/contrail/virtual-network/7D498C24-7BEF-48B7-BE9B-88B688135D10"
-    },
-    {
-        "data": {
-            "virtual-network": {
-                "network_policy_refs": []
-            }
-        },
-        "method": "PUT",
-        "path": "/contrail/virtual-network/CB866F85-E87A-4754-84BD-01A5DC970750"
-    },
-    {
         "data": null,
         "method": "DELETE",
         "path": "/contrail/network-policy/7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
@@ -2143,24 +2131,6 @@
         "path": "/v2.0/tokens"
     },
     {
-        "data": {
-            "virtual-network": {
-                "network_policy_refs": []
-            }
-        },
-        "method": "PUT",
-        "path": "/contrail/virtual-network/7D498C24-7BEF-48B7-BE9B-88B688135D10"
-    },
-    {
-        "data": {
-            "virtual-network": {
-                "network_policy_refs": []
-            }
-        },
-        "method": "PUT",
-        "path": "/contrail/virtual-network/CB866F85-E87A-4754-84BD-01A5DC970750"
-    },
-    {
         "data": null,
         "method": "DELETE",
         "path": "/contrail/network-policy/7AB4BF15-F587-4B83-AC7A-487686D8C9EC"
@@ -2177,24 +2147,6 @@
         },
         "method": "POST",
         "path": "/v2.0/tokens"
-    },
-    {
-        "data": {
-            "virtual-network": {
-                "network_policy_refs": []
-            }
-        },
-        "method": "PUT",
-        "path": "/contrail/virtual-network/7D498C24-7BEF-48B7-BE9B-88B688135D10"
-    },
-    {
-        "data": {
-            "virtual-network": {
-                "network_policy_refs": []
-            }
-        },
-        "method": "PUT",
-        "path": "/contrail/virtual-network/CB866F85-E87A-4754-84BD-01A5DC970750"
     },
     {
         "data": null,

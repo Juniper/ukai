@@ -125,8 +125,6 @@
     - path: "{{ gohan_url }}/v1.0/tenant/network_policies"
       data:
         id: $network_policy_id
-        source_network_id: $blue_id
-        dest_network_id: $red_id
         entries:
         - action_list:
             simple_action: pass

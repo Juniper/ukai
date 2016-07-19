@@ -64,6 +64,25 @@
             ip: $cidrs[0]
             value: 1
         register: default_gw
+      - vars:
+          network_policy_refs: []
+      - blocks:
+        - contrail_id_to_fqdn:
+            client: $client
+            uuid: $item
+            contrail_endpoint:  $location.contrail_endpoint
+          register: fqdn
+        - append:
+            list: $network_policy_refs
+            value:
+              attr:
+                timer: null
+                sequence:
+                  major: 0
+                  minor: 0
+              to: $fqdn
+          register: network_policy_refs
+        with_items: $network.policies
       - openstack_ensure:
           client: $client
           url: "{{ location.contrail_endpoint }}/virtual-network/{{ local_network.network_id }}"
@@ -89,6 +108,7 @@
               virtual_network_network_id: "{{ network.contrail_id }}"
               route_target_list:
                 route_target: $route_target_list
+              network_policy_refs: $network_policy_refs
         register: output
 - define:
     name: delete_local_network
@@ -255,6 +275,22 @@
       event_type: string
       queue: object
     body:
+      - when: event_type == "pre_create" || event_type == "pre_update"
+        blocks:
+        - vars:
+            policies: []
+        - debug: msg=$network.policies
+        - blocks:
+          - debug: msg=$item
+          - append:
+              list: $policies
+              value: $item
+            register: policies
+            when: item != null
+          with_items: $network.policies
+        - vars:
+            network.policies: $policies
+        - debug: msg=$policies
       - when: event_type == "post_create_in_transaction"
         blocks:
         - parse_cidr:
@@ -316,7 +352,6 @@
             db: $db
             filter:
               network_id: $network.id
-              task_status: IN_PROGRESS
         queue: $queue
       - when: event_type == "pre_delete"
         blocks:

@@ -81,30 +81,6 @@
             network_policy_entries:
               policy_rule: $network_policy.entries
       register: output
-    - openstack_put:
-        client: $client
-        url: "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.source_network_id }}"
-        data:
-          virtual-network:
-            network_policy_refs:
-            - attr:
-                timer: null
-                sequence:
-                  major: 0
-                  minor: 0
-              to: $policy_fqdn
-    - openstack_put:
-        client: $client
-        url: "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.dest_network_id }}"
-        data:
-          virtual-network:
-            network_policy_refs:
-            - attr:
-                timer: null
-                sequence:
-                  major: 0
-                  minor: 0
-              to: $policy_fqdn
     - return: $output
 - define:
     name: delete_local_network_policy
@@ -126,20 +102,6 @@
         tenant_id: $network_policy.tenant_id
         domain_name: ""
       register: client
-    - openstack_put:
-        client: $client
-        url: "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.source_network_id }}"
-        data:
-          virtual-network:
-            network_policy_refs: []
-      rescue: []
-    - openstack_put:
-        client: $client
-        url: "{{ location.contrail_endpoint }}/virtual-network/{{ network_policy.dest_network_id }}"
-        data:
-          virtual-network:
-            network_policy_refs: []
-      rescue: []
     - openstack_delete:
         client: $client
         url: "{{ location.contrail_endpoint }}/network-policy/{{ network_policy.id }}"
@@ -209,11 +171,6 @@
     body:
     - when: event_type == "pre_create" || event_type == "pre_update"
       blocks:
-      - when: network_policy.source_network_id == network_policy.dest_network_id && event_type == "pre_create"
-        error:
-          name: CustomException
-          code: 400
-          message: "source network and dest network must be different"
       - blocks:
         - blocks:
           - vars:
@@ -240,26 +197,6 @@
         loop_var: entry
     - when: event_type == "post_create_in_transaction"
       blocks:
-      - db_get:
-          schema_id: network
-          tx: $transaction
-          id: $network_policy.source_network_id
-          tenant_id: $network_policy.tenant_id
-        rescue:
-        - error:
-            name: CustomException
-            code: 404
-            message: "source network not found"
-      - db_get:
-          schema_id: network
-          tx: $transaction
-          id: $network_policy.dest_network_id
-          tenant_id: $network_policy.tenant_id
-        rescue:
-        - error:
-            name: CustomException
-            code: 404
-            message: "dest network not found"
       - db_list:
           tx: $transaction
           schema_id: location

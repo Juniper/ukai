@@ -420,10 +420,21 @@ schemas:
         maximum: 30
         unique: false
         description: Prefix length for each local network
+      policies:
+        permission:
+        - create
+        - update
+        title: Policies
+        type: array
+        items:
+          type: string
+          relation: network_policy
+        description: Associated policies
     propertiesOrder:
     - contrail_id
     - cidr
     - local_prefix_len
+    - policies
     type: object
   singular: network
   title: Network
@@ -746,24 +757,6 @@ schemas:
   - base
   schema:
     properties:
-      source_network_id:
-        permission:
-        - create
-        title: Source Network ID
-        type: string
-        unique: false
-        relation: network
-        relation_property: source_network
-        description: Source Network
-      dest_network_id:
-        permission:
-        - create
-        title: Destination network ID
-        type: string
-        unique: false
-        relation: network
-        relation_property: dest_network
-        description: Destination Network ID
       entries:
         title: Rules
         description: Rules
@@ -879,8 +872,6 @@ schemas:
                     relation: service_instance
                   default: []
     propertiesOrder:
-    - source_network_id
-    - dest_network_id
     - entries
     type: object
   singular: network_policy
