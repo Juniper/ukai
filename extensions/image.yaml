@@ -33,6 +33,7 @@
           x-image-meta-min_ram: $image.min_ram
           x-image-meta-protected: "{{ image.protected }}"
           x-image-meta-name: $image.name
+          x-image-meta-owner: $image.tenant_id
         post_data: ${nil}
       register: output
     - when: output.status_code != 201
