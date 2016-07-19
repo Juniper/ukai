@@ -482,16 +482,12 @@ schemas:
         - aki
         - ari
         - ami
-      visibility:
+      is_public:
         permission:
         - create
-        title: Visibility
-        type: string
-        description: Image visibility. Valid value is public or private. Default is public.
-        enum:
-        - public
-        - private
-        default: public
+        title: Is Public
+        type: boolean
+        description: Image visibility. (admin only use)
       container_format:
         permission:
         - create
@@ -534,7 +530,7 @@ schemas:
         description: Image protection for deletion. Valid value is true or false. Default is false.
     propertiesOrder:
     - url
-    - visibility
+    - is_public
     - disk_format
     - container_format
     - min_disk

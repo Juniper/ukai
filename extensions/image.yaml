@@ -32,6 +32,7 @@
           x-image-meta-container_format: $image.container_format
           x-image-meta-min_disk: $image.min_disk
           x-image-meta-min_ram: $image.min_ram
+          x-image-meta-is_public: "{{ image.is_public }}"
           x-image-meta-protected: "{{ image.protected }}"
           x-image-meta-name: $image.name
           x-image-meta-owner: $image.tenant_id
