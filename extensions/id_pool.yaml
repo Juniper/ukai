@@ -4,6 +4,7 @@
       name: string
       size: int
       transaction: object
+      group: string
     body:
     - vars:
         no_id: null
@@ -12,6 +13,7 @@
         schema_id: id_pool
         filter:
           name: $name
+          group: $group
           assigned: false
       register: pools
     - when: len(pools) == 0
@@ -33,6 +35,7 @@
                     start: $item.start
                     end: "${ item.start + size - 1 }"
                     name: $name
+                    group: $group
                     assigned: true
           - db_update:
                 tx: $transaction
@@ -42,6 +45,7 @@
                     start: "${ item.start + size }"
                     end: "${ item.end  }"
                     name: $name
+                    group: $group
                     assigned: false
           - return: $allocated
         - when: "item.end + 1 - item.start == size"
@@ -62,6 +66,7 @@
                     start: $item.start
                     end: "${item.start + size - 1}"
                     name: $name
+                    group: $group
                     assigned: true
           - return: $allocated
       with_items: $pools
@@ -70,11 +75,13 @@
     name: allocate_id
     args:
       name: string
+      group: string
       transaction: object
     body:
     - allocate_range:
         name: $name
         transaction: $transaction
+        group: $group
         size: 1
       register: allocated
     - when: allocated == null
@@ -93,3 +100,37 @@
         data:
           id: "{{ name }}_{{ id }}"
           assigned: false
+- define:
+    name: id_pool_resource
+    args:
+      transaction: object
+      resource: object
+      event_type: string
+    body:
+    - when: event_type == "pre_create"
+      blocks:
+      - vars:
+          resource.group: ""
+        when: resource.group == null
+    - when: event_type == "pre_create_in_transaction"
+      blocks:
+      - when: resource.start > resource.end
+        error:
+            name: CustomException
+            code: 400
+            message: "pool end is bigger than start"
+      - db_query:
+          tx: $transaction
+          schema_id: id_pool
+          sql: select * from id_pools where ? <= end and start <= ? and name = ? and `group` = ?;
+          arguments:
+          - $resource.start
+          - $resource.end
+          - $resource.name
+          - $resource.group
+        register: overwrap
+      - when: len(overwrap) > 0
+        error:
+            name: CustomException
+            code: 400
+            message: "overwrap with existing pool"

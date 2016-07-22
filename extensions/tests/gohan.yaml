@@ -12,7 +12,7 @@ keystone:
 logging:
     stderr:
         enabled: true
-        level: WARN
+        level: INFO
         modules:
         - name: gohanscript
           level: DEBUG

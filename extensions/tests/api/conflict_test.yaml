@@ -31,6 +31,7 @@ test_suite:
             end: 2000
             name: route_target
             assigned: false
+            group: ""
         - path: "{{ gohan_url }}/v1.0/tenant/networks"
           data:
             id: $blue_id

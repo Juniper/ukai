@@ -37,29 +37,11 @@ extensions:
   code_type: gohanscript
   code: |
     tasks:
-    - when: event_type == "pre_create_in_transaction"
-      blocks:
-      - when: resource.start > resource.end
-        vars:
-          exception:
-            name: CustomException
-            code: 400
-            message: "pool end is bigger than start"
-      - db_query:
-          tx: $transaction
-          schema_id: id_pool
-          sql: select * from id_pools where ? <= end and start <= ? and name = ?;
-          arguments:
-          - $resource.start
-          - $resource.end
-          - $resource.name
-        register: overwrap
-      - when: len(overwrap) > 0
-        vars:
-          exception:
-            name: CustomException
-            code: 400
-            message: "overwrap with existing pool"
+    - include: ./id_pool.yaml
+    - id_pool_resource:
+        resource: $resource
+        event_type: $event_type
+        transaction: $transaction
 - id: image
   path: "/v1.0/tenant/images"
   code_type: gohanscript

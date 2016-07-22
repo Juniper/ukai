@@ -176,7 +176,7 @@
             db: $db
             filter: $filter
         queue: $queue
-      - when: event_type == "pre_delete"
+      - when: event_type == "pre_delete" && location != null
         blocks:
         - vars:
             filter:

@@ -271,6 +271,13 @@ schemas:
         title: name
         type: string
         description: Name
+      group:
+        permission:
+        - create
+        title: group
+        type: string
+        description: Group
+        default: ""
       start:
         permission:
         - create
@@ -301,6 +308,7 @@ schemas:
     propertiesOrder:
     - id
     - name
+    - group
     - start
     - end
     - assigned

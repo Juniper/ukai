@@ -140,6 +140,7 @@
     - allocate_id:
         transaction: $transaction
         name: route_target
+        group: ${""}
       register: id
     - when: id == -1
       error:
@@ -170,6 +171,7 @@
         transaction: $transaction
         name: $network.id
         size: $size
+        group: $pool[0]
       register: network_range
     - ip_add:
           ip: $pool[0]
@@ -279,7 +281,6 @@
         blocks:
         - vars:
             policies: []
-        - debug: msg=$network.policies
         - blocks:
           - append:
               list: $policies
@@ -289,7 +290,6 @@
           with_items: $network.policies
         - vars:
             network.policies: $policies
-        - debug: msg=$policies
       - when: event_type == "post_create_in_transaction"
         blocks:
         - parse_cidr:
@@ -304,6 +304,7 @@
         - allocate_id:
             transaction: $transaction
             name: virtual_network_id
+            group: ${""}
           register: contrail_id
         - when: contrail_id == -1
           error:
@@ -338,6 +339,7 @@
               end: "${1 << (pool[2] - pool[1])}"
               name: $network.id
               assigned: false
+              group: $pool[0]
         - vars:
             network.local_prefix_len: "${FloatToInt(network.local_prefix_len)}"
         - create_local_network_in_db:

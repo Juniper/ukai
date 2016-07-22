@@ -272,6 +272,7 @@
         - allocate_id:
             transaction: $transaction
             name: security_group
+            group: ""
           register: contrail_id
         - db_update:
             tx: $transaction
