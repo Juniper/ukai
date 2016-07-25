@@ -6,15 +6,15 @@ OpenContrail Global Controller.
 ## Setup Multi Region Openstack with OpenContrail
 
 You need to setup multi-region OpenStack with OpenContrail.
-Note that OpenContrail controllers should be peered each other.
+Note that OpenContrail controllers should peer each other.
 
 ## [Optional] Setup Keystone in the multi region
 
 In OpenStack, Keystone manages authentication and endpoint management for each region.
-Keystone can be either centralized or distributed. 
-In this section, we describe how to setup keystone in distributed manner. 
+Keystone can be either centralized or distributed.
+In this section, we describe how to setup keystone in distributed manner.
 
-In this example, we have Region1 and Region2. We will use MySQL server in Region1 as master, and MySQL server in Region2 as slave. You can use local keystone in each region for authentication. You need to go master keystone in case of you need to change tenants or user information.
+In this example, we have Region1 and Region2. We will use MySQL server in Region1 as master, and MySQL server in Region2 as a slave. You can use local keystone in each region for authentication. You need to go master Keystone in a case of you need to change tenants or user information.
 
 ### Configure MySQL master
 
@@ -32,7 +32,7 @@ server-id=1
 Step3: Restart MySQL server
 
 ```
-service mysql restart
+service MySQL restart
 ```
 
 Step4: Create slave users for each slave
@@ -74,7 +74,7 @@ service mysql restart
 
 Step:4 Configure replication
 
-MASTER_LOG_FILE and MASTER_LOG_POS should be values we confirmed in master mysql.
+MASTER_LOG_FILE and MASTER_LOG_POS should be values we confirmed in master MySQL.
 
 ```
 mysql>  CHANGE MASTER TO MASTER_HOST='$MASTER_IP', MASTER_USER='slave', MASTER_PASSWORD='secret', MASTER_LOG_FILE='mysql-bin.000002', MASTER_LOG_POS=$MYSQL_LOG_POS;
@@ -105,9 +105,9 @@ mysql>  show slave status;
 
 ## Setup Fernet token
 
-We will use Keystone in Region1 as master, and Region2 as slave.
+We will use Keystone in Region1 as master, and Region2 as a slave.
 
-### Setup master keystone
+### Setup master Keystone
 
 Step1: Setup Keystone in Region1.
 
@@ -159,8 +159,8 @@ service keystone restart
 
 ## Setup keystone endpoints
 
-You can configure keystone endpoint from OpenStack client on master node.
-You can use this simple oneliner. (Please replace REGION_NAME, MASTER_IP and SLAVE_IP).
+You can configure keystone endpoint from OpenStack client on the master node.
+You can use this simple one-liner. (Please replace REGION_NAME, MASTER_IP and SLAVE_IP).
 
 ```
 keystone endpoint-list | awk '/RegionOne/{print "keystone endpoint-create --publicurl  '\''" $6 "'\'' \
@@ -170,7 +170,7 @@ keystone endpoint-list | awk '/RegionOne/{print "keystone endpoint-create --publ
 
 ## [Optional] Setup CORS
 
-In order to use webui for global controller, 
+In order to use webui for global controller,
 you need to setup CORS on the master keystone.
 
 Step1: install wsgicors module
@@ -304,4 +304,4 @@ From WebUI, you can add ID pool resource
 
 ## Create location resource
 
-You need create location for each location
+You need to create location for each location

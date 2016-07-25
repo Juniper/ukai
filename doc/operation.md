@@ -2,10 +2,10 @@
 
 ## Command Line Client
 
-ukai package will also include CLI client so that 
+the Ukai package will also include CLI client so that
 you can manipulate global controller resources.
 
-You need set following env vars.
+You need set following Env vars.
 
 ```
 export GOHAN_ENDPOINT_URL=http://$GOHAN_HOST:9500
@@ -107,29 +107,26 @@ root@a3s40:~# ukai client network list
 ## Hot reload
 
 OpenContrail Global Controller support hot reload.
-In order to hot reload, send HUP signal for OpenContrail Global Controller process.
+To hot reload, send HUP signal for OpenContrail Global Controller process.
 
 ## Southbound resource creation failure
 
-Southbound resource creatation may fail for various reasons.
-OpenContrail Global Controller is designed for try recovering from error status
-using update request for the resource.
+Southbound resource creations may fail for various reasons.
+OpenContrail Global Controller tries to recover from error status
+on a update REST API call.
 
-## Configuraion
+## Configurations
 
-Configuraion is stored in this location by default
-
-/etc/ukai/gohan.conf
+/etc/ukai/gohan.yaml is ukai configuration
 
 You can configure various option such as HTTPS, Logging, CORS.
-For more detail please take a look [Gohan configuraion guide](http://gohan.cloudwan.io/gohan/config.html)
+For more detail, please take a look [Gohan configuration guide](http://gohan.cloudwan.io/gohan/config.html)
 
 ## Customize API Call
 
-OpenContrail Global Controller uses Gohan framework. so it is pretty easy to
-customize API and workfare.
+OpenContrail Global Controller uses Gohan framework so that it is pretty easy to customize API and workflow.
 
-- Schema: schemes are stored in schema directory
-- Work-flow logic are stored in extensions directory
+- Schema: Schemes is in schema directory
+- Workflow logic file is in extensions directory
 
-For more information please take look [Gohan document](http://gohan.cloudwan.io/gohan/)
+For more information, please take look [Gohan document](http://gohan.cloudwan.io/gohan/)
