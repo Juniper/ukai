@@ -296,11 +296,25 @@ service ukai start
 
 ### Create following ID pools
 
-From WebUI, you can add ID pool resource
+You need create three ID pools using WebUI
 
-- route_target
-- virtual_network_id   Note that this ID should start from 600000
-- security_group_id
+- id_pool1:
+
+    name: route_target
+    start: 1000
+    end:   20000
+
+- id_pool2:
+
+    name: virtual_network_id
+    start: 600000
+    end:   650000
+
+- id_pool3
+
+    name: security_group
+    start: 1000
+    end:   2000
 
 ## Create location resource
 
