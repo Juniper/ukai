@@ -278,6 +278,9 @@ schemas:
         type: string
         description: Group
         default: ""
+        view:
+        - list
+        - detail
       start:
         permission:
         - create
