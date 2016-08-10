@@ -38,6 +38,27 @@
           x-image-meta-owner: $image.tenant_id
         post_data: ${nil}
       register: output
+    - when: output.status_code == 300
+      blocks:
+      - vars:
+          url: "{{ url }}v1/"
+      - http_post:
+          url: "{{ url }}images"
+          headers:
+            X-Auth-Token: $token
+            x-glance-api-copy-from: $image.url
+            Content-Type: "application/octet-stream"
+            x-image-meta-id: $image.id
+            x-image-meta-disk_format: $image.disk_format
+            x-image-meta-container_format: $image.container_format
+            x-image-meta-min_disk: $image.min_disk
+            x-image-meta-min_ram: $image.min_ram
+            x-image-meta-is_public: "{{ image.is_public }}"
+            x-image-meta-protected: "{{ image.protected }}"
+            x-image-meta-name: $image.name
+            x-image-meta-owner: $image.tenant_id
+          post_data: ${nil}
+        register: output
     - when: output.status_code != 201
       fail: msg="${output.raw_body}"
     - blocks:
@@ -71,9 +92,20 @@
       register: token
     - openstack_endpoint: client=$client endpoint_type=image region=$region name="" availability=""
       register: url
-    - openstack_delete:
-        client: $client
+    - http_delete:
         url: "{{ url }}images/{{ image.id }}"
+        headers:
+          X-Auth-Token: $token
+      register: output
+    - when: output.status_code == 300
+      blocks:
+      - http_delete:
+          url: "{{ url }}v1/images/{{ image.id }}"
+          headers:
+            X-Auth-Token: $token
+        register: output
+    - when: output.status_code != 404 && output.status_code != 200 && output.status_code != 204
+      fail: msg="${output.raw_body}"
 - define:
     name: create_local_images
     args:
