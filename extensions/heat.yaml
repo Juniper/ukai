@@ -157,7 +157,7 @@
             data:
               id: $item.id
               heat_instance_id: $item.heat_instance_id
-              stack_id: $output.stack.id
+              stack_id: "{{ output.stack.id }}"
               status: $status
               task_status: $task_status
               output: $output
