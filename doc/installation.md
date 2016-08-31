@@ -173,41 +173,42 @@ keystone endpoint-list | awk '/RegionOne/{print "keystone endpoint-create --publ
 In order to use webui for global controller,
 you need to setup CORS on the master keystone.
 
-Step1: install wsgicors module
+
+Step1:
+
+add CORS configuration on the /etc/keystone/keystone.conf
+
+NOTE that this is a TEST configuration. You need put proper
+allowed_origin on production.
 
 ```
-pip install wsgicors
-```
+[cors]
 
-Step2: Add cors filter to /etc/keystone/keystone-paste.ini
+#
+# From oslo.middleware
+#
 
-```
-[filter:cors]
-use = egg:wsgicors#middleware
-policy = open
-open_origin = *
-open_headers = *
-open_methods = *
-open_maxage = 86400
-```
+# Indicate whether this resource may be shared with the domain received in the
+# requests "origin" header. (list value)
+allowed_origin = *
 
-Step3: Modify existing pipelines to add cors filter
+# Indicate that the actual request can include user credentials (boolean value)
+#allow_credentials = true
 
-```
-[pipeline:public_api]
-pipeline = cors stats_monitoring sizelimit url_normalize build_auth_context token_auth admin_token_auth xml_body_v2 json_body ec2_extension user_crud_extension public_service
+# Indicate which headers are safe to expose to the API. Defaults to HTTP Simple
+# Headers. (list value)
+expose_headers = X-Auth-Token,X-Openstack-Request-Id,X-Subject-Token
 
-[pipeline:admin_api]
-pipeline = cors sizelimit url_normalize build_auth_context token_auth admin_token_auth xml_body_v2 json_body ec2_extension s3_extension crud_extension admin_service
+# Maximum cache age of CORS preflight requests. (integer value)
+max_age = 3600
 
-[pipeline:api_v3]
-pipeline = cors stats_reporting sizelimit url_normalize build_auth_context token_auth admin_token_auth xml_body_v3 json_body ec2_extension_v3 s3_extension simple_cert_extension revoke_extension service_v3
+# Indicate which methods can be used during the actual request. (list value)
+allow_methods = GET,PUT,POST,DELETE,PATCH
 
-[pipeline:public_version_api]
-pipeline = cors sizelimit url_normalize xml_body public_version_service
+# Indicate which header field names may be used during the actual request.
+# (list value)
+allow_headers = X-Auth-Token,X-Openstack-Request-Id,X-Subject-Token,X-Project-Id,X-Project-Name,X-Project-Domain-Id,X-Project-Domain-Name,X-Domain-Id,X-Domain-Name
 
-[pipeline:admin_version_api]
-pipeline = cors sizelimit url_normalize xml_body admin_version_service
 ```
 
 Step4: Restart Keystone
