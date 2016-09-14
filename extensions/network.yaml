@@ -71,7 +71,7 @@
             client: $client
             uuid: $item
             contrail_endpoint:  $location.contrail_endpoint
-          register: fqdn
+          register: policy_fqdn
         - append:
             list: $network_policy_refs
             value:
@@ -80,7 +80,7 @@
                 sequence:
                   major: 0
                   minor: 0
-              to: $fqdn
+              to: $policy_fqdn
           register: network_policy_refs
         with_items: $network.policies
       - openstack_ensure:

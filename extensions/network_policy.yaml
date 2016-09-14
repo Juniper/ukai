@@ -175,12 +175,12 @@
         - blocks:
           - vars:
               item.virtual_network: any
-            when: item.virtual_network == null
+            when: item.virtual_network == null || item.virtual_network == ""
           with_items: $entry.src_addresses
         - blocks:
           - vars:
               item.virtual_network: any
-            when: item.virtual_network == null
+            when: item.virtual_network == null || item.virtual_network == ""
           with_items: $entry.dst_addresses
         - vars:
             services: []
