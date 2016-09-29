@@ -1,110 +1,110 @@
 policies:
-- id: member_schema
+- id: _member__schema
   action: read
   effect: allow
-  principal: Member
+  principal: _member_
   resource:
     path: /gohan/v0.1/schemas*
-- id: member_network
+- id: _member__network
   action: '*'
   condition:
   - is_owner
   effect: allow
-  principal: Member
+  principal: _member_
   resource:
     path: /v1.0/tenant/networks
-- id: member_image
+- id: _member__image
   action: '*'
   condition:
   - is_owner
   effect: allow
-  principal: Member
+  principal: _member_
   resource:
     path: /v1.0/tenant/images
-- id: member_flavor
+- id: _member__flavor
   action: '*'
   condition:
   - is_owner
   effect: allow
-  principal: Member
+  principal: _member_
   resource:
     path: /v1.0/tenant/flavors
-- id: member_server
+- id: _member__server
   action: '*'
   condition:
   - is_owner
   effect: allow
-  principal: Member
+  principal: _member_
   resource:
     path: /v1.0/tenant/servers
-- id: member_network_policy
+- id: _member__network_policy
   action: '*'
   condition:
   - is_owner
   effect: allow
-  principal: Member
+  principal: _member_
   resource:
     path: /v1.0/tenant/network_policies
-- id: member_security_group
+- id: _member__security_group
   action: '*'
   condition:
   - is_owner
   effect: allow
-  principal: Member
+  principal: _member_
   resource:
     path: /v1.0/tenant/security_groups
-- id: member_security_group_rule
+- id: _member__security_group_rule
   action: '*'
   condition:
   - is_owner
   effect: allow
-  principal: Member
+  principal: _member_
   resource:
     path: /v1.0/tenant/security_group_rules
-- id: member_service_template
+- id: _member__service_template
   action: '*'
   condition:
   - is_owner
   effect: allow
-  principal: Member
+  principal: _member_
   resource:
     path: /v1.0/tenant/service_templates
-- id: member_service_instance
+- id: _member__service_instance
   action: '*'
   condition:
   - is_owner
   effect: allow
-  principal: Member
+  principal: _member_
   resource:
     path: /v1.0/tenant/service_instances
-- id: member_heat_template
+- id: _member__heat_template
   action: '*'
   condition:
   - is_owner
   effect: allow
-  principal: Member
+  principal: _member_
   resource:
     path: /v1.0/tenant/heat_templates
-- id: member_heat_instance
+- id: _member__heat_instance
   action: '*'
   condition:
   - is_owner
   effect: allow
-  principal: Member
+  principal: _member_
   resource:
     path: /v1.0/tenant/heat_instances
 - action: 'read'
   effect: allow
-  id: member_policy3
-  principal: Member
+  id: _member__policy3
+  principal: _member_
   resource:
     path: /v1.0/locations
-- id: member_read
+- id: _member__read
   action: 'read'
   condition:
   - is_owner
   effect: allow
-  principal: Member
+  principal: _member_
   resource:
     path: /v1.0/tenant/.*
 - action: '*'
