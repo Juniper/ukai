@@ -51,7 +51,6 @@ test_suite:
             security_group_id: $sg_id
         - path: "{{ gohan_url }}/v1.0/tenant/security_group_rules"
           data:
-            name: bad_sg_id
             security_group_id: $sg_id
             ethertype: IPv4
             protocol: tcp

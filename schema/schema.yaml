@@ -964,10 +964,27 @@ schemas:
   parent: security_group
   description: Global Security Group Rule Configuraion
   on_parent_delete_cascade: true
-  extends:
-  - base
   schema:
     properties:
+      id:
+        permission:
+        - create
+        title: ID
+        type: string
+        format: uuid
+        unique: true
+        description: ID
+        view:
+        - detail
+      tenant_id:
+        description: Tenant ID
+        permission:
+        - create
+        title: Tenant ID
+        type: string
+        unique: false
+        view:
+        - detail
       security_group_id:
         type: string
         description: parent object
@@ -1051,6 +1068,7 @@ schemas:
         unique: false
         description: Remote IP Prefix
     propertiesOrder:
+    - id
     - direction
     - ethertype
     - protocol
@@ -1058,6 +1076,7 @@ schemas:
     - port_range_max
     - remote_group_id
     - remote_ip_prefix
+    - tenant_id
     type: object
   singular: security_group_rule
   title: Security Group Rules

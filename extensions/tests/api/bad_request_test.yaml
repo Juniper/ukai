@@ -96,7 +96,6 @@ test_suite:
               name: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
           - path: "{{ gohan_url }}/v1.0/tenant/security_group_rules"
             data:
-              name: bad
               security_group_id: $sg_id
               ethertype: IPv7
               protocol: tcp
@@ -106,7 +105,6 @@ test_suite:
               remote_ip_prefix: 10.0.0.0/24
           - path: "{{ gohan_url }}/v1.0/tenant/security_group_rules"
             data:
-              name: bad
               security_group_id: $sg_id
               ethertype: IPv4
               protocol: bad_proto
@@ -116,7 +114,6 @@ test_suite:
               remote_ip_prefix: 10.0.0.0/24
           - path: "{{ gohan_url }}/v1.0/tenant/security_group_rules"
             data:
-              name: bad
               security_group_id: $sg_id
               ethertype: IPv4
               protocol: tcp
@@ -126,7 +123,6 @@ test_suite:
               remote_ip_prefix: 10.0.0.0/24
           - path: "{{ gohan_url }}/v1.0/tenant/security_group_rules"
             data:
-              name: bad
               security_group_id: $sg_id
               ethertype: IPv4
               protocol: tcp
@@ -136,7 +132,6 @@ test_suite:
               remote_ip_prefix: 10.0.0.0/24
           - path: "{{ gohan_url }}/v1.0/tenant/security_group_rules"
             data:
-              name: bad
               security_group_id: $sg_id
               ethertype: IPv4
               protocol: tcp
@@ -146,7 +141,6 @@ test_suite:
               remote_ip_prefix: 10.0.0.0/24
           - path: "{{ gohan_url }}/v1.0/tenant/security_group_rules"
             data:
-              name: bad
               security_group_id: $sg_id
               ethertype: IPv4
               protocol: tcp
@@ -156,7 +150,6 @@ test_suite:
               remote_ip_prefix: 10.0.0.0/24
           - path: "{{ gohan_url }}/v1.0/tenant/security_group_rules"
             data:
-              name: bad
               security_group_id: $sg_id
               ethertype: IPv4
               protocol: tcp
@@ -166,7 +159,6 @@ test_suite:
               remote_ip_prefix: 10.0.0.0/24
           - path: "{{ gohan_url }}/v1.0/tenant/security_group_rules"
             data:
-              name: bad
               security_group_id: $sg_id
               ethertype: IPv4
               protocol: tcp
@@ -176,7 +168,6 @@ test_suite:
               remote_ip_prefix: bad_cidr
           - path: "{{ gohan_url }}/v1.0/tenant/security_group_rules"
             data:
-              name: bad
               security_group_id: $sg_id
               ethertype: IPv4
               protocol: tcp
@@ -185,7 +176,6 @@ test_suite:
               direction: egress
           - path: "{{ gohan_url }}/v1.0/tenant/security_group_rules"
             data:
-              name: bad
               security_group_id: $sg_id
               ethertype: IPv4
               protocol: tcp
@@ -196,7 +186,6 @@ test_suite:
               remote_group_id: default
           - path: "{{ gohan_url }}/v1.0/tenant/security_group_rules"
             data:
-              name: bad
               security_group_id: $sg_id
               ethertype: IPv6
               protocol: tcp
@@ -206,7 +195,6 @@ test_suite:
               remote_ip_prefix: 10.0.0.0/24
           - path: "{{ gohan_url }}/v1.0/tenant/security_group_rules"
             data:
-              name: bad
               security_group_id: $sg_id
               ethertype: IPv4
               protocol: tcp

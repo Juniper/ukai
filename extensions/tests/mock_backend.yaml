@@ -194,7 +194,7 @@
                           id: $tenant_id
                           roles:
                             -
-                              name: "Member"
+                              name: "_member_"
                             -
                               name: "admin"
                           name: $request.auth.passwordCredentials.username
