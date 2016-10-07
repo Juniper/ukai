@@ -10,7 +10,7 @@ all: test
 deb:
 	rm -f ../$(PACKAGE)_$(VERSION).orig.tar.xz
 	dh_make --createorig -p $(PACKAGE)_$(VERSION) -C s -e $(EMAIL) -c apache -s -y || true
-	rm -f debian/*.ex debian/*.EX 
+	rm -f debian/*.ex debian/*.EX
 	debuild -rfakeroot -uc -us
 test:
 	echo "Skipped"
@@ -26,4 +26,4 @@ install:
 	rm -f ./gohan
 	curl -OL $(GOHAN)
 	unzip gohan-linux-amd64.zip
-	cp gohan $(BIN)/ukai
+	cp gohan-linux-amd64 $(BIN)/ukai
