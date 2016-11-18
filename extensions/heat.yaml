@@ -27,9 +27,9 @@
           parameters: $heat_instance.parameters
           environment: $heat_instance.environment
           file: $heat_instance.file
-          stack_name: "{{ heat_instance.name }}"
-          description: "{{ heat_instance.description }}"
-          template: "{{ heat_instance.template }}"
+          stack_name: $heat_instance.name
+          description: $heat_instance.description
+          template: $heat_instance.template
       register: output
     - return: $output
 - define:
