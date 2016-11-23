@@ -35,9 +35,9 @@
               client: $client
               uuid: $item.virtual_network
               contrail_endpoint: $location.contrail_endpoint
-          register: fqdn
+          register: vn_fqdn
         - vars:
-            item.virtual_network: "{{ fqdn.0 }}:{{ fqdn.1 }}:{{ fqdn.2 }}"
+            item.virtual_network: "{{ vn_fqdn.0 }}:{{ vn_fqdn.1 }}:{{ vn_fqdn.2 }}"
         when: item.virtual_network != ""
       with_items: $service_instance.service_instance_properties.interface_list
     - openstack_ensure:
