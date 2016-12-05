@@ -26,7 +26,7 @@ APP_CONFIG="${APP_ETC}/gohan.yaml"
 
 case "$1" in
   configure)
-    adduser --no-create-home --group --system ${APP_USER} || true
+    adduser --no-create-home --home /nonexistent --group --system ${APP_USER} || true
     mkdir -p ${APP_ETC}
     chown ${APP_USER}.${APP_GROUP} ${APP_ETC}
     if [ ! -f ${APP_CONFIG} ]; then

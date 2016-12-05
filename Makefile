@@ -9,7 +9,7 @@ all: test
 
 deb:
 	rm -f ../$(PACKAGE)_$(VERSION).orig.tar.xz
-	dh_make --createorig -p $(PACKAGE)_$(VERSION) -C s -e $(EMAIL) -c apache -s -y || true
+	dh_make --createorig -p $(PACKAGE)_$(VERSION) -C s -e $(EMAIL) -c apache -y || true
 	rm -f debian/*.ex debian/*.EX
 	debuild -rfakeroot -uc -us
 test:
