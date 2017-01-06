@@ -25,5 +25,5 @@ install:
 	cp -r packager $(OPT)
 	rm -f ./gohan
 	curl -OL $(GOHAN)
-	unzip gohan-linux-amd64.zip
+	unzip -o gohan-linux-amd64.zip
 	cp gohan-linux-amd64 $(BIN)/ukai
