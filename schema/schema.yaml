@@ -285,7 +285,7 @@ schemas:
         permission:
         - create
         title: start
-        type: number
+        type: integer 
         unique: false
         description: start
         minimum: 0
@@ -295,7 +295,7 @@ schemas:
         permission:
         - create
         title: end
-        type: number
+        type: integer
         unique: false
         description: end
         minimum: 0
