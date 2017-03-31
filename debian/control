@@ -10,5 +10,4 @@ Homepage: http://github.com/Juniper/ukai
 
 Package: ukai
 Architecture: any
-Depends: zip
 Description: Contrail Global Controller 

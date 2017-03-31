@@ -26,10 +26,10 @@ APP_CONFIG="${APP_ETC}/gohan.yaml"
 
 case "$1" in
   configure)
-    adduser --no-create-home --home /nonexistent --group --system ${APP_USER} || true
-    mkdir -p ${APP_ETC}
-    chown ${APP_USER}.${APP_GROUP} ${APP_ETC}
     if [ ! -f ${APP_CONFIG} ]; then
+      adduser --no-create-home --home /nonexistent --group --system ${APP_USER} || true
+      mkdir -p ${APP_ETC}
+      chown ${APP_USER}.${APP_GROUP} ${APP_ETC}
       cp /opt/ukai/gohan.yaml ${APP_ETC}
       ln -s /opt/ukai/extensions ${APP_ETC}/extensions
       ln -s /opt/ukai/schema ${APP_ETC}/schema
