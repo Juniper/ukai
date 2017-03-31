@@ -1,15 +1,32 @@
 EMAIL = nueno@juniper.net
 PACKAGE = ukai
-VERSION = 1.0
-GOHAN = https://github.com/cloudwan/gohan/releases/download/pre-release/gohan-linux-amd64.zip
+
+PWD := ${CURDIR}
+SRC_VER := $(shell cat ./version.info)
+BUILDTIME := $(shell date -u +%y%m%d%H%M)
+
+ifndef CONTRAIL_VERSION
+VERSION = 
+ifdef TAG
+VERSION = $(SRC_VER)-$(TAG)
+else
+VERSION = $(SRC_VER)-$(BUILDTIME)
+endif
+else
+VERSION = $(CONTRAIL_VERSION)
+endif
+
 OPT = $(DESTDIR)/opt/ukai
 BIN = $(DESTDIR)/usr/bin
 
 all: test
 
 deb:
-	rm -f ../$(PACKAGE)_$(VERSION).orig.tar.xz
+	rm -f ../$(PACKAGE)_$(SRC_VER).orig.tar.xz
 	dh_make --createorig -p $(PACKAGE)_$(VERSION) -C s -e $(EMAIL) -c apache -y || true
+	rm -f debian/changelog
+	dch --create --distribution stable --package $(PACKAGE) --newversion $(VERSION) "ukai package"
+	mv ../$(PACKAGE)_$(VERSION).orig.tar.xz ../$(PACKAGE)_$(SRC_VER).orig.tar.xz 
 	rm -f debian/*.ex debian/*.EX
 	debuild -rfakeroot -uc -us
 test:
@@ -23,7 +40,4 @@ install:
 	cp -r schema $(OPT)
 	cp -r public $(OPT)
 	cp -r packager $(OPT)
-	rm -f ./gohan
-	curl -OL $(GOHAN)
-	unzip -o gohan-linux-amd64.zip
-	cp gohan-linux-amd64 $(BIN)/ukai
+	cp bin/gohan-linux-amd64 $(BIN)/ukai
